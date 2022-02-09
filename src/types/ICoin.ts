@@ -1,4 +1,4 @@
-export interface ICoin {
+export default interface ICoin {
     id: 'string'
     image: {
         small: 'string'

@@ -1,22 +1,21 @@
-import React from 'react';
+import Layout from 'antd/lib/layout/layout';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import Loader from './components/Loader/Loader';
-import { useGetCoinsQuery } from './services/api';
-
+import { CoinDetails, Cryptocurrencies, Footer, Navbar, Portfolio, WatchList } from './components/components';
 
 function App() {
-  const { data, isFetching } = useGetCoinsQuery('')
-  if (isFetching) return <Loader />
-  console.log(data?.[0])
   return (
     <>
-      {data?.map((coin) => (
-        <div key={`coin ${coin.id}`}>
-          <img src={coin.image.small} />
-          <h1>{coin.id}</h1>
-          <p>{coin.market_data.current_price.rub} / {coin.market_data.current_price.usd}</p>
-        </div>
-      ))}
+      <Navbar />
+      <Layout>
+        <Switch>
+          <Route exact path="/" render={() => <Cryptocurrencies />} />
+          <Route exact path="/coin/:id" render={() => <CoinDetails />} />
+          <Route exact path="/portfolio" render={() => <Portfolio />} />
+          <Route exact path="/watchlist" render={() => <WatchList />} />
+        </Switch>
+      </Layout>
+      <Footer />
     </>
   );
 }
