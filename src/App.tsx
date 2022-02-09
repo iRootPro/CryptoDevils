@@ -6,7 +6,7 @@ import { useGetCoinsQuery } from './services/api';
 
 function App() {
   const { data, isFetching } = useGetCoinsQuery('')
-  if (!isFetching) return <Loader />
+  if (isFetching) return <Loader />
   console.log(data?.[0])
   return (
     <>
