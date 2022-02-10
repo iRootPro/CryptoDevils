@@ -1,20 +1,22 @@
 import {FC} from 'react';
 import {Menu} from 'antd';
-import {MoneyCollectOutlined, PieChartOutlined, UnorderedListOutlined} from '@ant-design/icons';
+import {PieChartOutlined, UnorderedListOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom';
 import {ROUTES} from '../../constants/routes';
 import {Margin} from "../common/Margin";
 import {MARGIN} from "../../constants/margins";
 
+const logo = require('./../../assets/images/logo.png');
+
 const Navbar: FC = () => {
     const history = useHistory();
 
     return (
-        <Margin offset={MARGIN.xl}>
+        <Margin vertical={MARGIN.xl} horizontal={MARGIN.xl}>
             <Menu mode="horizontal">
                 <Menu.Item
                     key="cryptocurrencies"
-                    icon={<MoneyCollectOutlined/>}
+                    icon={<img src={logo} alt='logo' height='30px'/>}
                     onClick={() => history.push(ROUTES.main)}
                 >
                     Cryptocurrencies
