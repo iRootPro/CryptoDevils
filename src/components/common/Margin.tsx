@@ -1,15 +1,19 @@
 import React, {FC} from 'react';
 
-export const Margin:FC<typeProps> = ({children, offset}) => {
+export const Margin:FC<typeProps> = ({
+                                         children,
+                                         horizontal = '0px',
+                                         vertical='0px'}) => {
     return (
-        <div style={{margin: `${offset}`}}>
+        <div style={{margin: `${vertical} ${horizontal}`}}>
             {children}
         </div>
     );
 };
 
 type typeProps = {
-    offset: string
+    horizontal?: string
+    vertical?: string
 }
 
 
