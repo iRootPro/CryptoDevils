@@ -1,19 +1,11 @@
 export default interface ICoin {
-    name: 'string';
-    id: 'string'
-    image: {
-        small: 'string'
-    }
-    market_data: {
-        current_price: {
-            rub: number,
-            usd: number
-        },
-        price_change_percentage_24h_in_currency: {
-            usd: number
-        },
-        market_cap: {
-            usd: number
-        }
-    }
+  name: "string";
+  id: "string";
+  image: "string";
+  current_price: number;
+  market_cap: number;
+  market_cap_change_percentage_24h: number;
+  market_cap_rank: number;
+  price_change_percentage_24h: number;
+  symbol: 'string';
 }

@@ -1,84 +1,100 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useGetCoinsQuery } from '../../services/api'
 import Loader from '../Loader/Loader'
-import CoinCard from '../CoinCard/CoinCard'
-import { Avatar, Table } from 'antd';
-import { Link } from 'react-router-dom';
+import { Table, TablePaginationConfig } from 'antd';
+import ICoin from '../../types/ICoin';
+import CoinCard from './CoinCard/CoinCard';
+import millify from 'millify';
+
 
 const columns = [
     {
+        title: 'Rank',
+        dataIndex: 'rank'
+    },
+    {
         title: 'Name',
         dataIndex: 'coin',
-        render: (coin: any) => {
-            return (
-                <Link to={`coin/:id`} style={{color: '#000'}}>
-                <div style={{height: '100%', display: 'flex', alignItems: 'center'}}>
-                    <Avatar src={`${coin.image.small}`} />
-                    <p style={{display: 'inline-block', margin: '0px 0px 0px 10px', fontSize: 20, lineHeight: '100%'}}>{coin.name}</p>
-                </div>
-                </Link>
-            )
-        }
+        render: (coin: ICoin) => <CoinCard coin={coin} />
     },
     {
         title: 'Price',
         dataIndex: 'price',
         sorter: {
-            compare: (a: any, b: any) => a.price - b.price,
+            compare: (a: { price: number; }, b: { price: number; }) => a.price - b.price,
             multiple: 3,
         },
+        render: (price: number) => millify(price, { precision: 5 })
     },
     {
         title: 'Daily Change',
         dataIndex: 'dailychange',
         sorter: {
-            compare: (a: any, b: any) => a.dailychange - b.dailychange,
+            compare: (a: { dailychange: number; }, b: { dailychange: number; }) => a.dailychange - b.dailychange,
             multiple: 2,
         },
+        render: (dailychange: number) => millify(dailychange, { units: ['%'], space: true, precision: 2 })
     },
     {
         title: 'Market Cap',
         dataIndex: 'marketcap',
         sorter: {
-            compare: (a: any, b: any) => a.marketcap - b.marketcap,
+            compare: (a: { marketcap: number; }, b: { marketcap: number; }) => a.marketcap - b.marketcap,
             multiple: 1,
         },
+        render: (marketCap: number) => millify(marketCap, { precision: 2 })
     },
 ];
 
 
 const Cryptocurrencies: FC = () => {
-    const { data, isFetching } = useGetCoinsQuery('')
-    if (isFetching) return <Loader />
+    const [pageSize, setPageSize] = useState(50)
+    const { data, isFetching, refetch } = useGetCoinsQuery('usd')
+    useEffect(() => {
+        const timer = setInterval(() => {
+            refetch()
+        }, 5000)
+        return () => clearInterval(timer);
+    }, [])
+    // if (isFetching) return <Loader />
     let dataCoins = data?.map(coin => ({
         coin,
+        rank: coin.market_cap_rank,
+        dailychange: coin.price_change_percentage_24h,
         key: coin.id,
         name: coin.name,
-        price: coin.market_data.current_price.usd,
-        dailychange: coin.market_data.price_change_percentage_24h_in_currency.usd,
-        marketcap: coin.market_data.market_cap.usd,
-        image: coin.image.small
+        price: coin.current_price,
+        image: coin.image,
+        marketcap: coin.market_cap
     }));
 
-    console.log(data)
-    const onChange = (pagination: any, filters: any, sorter: any, extra: any) => {
-        console.log('params', pagination, filters, sorter, extra);
+    const onChange = (pagination: TablePaginationConfig) => {
+        pagination.pageSize && setPageSize(pagination.pageSize)
     }
     return (
         <div>
-            <Table columns={columns}
+            <Table
+                columns={columns}
                 dataSource={dataCoins}
                 onChange={onChange}
-                pagination={{ pageSize: 50 }}
+                pagination={{ pageSize: pageSize, position: ['bottomCenter'] }}
             />
-            {data?.map((coin) => (
-                <CoinCard key={coin.id} coin={coin} />
-            ))}
         </div>
     )
 }
 
 export default Cryptocurrencies
+
+
+
+
+
+
+
+
+
+
+
 
 
 
