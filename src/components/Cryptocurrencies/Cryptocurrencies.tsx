@@ -1,11 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 import { useGetCoinsQuery } from '../../services/api'
-import Loader from '../Loader/Loader'
 import { Table, TablePaginationConfig } from 'antd';
 import ICoin from '../../types/ICoin';
 import CoinCard from './CoinCard/CoinCard';
 import millify from 'millify';
-
 
 const columns = [
     {
@@ -33,7 +31,14 @@ const columns = [
             compare: (a: { dailychange: number; }, b: { dailychange: number; }) => a.dailychange - b.dailychange,
             multiple: 2,
         },
-        render: (dailychange: number) => millify(dailychange, { units: ['%'], space: true, precision: 2 })
+        render: (dailychange: number) => {
+            return {
+                props: {
+                    style: { color: dailychange > 0 ? "#16c784" : "#e93943" }
+                },
+                children: <div>{millify(dailychange, { units: ['%'], space: true, precision: 2 })}</div>
+            }
+        }
     },
     {
         title: 'Market Cap',
@@ -49,14 +54,13 @@ const columns = [
 
 const Cryptocurrencies: FC = () => {
     const [pageSize, setPageSize] = useState(50)
-    const { data, isFetching, refetch } = useGetCoinsQuery('usd')
+    const { data, refetch } = useGetCoinsQuery('usd')
     useEffect(() => {
         const timer = setInterval(() => {
             refetch()
         }, 5000)
         return () => clearInterval(timer);
     }, [])
-    // if (isFetching) return <Loader />
     let dataCoins = data?.map(coin => ({
         coin,
         rank: coin.market_cap_rank,
