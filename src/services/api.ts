@@ -5,10 +5,6 @@ const cryptoApiHeaders = {
   accept: "application/json",
 };
 
-const cryptoApiParams = {
-  null: null,
-};
-
 const baseUrl = "https://api.coingecko.com/api/v3";
 
 const createRequest = (url: string) => ({
@@ -21,8 +17,12 @@ export const cryptoApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
     getCoins: builder.query<ICoin[], string>({
-      query: () => createRequest(`/coins`),
+      query: (currency) => createRequest(`/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=250`),
     }),
+    
   }),
 });
+
+
+
 export const { useGetCoinsQuery } = cryptoApi;
