@@ -16,7 +16,7 @@ const Navbar: FC = () => {
         <Margin vertical={MARGIN.xl}>
             <div className={styles.wrapper}>
                 <img src={logo} alt='logo' height='30px'/>
-                <Menu mode="horizontal">
+                <Menu mode="horizontal" style={{width: '100%'}}>
                     <Menu.Item
                         key="cryptocurrencies"
                         icon={<MoneyCollectOutlined />}
