@@ -25,7 +25,9 @@ const SearchEngine: FC = () => {
   return (
     <Select
       showSearch
-      style={{ width: '300px', flexGrow: '3' }}
+      allowClear
+      style={{ width: '300px' }}
+      value={null}
       onSelect={handlerOnSelect}
       placeholder="Search to Select"
       optionFilterProp="children"
