@@ -22,7 +22,15 @@ export const cryptoApi = createApi({
                     `/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=250`,
                 ),
         }),
+        getCoinsById: builder.query<ICoin[], { currency: string; ids: string }>(
+            {
+                query: ({ currency, ids }) =>
+                    createRequest(
+                        `/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=250`,
+                    ),
+            },
+        ),
     }),
 });
 
-export const { useGetCoinsQuery } = cryptoApi;
+export const { useGetCoinsQuery, useGetCoinsByIdQuery } = cryptoApi;

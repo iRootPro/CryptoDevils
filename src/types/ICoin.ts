@@ -1,5 +1,4 @@
 export interface ICoin {
-    isStarred: string;
     name: string;
     id: string;
     image: string;
@@ -25,4 +24,8 @@ export type ICoinData = {
 
 export type ICoinID = {
     id: string;
+};
+
+export type CryptocurranciesProps = {
+    dataCoins: ICoinData[] | undefined;
 };

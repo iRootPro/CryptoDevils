@@ -1,4 +1,5 @@
 import { FC, useEffect, useMemo, useState } from "react";
+import { useAppSelector } from "../../hooks/redux";
 import { useGetCoinsQuery } from "../../services/api";
 import {ICoin} from "../../types/ICoin";
 import Cryptocurrencies from "./Cryptocurrencies";
@@ -7,7 +8,7 @@ const fetchInterval = 5000;
 
 const CryptocurrenciesContainer: FC = () => {
     const { data, refetch } = useGetCoinsQuery('usd')
-
+    
     useEffect(() => {
         const timer = setInterval(() => {
             refetch()

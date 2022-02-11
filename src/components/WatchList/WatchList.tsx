@@ -1,17 +1,21 @@
 import React, { FC, useState } from 'react'
-import { Skeleton, Space, Button, Modal, } from 'antd';
+import { Skeleton, Space, Button, Modal, ConfigProvider, } from 'antd';
 
 import styles from './WatchList.module.scss'
 import Icon from '@ant-design/icons';
 import {ReactComponent as CommonStar} from '../../assets/svg/commonStar.svg'
 
 import { Cryptocurrencies } from '../components';
+import { useAppSelector } from '../../hooks/redux';
+import { CryptocurranciesProps, ICoin } from '../../types/ICoin';
 
-const WatchList: FC = () => {
+
+const WatchList: FC<CryptocurranciesProps> = ({dataCoins}) => {
     return (
         <>
-            <Cryptocurrencies dataCoins={undefined}/>
-            <EmptyWatchList/>
+            <ConfigProvider renderEmpty={() => <EmptyWatchList/>}>
+                <Cryptocurrencies dataCoins={dataCoins}/>
+            </ConfigProvider>
             {/* <AddCoinModal/> */}
         </>
     )

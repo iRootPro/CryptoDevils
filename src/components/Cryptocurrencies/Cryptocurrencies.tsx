@@ -7,44 +7,27 @@ import millify from 'millify';
 import CoinCard from './CoinCard/CoinCard';
 
 import { COLORS } from '../../constants/colors';
-import {ICoin, ICoinData, ICoinID} from '../../types/ICoin';
+import {CryptocurranciesProps, ICoin, ICoinData, ICoinID} from '../../types/ICoin';
 
 import {ReactComponent as CommonStar} from '../../assets/svg/commonStar.svg'
 import {ReactComponent as YellowStar} from '../../assets/svg/yellowStar.svg'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {addWatchList, removeWatchList} from '../../redux/reducers/watchList';
 
-type CryptocurranciesProps = {
-    dataCoins: ICoinData[] | undefined
-}
-
-// const IconWrapper: FC<string> = (id) => {
-    
-//     return (
-
-//     )
-// }
-
 const Cryptocurrencies: FC<CryptocurranciesProps> = ({dataCoins}) => {
     const [pageSize, setPageSize] = useState(50)
     const watchList: string[] = useAppSelector(state => state.watchListReducer).data
-    const [isStarred, setIsStarred] = useState(false)
     
     const dispatch = useAppDispatch()
-
-    console.log(watchList);
 
     const handleStar = (id: string) => {
         for (let i = 0; i < watchList.length; i++) {
             if (watchList[i] === id) {
                 dispatch(removeWatchList(id))
-                setIsStarred(false)
                 return
             }
         }
-
         dispatch(addWatchList(id))
-        setIsStarred(true)
     }
 
     const columns: ColumnsType<ICoinData> = [
@@ -53,7 +36,7 @@ const Cryptocurrencies: FC<CryptocurranciesProps> = ({dataCoins}) => {
             dataIndex: 'coin',
             key: 'star',
             render: (coin: ICoin) => {
-                return <Icon onClick={() => handleStar(coin.id)} component={coin.isStarred ? YellowStar : CommonStar}/>
+                return <Icon onClick={() => handleStar(coin.id)} component={watchList.includes(coin.id) ? YellowStar : CommonStar}/>
             }
         },
         {
@@ -112,12 +95,6 @@ const Cryptocurrencies: FC<CryptocurranciesProps> = ({dataCoins}) => {
 
     return (
         <div>
-            {/* <Table
-                columns={columns}
-                onChange={onChange}
-                pagination={{ pageSize: pageSize, position: ['bottomCenter'] }}
-            /> */}
-
             <Table
                 columns={columns}
                 dataSource={dataCoins}
