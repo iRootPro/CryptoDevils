@@ -5,7 +5,7 @@ import {useHistory} from 'react-router-dom';
 import {ROUTES} from '../../constants/routes';
 import {Margin} from "../common/Margin";
 import {MARGIN} from "../../constants/margins";
-import SearchEngine from '../SearchEngine/SearchEngine';
+import {SearchEngine} from '../SearchEngine';
 import styles from './NavBar.module.scss';
 
 const logo = require('./../../assets/images/logo.png');

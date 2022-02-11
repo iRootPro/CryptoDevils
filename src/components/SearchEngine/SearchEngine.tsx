@@ -15,7 +15,7 @@ const SearchEngine: FC = () => {
     history.push(ROUTES.coin + '/' + e);
   }, []);
 
-  const filterOption = useCallback((input: string, option: DefaultOptionType | BaseOptionType | undefined) => 
+  const filterOption = useCallback((input: string, option: OptionT) => 
     option?.children.toLowerCase().indexOf(input.toLowerCase()) === 0, []);
 
   const filterSort = useCallback((optionA, optionB) =>
@@ -36,5 +36,7 @@ const SearchEngine: FC = () => {
     </Select>
   );
 };
+
+type OptionT = DefaultOptionType | BaseOptionType | undefined;
 
 export default SearchEngine;
