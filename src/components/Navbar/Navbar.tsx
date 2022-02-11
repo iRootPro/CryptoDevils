@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import {Divider, Menu} from 'antd';
+import {Menu} from 'antd';
 import {MoneyCollectOutlined, PieChartOutlined, UnorderedListOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom';
 import {ROUTES} from '../../constants/routes';
@@ -17,7 +17,7 @@ const Navbar: FC = () => {
         <Margin vertical={MARGIN.xl}>
             <div className={styles.wrapper}>
                 <img src={logo} alt='logo' height='30px'/>
-                <Menu mode="horizontal" style={{width: '100%'}}>
+                <Menu mode="horizontal" style={{width: '100%', borderBottomStyle: 'none'}}>
                     <Menu.Item
                         key="cryptocurrencies"
                         icon={<MoneyCollectOutlined />}
