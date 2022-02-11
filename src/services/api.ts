@@ -1,5 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ICoin } from '../types/ICoin';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import ICoin from "../types/ICoin";
+import ICoinList from "../types/ICoinList";
 
 const cryptoApiHeaders = {
     accept: 'application/json',
@@ -31,6 +32,9 @@ export const cryptoApi = createApi({
             },
         ),
     }),
+    getCoinsList: builder.query<ICoinList[], string>({
+      query: () => createRequest(`/coins/list`),
+    })
+  }),
 });
-
-export const { useGetCoinsQuery, useGetCoinsByIdQuery } = cryptoApi;
+export const { useGetCoinsQuery, useGetCoinsByIdQuery, useGetCoinsListQuery } = cryptoApi;
