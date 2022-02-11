@@ -4,13 +4,15 @@ import './App.css';
 import { CoinDetails, Cryptocurrencies, Footer, Navbar, Portfolio, WatchList } from './components/components';
 import {ROUTES} from './constants/routes'
 import {Wrapper} from "./components/Wrapper/Wrapper";
+import CryptocurrenciesContainer from './components/Cryptocurrencies/CryptocurrenciesContainer';
+
 function App() {
   return (
         <Wrapper>
               <Navbar />
               <Layout>
                 <Switch>
-                  <Route exact path={ROUTES.main} render={() => <Cryptocurrencies />} />
+                  <Route exact path={ROUTES.main} render={() => <CryptocurrenciesContainer />} />
                   <Route exact path={ROUTES.coin} render={() => <CoinDetails />} />
                   <Route exact path={ROUTES.portfolio} render={() => <Portfolio />} />
                   <Route exact path={ROUTES.watchlist} render={() => <WatchList />} />

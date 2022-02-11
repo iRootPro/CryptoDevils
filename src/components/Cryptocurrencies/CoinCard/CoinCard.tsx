@@ -2,7 +2,7 @@ import { Avatar, Typography } from 'antd'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../../../constants/routes';
-import ICoin from '../../../types/ICoin'
+import {ICoin} from '../../../types/ICoin'
 import styles from './CoinCard.module.scss';
 
 type CoinCardProps = {

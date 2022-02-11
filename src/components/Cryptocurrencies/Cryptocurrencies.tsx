@@ -1,43 +1,76 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
-import { useGetCoinsQuery } from '../../services/api'
 import { Table, TablePaginationConfig } from 'antd';
-import ICoin from '../../types/ICoin';
-import CoinCard from './CoinCard/CoinCard';
+import { ColumnsType } from 'antd/lib/table';
+import Icon from '@ant-design/icons';
 import millify from 'millify';
-import { COLORS } from '../../constants/colors';
 
-const Cryptocurrencies: FC = () => {
+import CoinCard from './CoinCard/CoinCard';
+
+import { COLORS } from '../../constants/colors';
+import {ICoin, ICoinData, ICoinID} from '../../types/ICoin';
+
+import {ReactComponent as CommonStar} from '../../assets/svg/commonStar.svg'
+import {ReactComponent as YellowStar} from '../../assets/svg/yellowStar.svg'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import {addWatchList, removeWatchList} from '../../redux/reducers/watchList';
+
+type CryptocurranciesProps = {
+    dataCoins: ICoinData[] | undefined
+}
+
+// const IconWrapper: FC<string> = (id) => {
+    
+//     return (
+
+//     )
+// }
+
+const Cryptocurrencies: FC<CryptocurranciesProps> = ({dataCoins}) => {
     const [pageSize, setPageSize] = useState(50)
-    const { data, refetch } = useGetCoinsQuery('usd')
-    useEffect(() => {
-        const timer = setInterval(() => {
-            refetch()
-        }, 5000)
-        return () => clearInterval(timer);
-    }, [])
-    const dataCoins = useMemo(() => data?.map(coin => ({
-        coin,
-        rank: coin.market_cap_rank,
-        dailychange: coin.price_change_percentage_24h,
-        key: coin.id,
-        name: coin.name,
-        price: coin.current_price,
-        image: coin.image,
-        marketcap: coin.market_cap
-    })), [data]);
-    const columns = useMemo(() => [
+    const watchList: string[] = useAppSelector(state => state.watchListReducer).data
+    const [isStarred, setIsStarred] = useState(false)
+    
+    const dispatch = useAppDispatch()
+
+    console.log(watchList);
+
+    const handleStar = (id: string) => {
+        for (let i = 0; i < watchList.length; i++) {
+            if (watchList[i] === id) {
+                dispatch(removeWatchList(id))
+                setIsStarred(false)
+                return
+            }
+        }
+
+        dispatch(addWatchList(id))
+        setIsStarred(true)
+    }
+
+    const columns: ColumnsType<ICoinData> = [
+        {
+            title: '',
+            dataIndex: 'coin',
+            key: 'star',
+            render: (coin: ICoin) => {
+                return <Icon onClick={() => handleStar(coin.id)} component={coin.isStarred ? YellowStar : CommonStar}/>
+            }
+        },
         {
             title: 'Rank',
-            dataIndex: 'rank'
+            dataIndex: 'rank',
+            key: 'rank'
         },
         {
             title: 'Name',
             dataIndex: 'coin',
+            key: 'coin',
             render: (coin: ICoin) => <CoinCard coin={coin} />
         },
         {
             title: 'Price',
             dataIndex: 'price',
+            key: 'price',
             sorter: {
                 compare: (a: { price: number; }, b: { price: number; }) => a.price - b.price,
                 multiple: 3,
@@ -47,6 +80,7 @@ const Cryptocurrencies: FC = () => {
         {
             title: '24h %',
             dataIndex: 'dailychange',
+            key: 'dailychange',
             sorter: {
                 compare: (a: { dailychange: number; }, b: { dailychange: number; }) => a.dailychange - b.dailychange,
                 multiple: 2,
@@ -63,23 +97,27 @@ const Cryptocurrencies: FC = () => {
         {
             title: 'Market Cap',
             dataIndex: 'marketcap',
+            key: 'marketcap',
             sorter: {
                 compare: (a: { marketcap: number; }, b: { marketcap: number; }) => a.marketcap - b.marketcap,
                 multiple: 1,
             },
             render: (marketCap: number) => millify(marketCap, { precision: 2 })
         },
-    ], [dataCoins])
-    const onChange = useCallback(() => {
-        (pagination: TablePaginationConfig) => {
-            pagination.pageSize && setPageSize(pagination.pageSize)
-        }
-    },
-        [pageSize],
-    )
+    ]
+
+    const onChange = useCallback((pagination: TablePaginationConfig) => {
+        pagination.pageSize && setPageSize(pagination.pageSize)
+    }, [pageSize])
 
     return (
         <div>
+            {/* <Table
+                columns={columns}
+                onChange={onChange}
+                pagination={{ pageSize: pageSize, position: ['bottomCenter'] }}
+            /> */}
+
             <Table
                 columns={columns}
                 dataSource={dataCoins}

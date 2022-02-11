@@ -1,0 +1,69 @@
+.listWrapper {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(255, 255, 255, 0) 0%, 10%, rgba(255, 255, 255, 0.9) 100%);
+    }
+
+    .message {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        line-height: 1.5;
+        .button {
+            background: #ff6d05;
+            border-color: black;
+        }
+
+        .iconWrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background-color: #a6b0c3;
+        }
+
+        .starIcon svg {
+            fill: black;
+            font-size: 20px;
+        }
+
+        .header {
+            margin-top: 20px;
+        }
+    }
+
+    
+
+    .listItemWrapper { 
+        margin: 10px;
+        .star {
+            margin-top: 10px;
+        }
+    }
+
+    .currencyName span {
+        border-radius: 20px;
+        height: 20px;
+    }
+}
