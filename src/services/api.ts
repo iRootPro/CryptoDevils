@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ICoin } from '../types/ICoin';
+import { ICoinRaw } from '../types/ICoin';
 
 const cryptoApiHeaders = {
     accept: 'application/json',
@@ -16,21 +16,22 @@ export const cryptoApi = createApi({
     reducerPath: 'cryptoApi',
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
-        getCoins: builder.query<ICoin[], string>({
+        getCoins: builder.query<ICoinRaw[], string>({
             query: (currency) =>
                 createRequest(
                     `/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=250`,
                 ),
         }),
-        getCoinsById: builder.query<ICoin[], { currency: string; ids: string }>(
-            {
-                query: ({ currency, ids }) =>
-                    createRequest(
-                        `/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=250`,
-                    ),
-            },
-        ),
+        getCoinsByIds: builder.query<
+            ICoinRaw[],
+            { currency: string; ids: string }
+        >({
+            query: ({ currency, ids }) =>
+                createRequest(
+                    `/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=250`,
+                ),
+        }),
     }),
 });
 
-export const { useGetCoinsQuery, useGetCoinsByIdQuery } = cryptoApi;
+export const { useGetCoinsQuery, useGetCoinsByIdsQuery } = cryptoApi;

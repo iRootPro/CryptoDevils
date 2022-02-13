@@ -1,42 +1,42 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 import { Table, TablePaginationConfig } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Icon from '@ant-design/icons';
 import millify from 'millify';
 
-import CoinCard from './CoinCard/CoinCard';
+import CoinCard from '../CoinCard/CoinCard';
 
 import { COLORS } from '../../constants/colors';
-import {CryptocurranciesProps, ICoin, ICoinData, ICoinID} from '../../types/ICoin';
+import { ICoinsData, ICoin } from '../../types/ICoin';
 
-import {ReactComponent as CommonStar} from '../../assets/svg/commonStar.svg'
-import {ReactComponent as YellowStar} from '../../assets/svg/yellowStar.svg'
+import { ReactComponent as CommonStar } from '../../assets/svg/commonStar.svg'
+import { ReactComponent as YellowStar } from '../../assets/svg/yellowStar.svg'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {addWatchList, removeWatchList} from '../../redux/reducers/watchList';
+import { addCoinToWatchList, removeCoinFromWatchList } from '../../redux/reducers/watchListSlice';
+import { selectWatchList } from '../../redux/selectors/watchListSelectors';
 
-const Cryptocurrencies: FC<CryptocurranciesProps> = ({dataCoins}) => {
+const Cryptocurrencies: FC<ICoinsData> = ({dataCoins}) => {
     const [pageSize, setPageSize] = useState(50)
-    const watchList: string[] = useAppSelector(state => state.watchListReducer).data
+    const watchList: string[] = useAppSelector(selectWatchList).data
     
     const dispatch = useAppDispatch()
 
-    const handleStar = (id: string) => {
-        for (let i = 0; i < watchList.length; i++) {
-            if (watchList[i] === id) {
-                dispatch(removeWatchList(id))
-                return
-            }
-        }
-        dispatch(addWatchList(id))
+    const handleOnStar = (id: string) => {
+        const findedID = watchList.find(elem => elem === id)
+        findedID ? dispatch(removeCoinFromWatchList(id)) : dispatch(addCoinToWatchList(id))
     }
 
-    const columns: ColumnsType<ICoinData> = [
+    const onChangeTable = useCallback((pagination: TablePaginationConfig) => {
+        pagination.pageSize && setPageSize(pagination.pageSize)
+    }, [pageSize])
+
+    const columns: ColumnsType<ICoin> = [
         {
             title: '',
-            dataIndex: 'coin',
+            dataIndex: 'id',
             key: 'star',
-            render: (coin: ICoin) => {
-                return <Icon onClick={() => handleStar(coin.id)} component={watchList.includes(coin.id) ? YellowStar : CommonStar}/>
+            render: (id: string) => {
+                return <Icon onClick={() => handleOnStar(id)} component={watchList.includes(id) ? YellowStar : CommonStar}/>
             }
         },
         {
@@ -46,9 +46,12 @@ const Cryptocurrencies: FC<CryptocurranciesProps> = ({dataCoins}) => {
         },
         {
             title: 'Name',
-            dataIndex: 'coin',
+            dataIndex: ['id', 'image', 'name', 'symbol'],
             key: 'coin',
-            render: (coin: ICoin) => <CoinCard coin={coin} />
+            render: (value, record: ICoin) => {
+                const {id, image, name, symbol} = record
+                return <CoinCard id={id} image={image} name={name} symbol={symbol}/>
+            }
         },
         {
             title: 'Price',
@@ -89,16 +92,12 @@ const Cryptocurrencies: FC<CryptocurranciesProps> = ({dataCoins}) => {
         },
     ]
 
-    const onChange = useCallback((pagination: TablePaginationConfig) => {
-        pagination.pageSize && setPageSize(pagination.pageSize)
-    }, [pageSize])
-
     return (
         <div>
             <Table
                 columns={columns}
                 dataSource={dataCoins}
-                onChange={onChange}
+                onChange={onChangeTable}
                 pagination={{ pageSize: pageSize, position: ['bottomCenter'] }}
             />
         </div>
@@ -106,21 +105,3 @@ const Cryptocurrencies: FC<CryptocurranciesProps> = ({dataCoins}) => {
 }
 
 export default Cryptocurrencies
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

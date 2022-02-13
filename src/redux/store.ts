@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { cryptoApi } from '../services/api';
-import watchListReducer from './reducers/watchList';
+import watchListReducer from './reducers/watchListSlice';
 import {
     persistStore,
     persistReducer,

@@ -1,18 +1,13 @@
 import { Avatar, Typography } from 'antd'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { ROUTES } from '../../../constants/routes';
-import {ICoin} from '../../../types/ICoin'
+import { ROUTES } from '../../constants/routes';
+import {ICoin, ICoinCard} from '../../types/ICoin'
 import styles from './CoinCard.module.scss';
-
-type CoinCardProps = {
-    coin: ICoin
-}
 
 const { Text } = Typography
 
-const CoinCard: FC<CoinCardProps> = ({ coin }) => {
-    const { id, image, name, symbol } = coin
+const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol }) => {
     return (
         <Link to={`${ROUTES.coin}/${id}`} className={styles.link}>
             <div className={styles.wrapper}>

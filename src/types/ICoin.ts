@@ -1,4 +1,4 @@
-export interface ICoin {
+export interface ICoinRaw {
     name: string;
     id: string;
     image: string;
@@ -8,11 +8,10 @@ export interface ICoin {
     market_cap_rank: number;
     price_change_percentage_24h: number;
     symbol: string;
-    isFavorite: boolean;
 }
-
-export type ICoinData = {
-    coin: ICoin;
+export interface ICoin {
+    symbol: string;
+    id: string;
     rank: number;
     dailychange: number;
     key: string;
@@ -20,12 +19,18 @@ export type ICoinData = {
     price: number;
     image: string;
     marketcap: number;
-};
+}
 
-export type ICoinID = {
+export interface ICoinCard {
+    name: string;
     id: string;
-};
+    image: string;
+    symbol: string;
+}
 
-export type CryptocurranciesProps = {
-    dataCoins: ICoinData[] | undefined;
+export type ICoinsResponse = ICoinRaw[] | undefined;
+export type ICoinsNormalized = ICoin[] | undefined;
+
+export type ICoinsData = {
+    dataCoins: ICoinsNormalized;
 };
