@@ -1,0 +1,49 @@
+.wrapper {
+  background: white;
+  display: flex;
+}
+
+.leftSide {
+  width: 300px;
+  flex: 1;
+}
+
+.rightSide {
+  flex: 3;
+}
+
+.RightBlock {
+  padding: 10px;
+}
+
+.summaryButtonBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.summary {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.allPortfolio {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  width: 300px;
+  padding: 10px
+}
+
+.allPortfolio:hover {
+  background: #fbfcff;
+}
+
+.createPortfolio {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+}
