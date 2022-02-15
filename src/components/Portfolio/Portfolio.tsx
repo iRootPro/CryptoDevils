@@ -162,22 +162,22 @@ const Portfolio:FC = () => {
     }
 
     const handleChangePortfolioName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(newPortfolioName) setErrorPortfolioName(false)
         setNewPortfolioName(e.target.value)
     }
 
     const handleClickNewPortfolio = () => {
-        const newPortfolio = {
-            id: uuid(),
-            name: newPortfolioName,
-            trades: {}
-        }
         if(!newPortfolioName) {
             setErrorPortfolioName(true)
         } else {
+            const newPortfolio = {
+                id: uuid(),
+                name: newPortfolioName,
+                trades: {}
+            }
             setShowNewPortfolioModal(false)
             setNewPortfolioName('')
         }
+
     }
 
     const handleClickCancelPortfolio = () => {
