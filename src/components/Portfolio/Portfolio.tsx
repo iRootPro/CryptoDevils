@@ -183,6 +183,7 @@ const Portfolio:FC = () => {
     const handleClickCancelPortfolio = () => {
         setShowNewPortfolioModal(false)
         setErrorPortfolioName(false)
+        setNewPortfolioName('')
     }
 
   return (
