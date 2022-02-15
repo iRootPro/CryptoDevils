@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type PortfoliosType = {
-    portfolios: Array<PortfolioType>
-};
+type PortfoliosType = Array<PortfolioType>;
 
 
 export type PortfolioType = {
@@ -21,19 +19,17 @@ export type TradeType = {
 }
 
 
-const initialState: PortfoliosType = {
-    portfolios: [],
-};
+const initialState: PortfoliosType = []
 
 const portfolioSlice = createSlice({
     name: 'portfolioSlice',
     initialState: initialState,
     reducers: {
         addPortfolio(state, action) {
-            state.portfolios.push(action.payload)
+            state.push(action.payload)
         },
         removePortfolio(state, action) {
-            state.portfolios.filter(p => p.id === action.payload)
+            state.filter(p => p.id === action.payload)
         },
     },
 });
