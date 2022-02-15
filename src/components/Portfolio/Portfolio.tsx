@@ -8,6 +8,8 @@ import Title from "antd/es/typography/Title";
 import { Typography } from 'antd';
 import moment from "moment";
 import {v4 as uuid} from 'uuid'
+import portfolioSlice, {addPortfolio, PortfolioType} from "../../redux/reducers/portfolioSlice";
+import {DefaultRootState, useDispatch, useSelector} from "react-redux";
 
 const { Text } = Typography;
 
@@ -86,6 +88,7 @@ const Portfolio:FC = () => {
     const [errorQuantity, setErrorQuantity] = useState<boolean>(false)
     const [errorPriceCoin, setErrorPriceCoin] = useState<boolean>(false)
 
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setTotalSpent(pricePerCoin * quantity)
@@ -165,11 +168,12 @@ const Portfolio:FC = () => {
         if(!newPortfolioName) {
             setErrorPortfolioName(true)
         } else {
-            const newPortfolio = {
+            const newPortfolio: PortfolioType = {
                 id: uuid(),
                 name: newPortfolioName,
-                trades: {}
+                trades: [],
             }
+            dispatch(addPortfolio(newPortfolio))
             setShowNewPortfolioModal(false)
             setNewPortfolioName('')
         }
