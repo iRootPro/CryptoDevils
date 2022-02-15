@@ -87,10 +87,6 @@ const Portfolio:FC = () => {
     const [errorPriceCoin, setErrorPriceCoin] = useState<boolean>(false)
 
 
-    const handleCreatePortfolio = () => {
-        setShowNewPortfolioModal(true)
-    }
-
     useEffect(() => {
         setTotalSpent(pricePerCoin * quantity)
     }, [quantity, pricePerCoin])
@@ -121,7 +117,7 @@ const Portfolio:FC = () => {
         setPricePerCoin(Number(e.target.value))
     }
 
-    const handleClickCancel = () => {
+    const handleClickCancelAddNew = () => {
         clearForm()
         setShowNewTradeModal(false)
         setErrorQuantity(false)
@@ -133,7 +129,7 @@ const Portfolio:FC = () => {
         setDate(dateNow)
     }
 
-    const handleClickOk = () => {
+    const handleClickAddNew = () => {
         if(!quantity) {
             setErrorQuantity(true)
         } else if(!pricePerCoin) {
@@ -215,7 +211,7 @@ const Portfolio:FC = () => {
             </div>
         </div>
 
-        <div className={styles.createPortfolio} onClick={handleCreatePortfolio}><PlusCircleFilled /> Create portfolio</div>
+        <div className={styles.createPortfolio} onClick={()=> setShowNewPortfolioModal(true)}><PlusCircleFilled /> Create portfolio</div>
         </div>
         <div className={styles.rightSide}>
             <div className={styles.RightBlock}>
@@ -243,65 +239,66 @@ const Portfolio:FC = () => {
                     style={{borderRadius: '10px', height: 40}}
                     placeholder="Enter your portfolio name..."
                     onChange={handleChangePortfolioName}
+                    value={newPortfolioName}
                 />
                 {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
             </Modal>
-        <Modal
-        centered
-        visible={showNewTradeModal}
-        onOk={handleClickOk}
-        onCancel={handleClickCancel}
-        width={500}
-        >
-            <Title level={3}>Add Transaction</Title>
-            <div className={styles.direction}>
-                <Radio.Group
-                    style={{display:"flex", width: '100%'}}
-                    options={optionsTradeDirection}
-                    onChange={handleChangeDirection}
-                    value={direction}
-                    optionType="button"
-                    buttonStyle="solid"
-                />
-            </div>
+            <Modal
+            centered
+            visible={showNewTradeModal}
+            onOk={handleClickAddNew}
+            onCancel={handleClickCancelAddNew}
+            width={500}
+            >
+                <Title level={3}>Add Transaction</Title>
+                <div className={styles.direction}>
+                    <Radio.Group
+                        style={{display:"flex", width: '100%'}}
+                        options={optionsTradeDirection}
+                        onChange={handleChangeDirection}
+                        value={direction}
+                        optionType="button"
+                        buttonStyle="solid"
+                    />
+                </div>
 
-            <div style={{display: "flex", justifyContent: 'space-between'}}>
-                <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
-                    <Title level={5}>Quantity</Title>
-                    <Input
-                        value={quantity}
-                        type="number"
-                        style={{borderRadius: 10}}
-                        onChange={handleChangeQuantity}
-                    />
-                    { errorQuantity && <Text style={{color: "red", margin: 5}}>Field is requires</Text>}
+                <div style={{display: "flex", justifyContent: 'space-between'}}>
+                    <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
+                        <Title level={5}>Quantity</Title>
+                        <Input
+                            value={quantity}
+                            type="number"
+                            style={{borderRadius: 10}}
+                            onChange={handleChangeQuantity}
+                        />
+                        { errorQuantity && <Text style={{color: "red", margin: 5}}>Field is requires</Text>}
+                    </div>
+                    <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
+                        <Title level={5}>Price Per Coin</Title>
+                        <Input
+                            value={pricePerCoin}
+                            style={{borderRadius: 10}}
+                            type="number"
+                            onChange={handleChangePricePerCoin}
+                        />
+                        {errorPriceCoin && <Text style={{color: "red", margin: 5}}>Field is requires</Text>}
+                    </div>
+                    <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
+                        <Title level={5}>Date</Title>
+                        <DatePicker
+                            defaultValue={moment(dateNow, dateFormat)}
+                            value={moment(date, dateFormat)}
+                            format={dateFormat}
+                            style={{borderRadius: 10}}
+                            onChange={(date, dateString) => handleChangeDate(date, dateString)}
+                        />
+                    </div>
                 </div>
-                <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
-                    <Title level={5}>Price Per Coin</Title>
-                    <Input
-                        value={pricePerCoin}
-                        style={{borderRadius: 10}}
-                        type="number"
-                        onChange={handleChangePricePerCoin}
-                    />
-                    {errorPriceCoin && <Text style={{color: "red", margin: 5}}>Field is requires</Text>}
+                <div style={{background: '#f8f8f8', borderRadius: 10, padding: 10, margin: 5}}>
+                    <Title level={5}>Total spent</Title>
+                    <Text strong style={{fontSize: 30}}>${totalSpent}</Text>
                 </div>
-                <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
-                    <Title level={5}>Date</Title>
-                    <DatePicker
-                        defaultValue={moment(dateNow, dateFormat)}
-                        value={moment(date, dateFormat)}
-                        format={dateFormat}
-                        style={{borderRadius: 10}}
-                        onChange={(date, dateString) => handleChangeDate(date, dateString)}
-                    />
-                </div>
-            </div>
-            <div style={{background: '#f8f8f8', borderRadius: 10, padding: 10, margin: 5}}>
-                <Title level={5}>Total spent</Title>
-                <Text strong style={{fontSize: 30}}>${totalSpent}</Text>
-            </div>
-        </Modal>
+            </Modal>
     </div>
   )
 }
