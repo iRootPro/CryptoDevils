@@ -1,11 +1,13 @@
-import React, {FC, useState} from 'react'
-import {PlusCircleFilled, DollarCircleOutlined, UserOutlined, DownloadOutlined} from "@ant-design/icons";
+import React, {FC, useEffect, useState} from 'react'
+import {PlusCircleFilled, DollarCircleOutlined, UserOutlined} from "@ant-design/icons";
 import styles from './Portfolio.module.scss';
-import {Button, Divider, Table, Modal, Input} from "antd";
+import {Button, Divider, Table, Modal, Input, DatePicker, Radio, RadioChangeEvent} from "antd";
 import {Margin} from "../common/Margin";
 import {MARGIN} from "../../constants/margins";
 import Title from "antd/es/typography/Title";
 import { Typography } from 'antd';
+import moment from "moment";
+import {v4 as uuid} from 'uuid'
 
 const { Text } = Typography;
 
@@ -63,11 +65,124 @@ const columns = [
     },
 ];
 
+const optionsTradeDirection = [
+    { label: 'Buy', value: 'buy' },
+    { label: 'Sell', value: 'sell' },
+];
+
+const dateFormat = 'DD/MM/YYYY';
+const dateNow = moment().format(dateFormat)
+
 const Portfolio:FC = () => {
     const [showNewPortfolioModal, setShowNewPortfolioModal] = useState<boolean>(false)
+    const [showNewTradeModal, setShowNewTradeModal] = useState<boolean>(false)
+    const [totalSpent, setTotalSpent] = useState<number>(0)
+    const [quantity, setQuantity] = useState<number>(0)
+    const [pricePerCoin, setPricePerCoin] = useState<number>(0)
+    const [direction, setDirection] = useState<DirectionType>('buy')
+    const [date, setDate] = useState<string>(dateNow)
+    const [newPortfolioName, setNewPortfolioName] = useState<string>('')
+    const [errorPortfolioName, setErrorPortfolioName] = useState<boolean>(false)
+    const [errorQuantity, setErrorQuantity] = useState<boolean>(false)
+    const [errorPriceCoin, setErrorPriceCoin] = useState<boolean>(false)
+
 
     const handleCreatePortfolio = () => {
         setShowNewPortfolioModal(true)
+    }
+
+    useEffect(() => {
+        setTotalSpent(pricePerCoin * quantity)
+    }, [quantity, pricePerCoin])
+
+    useEffect(() => {
+        if(quantity) {
+            setErrorQuantity(false)
+        }
+    }, [quantity])
+
+    useEffect(() => {
+        if(quantity) {
+            setErrorPriceCoin(false)
+        }
+    }, [pricePerCoin])
+
+    useEffect(() => {
+        if(newPortfolioName) {
+            setErrorPortfolioName(false)
+        }
+    }, [newPortfolioName])
+
+    const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuantity(Number(e.target.value))
+    }
+
+    const handleChangePricePerCoin = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPricePerCoin(Number(e.target.value))
+    }
+
+    const handleClickCancel = () => {
+        clearForm()
+        setShowNewTradeModal(false)
+        setErrorQuantity(false)
+        setErrorPriceCoin(false)
+    }
+    const clearForm = () => {
+        setQuantity(0)
+        setPricePerCoin(0)
+        setDate(dateNow)
+    }
+
+    const handleClickOk = () => {
+        if(!quantity) {
+            setErrorQuantity(true)
+        } else if(!pricePerCoin) {
+            setErrorPriceCoin(true)
+        }
+        else {
+            const trade = {
+                coin: 'BTC',
+                price: pricePerCoin,
+                quantity,
+                totalSpent,
+                direction,
+                date
+            }
+            setShowNewTradeModal(false)
+            clearForm()
+        }
+    }
+
+    const handleChangeDirection = (e: RadioChangeEvent) => {
+        setDirection(e.target.value as DirectionType)
+    }
+
+    const handleChangeDate = (date: moment.Moment | null, dateString: string) => {
+        setDate(dateString)
+    }
+
+    const handleChangePortfolioName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if(newPortfolioName) setErrorPortfolioName(false)
+        setNewPortfolioName(e.target.value)
+    }
+
+    const handleClickNewPortfolio = () => {
+        const newPortfolio = {
+            id: uuid(),
+            name: newPortfolioName,
+            trades: {}
+        }
+        if(!newPortfolioName) {
+            setErrorPortfolioName(true)
+        } else {
+            setShowNewPortfolioModal(false)
+            setNewPortfolioName('')
+        }
+    }
+
+    const handleClickCancelPortfolio = () => {
+        setShowNewPortfolioModal(false)
+        setErrorPortfolioName(false)
     }
 
   return (
@@ -106,7 +221,7 @@ const Portfolio:FC = () => {
                 <div>Current Balance</div>
                 <div className={styles.summaryButtonBlock}>
                     <div className={styles.summary}>$635.10</div>
-                    <div><Button type="primary" shape="round" icon={<PlusCircleFilled />}>Add new</Button></div>
+                    <div><Button type="primary" shape="round" icon={<PlusCircleFilled />} onClick={() => setShowNewTradeModal(true)}>Add new</Button></div>
                 </div>
                 <Margin vertical={MARGIN.xxl}>
                     <Title level={4}>Your assets</Title>
@@ -115,21 +230,82 @@ const Portfolio:FC = () => {
             </div>
         </div>
             <Modal
-                title="Create portfolio"
                 centered
                 visible={showNewPortfolioModal}
-                onOk={() => setShowNewPortfolioModal(false)}
-                onCancel={() => setShowNewPortfolioModal(false)}
+                onOk={handleClickNewPortfolio}
+                onCancel={handleClickCancelPortfolio}
                 width={500}
             >
+                <Title level={4}>Create portfolio</Title>
                 <Text strong style={{fontSize: 14}}>Portfolio name</Text>
-                <Input style={{borderRadius: '10px', height: 40}}
+                <Input
+                    style={{borderRadius: '10px', height: 40}}
                     placeholder="Enter your portfolio name..."
+                    onChange={handleChangePortfolioName}
                 />
-
+                {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
             </Modal>
+        <Modal
+        centered
+        visible={showNewTradeModal}
+        onOk={handleClickOk}
+        onCancel={handleClickCancel}
+        width={500}
+        >
+            <Title level={3}>Add Transaction</Title>
+            <div className={styles.direction}>
+                <Radio.Group
+                    style={{display:"flex", width: '100%'}}
+                    options={optionsTradeDirection}
+                    onChange={handleChangeDirection}
+                    value={direction}
+                    optionType="button"
+                    buttonStyle="solid"
+                />
+            </div>
+
+            <div style={{display: "flex", justifyContent: 'space-between'}}>
+                <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
+                    <Title level={5}>Quantity</Title>
+                    <Input
+                        value={quantity}
+                        type="number"
+                        style={{borderRadius: 10}}
+                        onChange={handleChangeQuantity}
+                    />
+                    { errorQuantity && <Text style={{color: "red", margin: 5}}>Field is requires</Text>}
+                </div>
+                <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
+                    <Title level={5}>Price Per Coin</Title>
+                    <Input
+                        value={pricePerCoin}
+                        style={{borderRadius: 10}}
+                        type="number"
+                        onChange={handleChangePricePerCoin}
+                    />
+                    {errorPriceCoin && <Text style={{color: "red", margin: 5}}>Field is requires</Text>}
+                </div>
+                <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
+                    <Title level={5}>Date</Title>
+                    <DatePicker
+                        defaultValue={moment(dateNow, dateFormat)}
+                        value={moment(date, dateFormat)}
+                        format={dateFormat}
+                        style={{borderRadius: 10}}
+                        onChange={(date, dateString) => handleChangeDate(date, dateString)}
+                    />
+                </div>
+            </div>
+            <div style={{background: '#f8f8f8', borderRadius: 10, padding: 10, margin: 5}}>
+                <Title level={5}>Total spent</Title>
+                <Text strong style={{fontSize: 30}}>${totalSpent}</Text>
+            </div>
+        </Modal>
     </div>
   )
 }
 
 export default Portfolio
+
+
+type DirectionType = 'buy' | 'sell'
