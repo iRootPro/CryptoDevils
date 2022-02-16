@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { selectWatchList } from '../redux/selectors/watchListSelectors';
 import { ICoin, ICoinCard, ICoinWL } from '../types/ICoin';
 import { useAppSelector } from './redux';
@@ -12,6 +12,7 @@ type useSelectCoin = {
 
 export const useSelectCoin = () => {
     const watchList: ICoinWL[] = useAppSelector(selectWatchList);
+
     const watchListTagCard: ICoinCard[] = useMemo(
         () =>
             watchList.map((item) => ({
@@ -23,6 +24,7 @@ export const useSelectCoin = () => {
             })),
         [watchList],
     );
+
     const [selectedCoins, setSelectedCoins] =
         useState<ICoinCard[]>(watchListTagCard);
     const [selectedCoinsIds, setSelectedCoinsIds] = useState<string[]>(

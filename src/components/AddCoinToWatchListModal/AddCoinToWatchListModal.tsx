@@ -27,8 +27,13 @@ const AddCoinToWatchListModal: FC = () => {
 
     const dispatch = useAppDispatch();
 
-    const { getCoinsIds, parseCoinList, dataCoins, setSearchedCoinsIds } =
-        useModalCoinList();
+    const {
+        getCoinsIds,
+        parseCoinList,
+        dataCoins,
+        setSearchedCoinsIds,
+        searchedCoinsIds,
+    } = useModalCoinList();
 
     const handleCancel = () => {
         toogleModal();
@@ -53,7 +58,7 @@ const AddCoinToWatchListModal: FC = () => {
     };
 
     const makeCoinList = (searchTerm: string) => {
-        const searchedCoinList = parseCoinList(searchTerm);
+        const searchedCoinList = searchTerm ? parseCoinList(searchTerm) : [];
         setSearchedCoinsIds(getCoinsIds(searchedCoinList));
     };
 
@@ -64,13 +69,6 @@ const AddCoinToWatchListModal: FC = () => {
     ) => {
         const searchTerm = e.target.value;
         setInputValue(searchTerm);
-
-        if (searchTerm === '') {
-            setInputValue('');
-            setSearchedCoinsIds([]);
-            return;
-        }
-
         debouncedMakeCoinList(searchTerm);
     };
 
@@ -133,7 +131,11 @@ const AddCoinToWatchListModal: FC = () => {
             />
             <List
                 itemLayout='horizontal'
-                dataSource={dataCoins}
+                dataSource={
+                    inputValue && !searchedCoinsIds?.length
+                        ? undefined
+                        : dataCoins
+                }
                 className={styles.list}
                 renderItem={(item) => (
                     <List.Item key={`listitem_${item.id}`}>

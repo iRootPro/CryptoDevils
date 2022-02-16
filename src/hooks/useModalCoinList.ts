@@ -16,7 +16,10 @@ const useModalCoinList = () => {
 
     if (searchedCoinsIds?.length) {
         const ids = searchedCoinsIds.join(',');
-        const { data } = useGetCoinsByIdsQuery({ currency: 'usd', ids: ids });
+        const { data } = useGetCoinsByIdsQuery({
+            currency: 'usd',
+            ids: ids,
+        });
         dataCoins = useListDataCoins(data);
     } else {
         const { data } = useGetCoinsQuery({ currency: 'usd', perPage: 50 });
@@ -42,6 +45,7 @@ const useModalCoinList = () => {
         parseCoinList,
         dataCoins,
         setSearchedCoinsIds,
+        searchedCoinsIds,
     };
 };
 

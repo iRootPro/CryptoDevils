@@ -24,6 +24,7 @@ import {
 import { useSelectCoin } from '../../hooks/useSelectCoin';
 
 import styles from './Cryptocurrencies.module.scss';
+import { useModalSelectedCoinsContext } from '../../contexts/ModalSelectedCoinsContext';
 
 const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     const [pageSize, setPageSize] = useState(50);
@@ -31,15 +32,17 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     const watchList: ICoinWL[] = useAppSelector(selectWatchList);
     const watchListIds: string[] = useAppSelector(selectWatchListIds);
     const { prepareCoin } = useSelectCoin();
+    const { removeCoin, addCoin } = useModalSelectedCoinsContext();
 
     const dispatch = useAppDispatch();
 
     const handleOnStar = (coin: ICoin) => {
-        setIsLoadingStar(true);
+        // setIsLoadingStar(true);
         const preparedCoin = prepareCoin(coin);
 
         if (!watchList.length) {
             dispatch(addCoinToWatchList(preparedCoin));
+            addCoin({ ...preparedCoin, type: 'watchlist-modal-tag' });
             return;
         }
 
@@ -49,8 +52,13 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
 
         if (findedElem) {
             dispatch(removeCoinFromWatchList(findedElem));
-        } else dispatch(addCoinToWatchList(preparedCoin));
-        setIsLoadingStar(false);
+            removeCoin({ ...preparedCoin, type: 'watchlist-modal-tag' });
+        } else {
+            dispatch(addCoinToWatchList(preparedCoin));
+            addCoin({ ...preparedCoin, type: 'watchlist-modal-tag' });
+        }
+
+        // setIsLoadingStar(false);
     };
 
     const onChangeTable = useCallback(
@@ -72,9 +80,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                             handleOnStar(record);
                         }}
                         component={
-                            isLoadingStar && watchListIds.includes(record.id)
-                                ? Spinner
-                                : watchListIds.includes(record.id)
+                            watchListIds.includes(record.id)
                                 ? YellowStar
                                 : CommonStar
                         }
