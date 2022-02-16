@@ -27,7 +27,7 @@ const WatchListContainer: FC = () => {
             <WatchList dataCoins={dataCoins} />
         </>
     ) : (
-        <WatchList dataCoins={undefined} />
+        <WatchList dataCoins={[]} />
     );
 };
 
