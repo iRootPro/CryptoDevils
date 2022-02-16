@@ -1,9 +1,10 @@
 import React, { FC } from 'react'
+import { Chart } from '../Chart'
 
 const CoinDetails:FC = () => {
   return (
-    <div>CoinDetails</div>
+    <Chart id="bitcoin"/>
   )
 }
 
-export default CoinDetails
+export default CoinDetails;
