@@ -29,10 +29,8 @@ const useModalCoinList = () => {
     const parseCoinList = (searchTerm: string) => {
         return coinList?.filter(
             (coin) =>
-                coin.name
-                    .toLowerCase()
-                    .replace(/\s/g, '')
-                    .indexOf(searchTerm) === 0,
+                coin.name.toLowerCase().replace(/\s/g, '').indexOf(searchTerm) >
+                -1,
         );
     };
 
