@@ -21,11 +21,18 @@ export interface ICoin {
     marketcap: number;
 }
 
+export interface ICoinWL {
+    name: string;
+    id: string;
+    image: string;
+    symbol: string;
+}
 export interface ICoinCard {
     name: string;
     id: string;
     image: string;
     symbol: string;
+    type: 'cryptocurrencies' | 'watchlist-modal-list' | 'watchlist-modal-tag';
 }
 
 export type ICoinsResponse = ICoinRaw[] | undefined;

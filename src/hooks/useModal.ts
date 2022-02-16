@@ -1,9 +1,7 @@
 import { useState } from 'react';
 
-export const useWatchListModal = (init: boolean) => {
+export const useModalVisible = (init: boolean) => {
     const [modalVisible, setModalVisible] = useState(init);
-
-    // console.log(' handle');
 
     const toogleModal = () => {
         setModalVisible(!modalVisible);

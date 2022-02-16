@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ICoinWL } from '../../types/ICoin';
 
 type IWatchList = {
-    data: string[];
+    data: ICoinWL[];
 };
 const initialState: IWatchList = {
     data: [],
@@ -11,15 +12,20 @@ const watchListSlice = createSlice({
     name: 'watchListSlice',
     initialState: initialState,
     reducers: {
-        addCoinToWatchList(state, action) {
+        addCoinToWatchList(state, action: PayloadAction<ICoinWL>) {
             state.data.push(action.payload);
         },
-        removeCoinFromWatchList(state, action) {
-            state.data = state.data.filter((item) => item !== action.payload);
+        removeCoinFromWatchList(state, action: PayloadAction<ICoinWL>) {
+            state.data = state.data.filter(
+                (item) => item.id !== action.payload.id,
+            );
+        },
+        clearWatchList(state) {
+            state.data = [];
         },
     },
 });
 
 export default watchListSlice.reducer;
-export const { addCoinToWatchList, removeCoinFromWatchList } =
+export const { addCoinToWatchList, removeCoinFromWatchList, clearWatchList } =
     watchListSlice.actions;

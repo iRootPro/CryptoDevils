@@ -5,8 +5,8 @@ type IModalContext = {
     toogleModal: () => boolean;
 };
 
-export const ModalContext = createContext<IModalContext>({
+export const ModalVisibleContext = createContext<IModalContext>({
     modalVisible: false,
     toogleModal: () => true,
 });
-export const useModalContext = () => useContext(ModalContext);
+export const useModalContext = () => useContext(ModalVisibleContext);

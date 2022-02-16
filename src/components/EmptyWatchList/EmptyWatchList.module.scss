@@ -7,11 +7,15 @@
         position: absolute;
         top: 0px;
         left: 0px;
-        content: "";
+        content: '';
         display: block;
         width: 100%;
         height: 100%;
-        background: linear-gradient(rgba(255, 255, 255, 0) 0%, 10%, rgba(255, 255, 255, 0.9) 100%);
+        background: linear-gradient(
+            rgba(255, 255, 255, 0) 0%,
+            10%,
+            rgba(255, 255, 255, 0.9) 100%
+        );
     }
 
     .message {
@@ -29,7 +33,6 @@
         text-align: center;
         line-height: 1.5;
         .button {
-            background: #ff6d05;
             border-color: #a6b0c3;
         }
 
@@ -53,7 +56,7 @@
         }
     }
 
-    .listItemWrapper { 
+    .listItemWrapper {
         margin: 10px;
         .star {
             margin-top: 10px;

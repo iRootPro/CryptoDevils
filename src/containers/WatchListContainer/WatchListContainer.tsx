@@ -1,29 +1,34 @@
-import { FC } from "react";
-import { useAppSelector } from "../../hooks/redux";
-import { selectWatchList } from "../../redux/selectors/watchListSelectors";
-import { useGetCoinsByIdsQuery } from "../../services/api";
-import { ICoinsNormalized } from "../../types/ICoin";
-import { WatchList } from "../../components/components";
-import { useDataCoins } from "../../hooks/useDataCoins";
+import { FC, useLayoutEffect } from 'react';
+import { useAppSelector } from '../../hooks/redux';
+import {
+    selectWatchList,
+    selectWatchListIds,
+} from '../../redux/selectors/watchListSelectors';
+import { useGetCoinsByIdsQuery } from '../../services/api';
+import { ICoinsNormalized, ICoinWL } from '../../types/ICoin';
+import { WatchList } from '../../components/components';
+import { useDataCoins } from '../../hooks/useDataCoins';
 
 const WatchListContainer: FC = () => {
-    const watchList: string[] = useAppSelector(selectWatchList).data;
-
-    // console.log(watchList);
+    const watchListId: string[] = useAppSelector(selectWatchListIds);
+    const watchListString = watchListId.join(',');
 
     let dataCoins: ICoinsNormalized;
-    
-    // if (watchList.length) {
-        const watchListString = watchList.join(',')
-        
-        const { data, refetch } = useGetCoinsByIdsQuery({currency: 'usd', ids: watchListString});
-    
-        dataCoins = useDataCoins(data, refetch)
-    // }
-    
-    return (
-        !watchList.length ? <WatchList dataCoins={undefined}/> : <WatchList dataCoins={dataCoins}/>
-    )
-}
 
-export default WatchListContainer
+    const { data, refetch } = useGetCoinsByIdsQuery({
+        currency: 'usd',
+        ids: watchListString,
+    });
+
+    dataCoins = useDataCoins(data, refetch);
+
+    return watchListString ? (
+        <>
+            <WatchList dataCoins={dataCoins} />
+        </>
+    ) : (
+        <WatchList dataCoins={undefined} />
+    );
+};
+
+export default WatchListContainer;
