@@ -9,7 +9,7 @@ type IUseDataCoins = (
 
 const fetchInterval = 100000;
 
-export const useDataCoins: IUseDataCoins = (data, refetch) => {
+export const useDataCoins: IUseDataCoins = (data = [], refetch) => {
     useEffect(() => {
         const timer = setInterval(() => {
             refetch();
@@ -19,7 +19,7 @@ export const useDataCoins: IUseDataCoins = (data, refetch) => {
 
     const dataCoins: ICoinsNormalized = useMemo(
         () =>
-            data?.map((coin: ICoinRaw) => ({
+            data.map((coin: ICoinRaw) => ({
                 id: coin.id,
                 rank: coin.market_cap_rank,
                 dailychange: coin.price_change_percentage_24h,
