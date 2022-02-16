@@ -22,6 +22,7 @@
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": [
-    "src"
+    "src",
+    "src/global.d.ts"
   ]
 }

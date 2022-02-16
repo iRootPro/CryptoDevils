@@ -1,8 +1,19 @@
-import CoinDetails from "./CoinDetails/CoinDetails";
-import Cryptocurrencies from "./Cryptocurrencies/Cryptocurrencies";
-import Footer from "./Footer/Footer";
-import Navbar from "./Navbar/Navbar";
-import Portfolio from "./Portfolio/Portfolio";
-import WatchList from "./WatchList/WatchList";
+import AddCoinToWatchListModal from './AddCoinToWatchListModal/AddCoinToWatchListModal';
+import CoinDetails from './CoinDetails/CoinDetails';
+import Cryptocurrencies from './Cryptocurrencies/Cryptocurrencies';
+import Footer from './Footer/Footer';
+import Navbar from './Navbar/Navbar';
+import Portfolio from './Portfolio/Portfolio';
+import WatchList from './WatchList/WatchList';
+import SearchEngine from './SearchEngine/SearchEngine';
 
-export { CoinDetails, Cryptocurrencies, Footer, Navbar, Portfolio, WatchList };
+export {
+    CoinDetails,
+    Cryptocurrencies,
+    Footer,
+    Navbar,
+    Portfolio,
+    WatchList,
+    AddCoinToWatchListModal,
+    SearchEngine,
+};
