@@ -48,7 +48,9 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type }) => {
         );
     else if (type === 'watchlist-modal-list')
         return (
-            <div className={styles.wrapper} onClick={handleOnClick}>
+            <div
+                className={`${styles.wrapper} ${styles.modalList}`}
+                onClick={handleOnClick}>
                 <div className={styles.centerContent}>
                     <Avatar src={`${image}`} />
                     <Text className={styles.name}>{name}</Text>
