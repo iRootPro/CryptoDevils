@@ -17,7 +17,7 @@ const SearchEngine: FC = () => {
 
     const filterOption = useCallback(
         (input: string, option: OptionT) =>
-            option?.children.toLowerCase().indexOf(input.toLowerCase()) > -1,
+            option?.children.toLowerCase().indexOf(input.toLowerCase()) === 0,
         [],
     );
 
