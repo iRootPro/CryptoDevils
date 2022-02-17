@@ -85,7 +85,7 @@ Exporting(Highcharts);
 OfflineExporting(Highcharts);
 StockTools(Highcharts);
 
-const Chart: FC<TPropsChart> = ({ options }) => {
+const Chart: FC<TPropsChart> = ({options }) => {
 	return (
 		<div id="container" >
 			<HighchartsReact highcharts={Highcharts} constructorType={'stockChart'} options={options} />
@@ -94,7 +94,7 @@ const Chart: FC<TPropsChart> = ({ options }) => {
 };
 
 type TPropsChart = {
-  options: Options
+  options: Options;
 }
 
 export default Chart;

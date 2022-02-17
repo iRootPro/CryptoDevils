@@ -13,7 +13,7 @@ function App() {
               <Layout>
                 <Switch>
                   <Route exact path={ROUTES.main} render={() => <CryptocurrenciesContainer />} />
-                  <Route exact path={ROUTES.coin} render={() => <CoinDetails />} />
+                  <Route exact path={`${ROUTES.coin}/:id`} render={() => <CoinDetails />} />
                   <Route exact path={ROUTES.portfolio} render={() => <Portfolio />} />
                   <Route exact path={ROUTES.watchlist} render={() => <WatchListContainer />} />
                 </Switch>

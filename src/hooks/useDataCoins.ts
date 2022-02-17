@@ -7,7 +7,7 @@ type IUseDataCoins = (
     refetch: () => void,
 ) => ICoinsNormalized;
 
-const fetchInterval = 100000;
+const fetchInterval = 10000;
 
 export const useDataCoins: IUseDataCoins = (data = [], refetch) => {
     useEffect(() => {
