@@ -1,5 +1,5 @@
-import React, {FC, useEffect, useState} from 'react'
-import {PlusCircleFilled, DollarCircleOutlined, UserOutlined} from "@ant-design/icons";
+import React, {FC, useEffect, useMemo, useState} from 'react'
+import {PlusCircleFilled, DollarCircleOutlined, UserOutlined, DeleteFilled} from "@ant-design/icons";
 import styles from './Portfolio.module.scss';
 import {Button, Divider, Table, Modal, Input, DatePicker, Radio, RadioChangeEvent} from "antd";
 import {Margin} from "../common/Margin";
@@ -8,41 +8,11 @@ import Title from "antd/es/typography/Title";
 import { Typography } from 'antd';
 import moment from "moment";
 import {v4 as uuid} from 'uuid'
-import portfolioSlice, {addPortfolio, PortfolioType} from "../../redux/reducers/portfolioSlice";
-import {DefaultRootState, useDispatch, useSelector} from "react-redux";
+import {addPortfolio, addTrade, PortfolioType, removePortfolio} from "../../redux/reducers/portfolioSlice";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {selectPortfolios} from "../../redux/selectors/portfolioSelectors";
 
 const { Text } = Typography;
-
-const data = [
-    {
-        key: '1',
-        name: 'Solana',
-        price: 101.48,
-        change_24h: 7.74,
-        avg_buy_price: 13,
-    },
-    {
-        key: '2',
-        name: 'Bitcoin',
-        price: 10000,
-        change_24h: 15.03,
-        avg_buy_price: 9000,
-    },
-    {
-        key: '3',
-        name: 'Etherium',
-        price: 3200,
-        change_24h: 12,
-        avg_buy_price: 2700,
-    },
-    {
-        key: '4',
-        name: 'Harmony',
-        price: 101.48,
-        change_24h: 7.74,
-        avg_buy_price: 13,
-    },
-];
 
 const columns = [
     {
@@ -51,21 +21,23 @@ const columns = [
         key: 'name',
     },
     {
-        title: 'Price',
-        dataIndex: 'price',
-        key: 'price',
+        title: 'Quantity',
+        dataIndex: 'quantity',
+        key: 'quantity',
     },
     {
-        title: '24h',
-        dataIndex: 'change_24h',
-        key: 'change_24h',
-    },
-    {
-        title: 'Avg.Buy Price',
-        dataIndex: 'avg_buy_price',
-        key: 'avg_buy_price',
+        title: 'Avg.Buy price',
+        dataIndex: 'avgPrice',
+        key: 'avgPrice',
     },
 ];
+
+type DataType = {
+    key: string,
+    name: string,
+    quantity: number
+    avgPrice: string,
+}
 
 const optionsTradeDirection = [
     { label: 'Buy', value: 'buy' },
@@ -87,8 +59,13 @@ const Portfolio:FC = () => {
     const [errorPortfolioName, setErrorPortfolioName] = useState<boolean>(false)
     const [errorQuantity, setErrorQuantity] = useState<boolean>(false)
     const [errorPriceCoin, setErrorPriceCoin] = useState<boolean>(false)
+    const [errorExsitName, setErrorExistName] = useState<boolean>(false)
+    const [selectedPortfolio, setSelectedPortfolio] = useState<string | null>(null)
+    const [data, setData] = useState<Array<DataType>>([])
 
-    const dispatch = useDispatch()
+    const portfolios = useAppSelector(selectPortfolios);
+
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         setTotalSpent(pricePerCoin * quantity)
@@ -111,6 +88,31 @@ const Portfolio:FC = () => {
             setErrorPortfolioName(false)
         }
     }, [newPortfolioName])
+
+
+    const portfolio = useMemo(() => {
+        return portfolios.find(p => p.id === selectedPortfolio)
+    }, [selectedPortfolio, portfolios])
+
+    useEffect(() => {
+        const rawData: Array<DataType> = []
+        if(!portfolio) return
+        Object.keys(portfolio.summaryCoinsInfo).forEach(coin => {
+            rawData.push({
+                key: coin,
+                name: coin,
+                quantity: portfolio.summaryCoinsInfo[coin].quantity,
+                avgPrice: `$${portfolio.summaryCoinsInfo[coin].avgPrice}`
+            })
+        })
+        setData(rawData)
+    }, [portfolio])
+
+
+    const sumOfPortfolio = useMemo(() => {
+        if(!portfolio) return 0
+        const obj = Object.values(portfolio.trades).flat(1)
+    }, [portfolio])
 
     const handleChangeQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuantity(Number(e.target.value))
@@ -145,9 +147,16 @@ const Portfolio:FC = () => {
                 quantity,
                 totalSpent,
                 direction,
-                date
+                date,
+                id: uuid()
             }
             setShowNewTradeModal(false)
+            if(selectedPortfolio) {
+                dispatch(addTrade({
+                    trade,
+                    portfolioId: selectedPortfolio,
+                }))
+            }
             clearForm()
         }
     }
@@ -161,17 +170,23 @@ const Portfolio:FC = () => {
     }
 
     const handleChangePortfolioName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setErrorExistName(false)
         setNewPortfolioName(e.target.value)
     }
 
     const handleClickNewPortfolio = () => {
         if(!newPortfolioName) {
             setErrorPortfolioName(true)
-        } else {
+        } else if (portfolios.find(p => p.name === newPortfolioName)) {
+            setErrorExistName(true)
+        }
+        else {
             const newPortfolio: PortfolioType = {
                 id: uuid(),
                 name: newPortfolioName,
-                trades: [],
+                trades: {},
+                totalSum: 0,
+                summaryCoinsInfo: {},
             }
             dispatch(addPortfolio(newPortfolio))
             setShowNewPortfolioModal(false)
@@ -183,10 +198,28 @@ const Portfolio:FC = () => {
     const handleClickCancelPortfolio = () => {
         setShowNewPortfolioModal(false)
         setErrorPortfolioName(false)
+        setErrorExistName(false)
         setNewPortfolioName('')
     }
 
-  return (
+    const onClickSelectPortfolio = (id: string) => {
+        setSelectedPortfolio(id)
+    }
+
+    const handleClickRemovePortfolio = (id: string) => {
+        dispatch(removePortfolio(id))
+    }
+
+    useEffect(() => {
+        setSelectedPortfolio(null)
+    }, [portfolios.length])
+
+    console.log('portfolio', portfolio)
+
+
+  // @ts-ignore
+    // @ts-ignore
+    return (
     <div className={styles.wrapper}>
         <div className={styles.leftSide}>
         <div className={styles.allPortfolio}><DollarCircleOutlined style={{fontSize: 36, marginRight: 10, color: "blue"}} />
@@ -196,24 +229,29 @@ const Portfolio:FC = () => {
             </div>
         </div>
         <Divider/>
-        <div className={styles.allPortfolio}><UserOutlined style={{fontSize: 36, marginRight: 10}} />
-            <div className={styles.infoBlock}>
-                <div>First portfolio</div>
-                <div>≈$300</div>
-            </div>
-        </div>
-        <div className={styles.allPortfolio}><UserOutlined style={{fontSize: 36, marginRight: 10}} />
-            <div className={styles.infoBlock}>
-                <div>Second portfolio</div>
-                <div>≈$300</div>
-            </div>
-        </div>
-        <div className={styles.allPortfolio}><UserOutlined style={{fontSize: 36, marginRight: 10}} />
-            <div className={styles.infoBlock}>
-                <div>My portfolio</div>
-                <div>≈$300</div>
-            </div>
-        </div>
+            {
+                portfolios.map(p => {
+                    return (
+                        <div
+                            key={p.id}
+                            className={`${styles.allPortfolio} ${p.id === selectedPortfolio && styles.selectedPortfolio}`}
+                            onClick={() => onClickSelectPortfolio(p.id)}
+                        >
+                            <UserOutlined style={{fontSize: 36, marginRight: 10}}
+                        />
+                            <div className={styles.infoBlock}>
+                                <div>{p.name}</div>
+                                <div>≈${p.totalSum}</div>
+                            </div>
+                                <div className={styles.actionButton}>
+                                    { p.id === selectedPortfolio &&
+                                    <DeleteFilled onClick={() => handleClickRemovePortfolio(p.id)} /> }
+                                </div>
+
+                        </div>
+                    )
+                })
+            }
 
         <div className={styles.createPortfolio} onClick={()=> setShowNewPortfolioModal(true)}><PlusCircleFilled /> Create portfolio</div>
         </div>
@@ -222,12 +260,16 @@ const Portfolio:FC = () => {
                 <div>Current Balance</div>
                 <div className={styles.summaryButtonBlock}>
                     <div className={styles.summary}>$635.10</div>
-                    <div><Button type="primary" shape="round" icon={<PlusCircleFilled />} onClick={() => setShowNewTradeModal(true)}>Add new</Button></div>
+                    {portfolios.length > 0 && selectedPortfolio && <div><Button type="primary" shape="round" icon={<PlusCircleFilled />} onClick={() => setShowNewTradeModal(true)}>Add new</Button></div>}
                 </div>
                 <Margin vertical={MARGIN.xxl}>
                     <Title level={4}>Your assets</Title>
                 </Margin>
-                <Table dataSource={data} columns={columns} />
+                {
+                    portfolio
+                        ? <Table dataSource={data} columns={columns} />
+                        : <Title level={5}>Please, select portfolios</Title>
+                }
             </div>
         </div>
             <Modal
@@ -245,6 +287,7 @@ const Portfolio:FC = () => {
                     onChange={handleChangePortfolioName}
                     value={newPortfolioName}
                 />
+                {errorExsitName && <Text style={{color: 'red', margin: 5}}>Name already used</Text>}
                 {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
             </Modal>
             <Modal

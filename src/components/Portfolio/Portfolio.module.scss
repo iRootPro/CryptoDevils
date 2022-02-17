@@ -27,15 +27,24 @@
 }
 
 .allPortfolio {
+  cursor: pointer;
   display: flex;
   align-items: center;
   font-size: 14px;
   width: 300px;
-  padding: 10px
+  padding: 10px;
+  div:last-child {
+    margin-left: auto;
+  }
 }
 
-.allPortfolio:hover {
-  background: #fbfcff;
+.selectedPortfolio {
+  background: #f2f2f2;
+}
+
+.actionButton {
+  position: relative;
+  right: 5px;
 }
 
 .createPortfolio {
