@@ -1,5 +1,3 @@
-@import 'antd/dist/antd.css';
-
 .modal {
     .title {
         font-weight: bold;
@@ -14,17 +12,9 @@
         }
     }
 
-    .ant-modal-body {
-        padding: 0 !important;
-    }
-
     .footerSelect {
         margin-bottom: 10px;
     }
-}
-
-.modal.ant-modal-body {
-    padding: 0 !important;
 }
 
 .modal.tag {

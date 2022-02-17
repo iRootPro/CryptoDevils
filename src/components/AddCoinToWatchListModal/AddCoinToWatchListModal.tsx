@@ -64,9 +64,7 @@ const AddCoinToWatchListModal: FC = () => {
 
     const debouncedMakeCoinList = useDebounce(makeCoinList, 500);
 
-    const handleOnChange: ChangeEventHandler<HTMLInputElement> | undefined = (
-        e,
-    ) => {
+    const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const searchTerm = e.target.value;
         setInputValue(searchTerm);
         debouncedMakeCoinList(searchTerm);
