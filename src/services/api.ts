@@ -1,7 +1,6 @@
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { TCoinByIdOHLC, TQueryOHLC } from "../types/ICoinByIdOHLC";
-import { ICoinRaw } from '../types/ICoin';
+import { ICoinIdData, ICoinRaw } from '../types/ICoin';
 import { ICoinListItem } from '../types/ICoinList';
 
 const cryptoApiHeaders = {
@@ -50,7 +49,10 @@ export const cryptoApi = createApi({
         getCoinByIdOHLC: builder.query<TCoinByIdOHLC[], TQueryOHLC>({
             query: ({ id, days }) => createRequest(`/coins/${id}/ohlc?vs_currency=usd&days=${days}`),
         }),
+        getCoinById: builder.query<ICoinIdData, string>({
+            query: (coinId) => createRequest(`/coins/${coinId}`),
+          }),
     }),
 });
 
-export const { useGetCoinsQuery, useGetCoinsListQuery, useGetCoinByIdOHLCQuery, useGetCoinsByIdsQuery } = cryptoApi;
+export const { useGetCoinsQuery, useGetCoinsListQuery, useGetCoinByIdOHLCQuery, useGetCoinsByIdsQuery, useGetCoinByIdQuery } = cryptoApi;

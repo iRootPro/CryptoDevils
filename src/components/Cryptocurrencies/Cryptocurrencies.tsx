@@ -1,8 +1,7 @@
 import { FC, useCallback, useState } from 'react';
-import { Spin, Table, TablePaginationConfig } from 'antd';
+import { Table, TablePaginationConfig } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Icon from '@ant-design/icons';
-import millify from 'millify';
 
 import CoinCard from '../CoinCard/CoinCard';
 
@@ -11,24 +10,18 @@ import { ICoinsData, ICoin, ICoinWL } from '../../types/ICoin';
 
 import { ReactComponent as CommonStar } from '../../assets/svg/commonStar.svg';
 import { ReactComponent as YellowStar } from '../../assets/svg/yellowStar.svg';
-import { ReactComponent as Spinner } from '../../assets/svg/spinner.svg';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-    addCoinToWatchList,
-    removeCoinFromWatchList,
-} from '../../redux/reducers/watchListSlice';
-import {
-    selectWatchList,
-    selectWatchListIds,
-} from '../../redux/selectors/watchListSelectors';
+import { addCoinToWatchList, removeCoinFromWatchList } from '../../redux/reducers/watchListSlice';
+import { selectWatchList, selectWatchListIds } from '../../redux/selectors/watchListSelectors';
 import { useSelectCoin } from '../../hooks/useSelectCoin';
 
 import styles from './Cryptocurrencies.module.scss';
 import { useModalSelectedCoinsContext } from '../../contexts/ModalSelectedCoinsContext';
+import { formatPercent, formatUSD, formatUSDforTable } from '../../utils/formatters';
 
 const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     const [pageSize, setPageSize] = useState(50);
-    const [isLoadingStar, setIsLoadingStar] = useState(false);
+
     const watchList: ICoinWL[] = useAppSelector(selectWatchList);
     const watchListIds: string[] = useAppSelector(selectWatchListIds);
     const { prepareCoin } = useSelectCoin();
@@ -37,7 +30,6 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     const dispatch = useAppDispatch();
 
     const handleOnStar = (coin: ICoin) => {
-        // setIsLoadingStar(true);
         const preparedCoin = prepareCoin(coin);
 
         if (!watchList.length) {
@@ -57,8 +49,6 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             dispatch(addCoinToWatchList(preparedCoin));
             addCoin({ ...preparedCoin, type: 'watchlist-modal-tag' });
         }
-
-        // setIsLoadingStar(false);
     };
 
     const onChangeTable = useCallback(
@@ -67,7 +57,6 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
         },
         [pageSize],
     );
-
     const columns: ColumnsType<ICoin> = [
         {
             title: '',
@@ -120,7 +109,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                     a.price - b.price,
                 multiple: 3,
             },
-            render: (price: number) => millify(price, { precision: 5 }),
+            render: (price: number) => formatUSDforTable(price),
         },
         {
             title: '24h %',
@@ -133,24 +122,14 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                 ) => a.dailychange - b.dailychange,
                 multiple: 2,
             },
-            render: (dailychange: number) => {
+            onCell: (dailychange: { dailychange: number }) => {
                 return {
-                    props: {
-                        style: {
-                            color: dailychange > 0 ? COLORS.green : COLORS.red,
-                        },
+                    style: {
+                        color: dailychange.dailychange > 0 ? COLORS.green : COLORS.red,
                     },
-                    children: (
-                        <div>
-                            {millify(dailychange, {
-                                units: ['%'],
-                                space: true,
-                                precision: 2,
-                            })}
-                        </div>
-                    ),
                 };
             },
+            render: (dailychange) => formatPercent(dailychange/100)
         },
         {
             title: 'Market Cap',
@@ -161,7 +140,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                     a.marketcap - b.marketcap,
                 multiple: 1,
             },
-            render: (marketCap: number) => millify(marketCap, { precision: 2 }),
+            render: (marketCap: number) => formatUSD(marketCap),
         },
     ];
 
