@@ -52,7 +52,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     };
 
     const onChangeTable = useCallback(
-        (pagination: TablePaginationConfig, sorter: any) => {
+        (pagination: TablePaginationConfig) => {
             pagination.pageSize && setPageSize(pagination.pageSize);
         },
         [pageSize],
