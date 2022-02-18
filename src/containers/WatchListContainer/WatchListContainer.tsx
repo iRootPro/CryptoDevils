@@ -25,6 +25,7 @@ const WatchListContainer: FC = () => {
         {
             currency: 'usd',
             ids: watchListString,
+            perPage: 250,
         },
         { skip },
     );

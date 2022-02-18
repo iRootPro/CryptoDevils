@@ -36,12 +36,13 @@ export const cryptoApi = createApi({
         }),
         getCoinsByIds: builder.query<
             ICoinRaw[],
-            { currency: string; ids: string }
+            { currency: string; ids: string; perPage: number }
         >({
-            query: ({ currency, ids }) =>
-                createRequest(
-                    `/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=250`,
-                ),
+            query: ({ currency, ids, perPage }) => {
+                return createRequest(
+                    `/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=${perPage}`,
+                );
+            },
         }),
         getCoinsList: builder.query<ICoinListItem[], string>({
             query: () => createRequest(`/coins/list`),

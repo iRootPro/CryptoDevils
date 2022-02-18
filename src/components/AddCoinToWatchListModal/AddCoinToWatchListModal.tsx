@@ -2,33 +2,76 @@ import { ChangeEventHandler, FC, useState } from 'react';
 import { Input, Button, List, Modal, Tag } from 'antd';
 
 import styles from './AddCoinToWatchListModal.module.scss';
+import { useModalVisibleContext } from '../../contexts/ModalVisibleContext';
 
 import CoinCard from '../CoinCard/CoinCard';
-import useModalCoinList from '../../hooks/useModalCoinList';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
     addCoinToWatchList,
     clearWatchList,
 } from '../../redux/reducers/watchListSlice';
-import { useModalVisibleContext } from '../../contexts/ModalVisibleContext';
 import { selectModalSelectedCoins } from '../../redux/selectors/modalSelectedCoinsSelectors';
 import {
     clearModalSelectedCoins,
     removeCoinFromModalSelectedCoins,
 } from '../../redux/reducers/modalSelectedCoinsSlice';
+import { ICoinListItem } from '../../types/ICoinList';
+import {
+    useGetCoinsByIdsQuery,
+    useGetCoinsListQuery,
+} from '../../services/api';
+import { useListDataCoins } from '../../hooks/useListDataCoins';
 
 const { Search } = Input;
 
 const AddCoinToWatchListModal: FC = () => {
     const { modalVisible, toogleModal } = useModalVisibleContext();
 
+    const [inputValue, setInputValue] = useState('');
+
     const selectedCoins = useAppSelector(selectModalSelectedCoins);
     const dispatch = useAppDispatch();
 
-    const [inputValue, setInputValue] = useState('');
+    const coinList = useGetCoinsListQuery('').data;
+    const [searchedCoinsIds, setSearchedCoinsIds] = useState<string[]>([]);
 
-    const { dataCoins, searchedCoinsIds, makeCoinList } = useModalCoinList();
+    const ids = searchedCoinsIds.join(',');
+    const pageLimit = inputValue && !ids ? 0 : 50;
+
+    const { data, error, isFetching, isLoading } = useGetCoinsByIdsQuery({
+        currency: 'usd',
+        ids: ids,
+        perPage: pageLimit,
+    });
+
+    const dataCoins = useListDataCoins(data);
+
+    if (error) console.log(`error fetching with status: ${error}`);
+
+    const parseCoinList = (searchTerm: string) => {
+        return coinList!.filter(
+            (coin) =>
+                coin.name.toLowerCase().replace(/\s/g, '').indexOf(searchTerm) >
+                -1,
+        );
+    };
+
+    const getCoinsIds = (coinList: ICoinListItem[]) => {
+        return coinList?.map((item) => item.id);
+    };
+
+    const makeSearchedCoinList = (searchTerm: string) => {
+        const searchedCoinList = searchTerm ? parseCoinList(searchTerm) : [];
+        const searchedIds = getCoinsIds(searchedCoinList);
+        if (searchedIds.join(',').length < 8093)
+            setSearchedCoinsIds(searchedIds);
+    };
+
+    const debouncedMakeSearchedCoinList = useDebounce(
+        makeSearchedCoinList,
+        500,
+    );
 
     const handleCancel = () => {
         toogleModal();
@@ -46,12 +89,10 @@ const AddCoinToWatchListModal: FC = () => {
         handleCancel();
     };
 
-    const debouncedMakeCoinList = useDebounce(makeCoinList, 500);
-
     const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const searchTerm = e.target.value;
         setInputValue(searchTerm);
-        debouncedMakeCoinList(searchTerm);
+        debouncedMakeSearchedCoinList(searchTerm);
     };
 
     const makeSelectedCoinsTags = () => {
@@ -111,12 +152,9 @@ const AddCoinToWatchListModal: FC = () => {
                 value={inputValue}
             />
             <List
+                loading={isLoading || isFetching}
                 itemLayout='horizontal'
-                dataSource={
-                    inputValue && !searchedCoinsIds?.length
-                        ? undefined
-                        : dataCoins
-                }
+                dataSource={dataCoins}
                 className={styles.list}
                 renderItem={(item) => (
                     <List.Item key={`listitem_${item.id}`}>
