@@ -20,6 +20,11 @@ import {
     selectWatchList,
     selectWatchListIds,
 } from '../../redux/selectors/watchListSelectors';
+import {
+    formatPercent,
+    formatUSD,
+    formatUSDforTable,
+} from '../../utils/formatters';
 
 const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     const [pageSize, setPageSize] = useState(50);
@@ -35,7 +40,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             image: coin.image,
             symbol: coin.symbol,
         };
-      
+
         if (!watchList.length) {
             dispatch(addCoinToWatchList(preparedCoin));
             return;
@@ -126,11 +131,14 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             onCell: (dailychange: { dailychange: number }) => {
                 return {
                     style: {
-                        color: dailychange.dailychange > 0 ? COLORS.green : COLORS.red,
+                        color:
+                            dailychange.dailychange > 0
+                                ? COLORS.green
+                                : COLORS.red,
                     },
                 };
             },
-            render: (dailychange) => formatPercent(dailychange/100)
+            render: (dailychange) => formatPercent(dailychange / 100),
         },
         {
             title: 'Market Cap',
