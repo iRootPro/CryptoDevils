@@ -158,14 +158,16 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     ];
 
     return (
-        <div>
-            <Table
-                columns={columns}
-                dataSource={dataCoins}
-                onChange={onChangeTable}
-                pagination={{ pageSize: pageSize, position: ['bottomCenter'] }}
-            />
-        </div>
+        <Table
+            columns={columns}
+            dataSource={dataCoins}
+            onChange={onChangeTable}
+            pagination={
+                dataCoins!.length < 10
+                    ? false
+                    : { pageSize: pageSize, position: ['bottomCenter'] }
+            }
+        />
     );
 };
 

@@ -1,11 +1,8 @@
-import { FC, useLayoutEffect, useMemo } from 'react';
+import { FC } from 'react';
 import { useAppSelector } from '../../hooks/redux';
-import {
-    selectWatchList,
-    selectWatchListIds,
-} from '../../redux/selectors/watchListSelectors';
+import { selectWatchListIds } from '../../redux/selectors/watchListSelectors';
 import { useGetCoinsByIdsQuery } from '../../services/api';
-import { ICoinRaw, ICoinsNormalized, ICoinWL } from '../../types/ICoin';
+import { ICoinsNormalized } from '../../types/ICoin';
 import { WatchList } from '../../components/components';
 import { useDataCoins } from '../../hooks/useDataCoins';
 

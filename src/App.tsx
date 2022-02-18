@@ -15,7 +15,7 @@ function App() {
     return (
         <Wrapper>
             <Navbar />
-            <Layout>
+            <Layout style={{ backgroundColor: '#fff' }}>
                 <Switch>
                     <Route
                         exact

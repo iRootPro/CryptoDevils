@@ -5,14 +5,17 @@
 
 .button.add {
     margin-right: 5px;
+    border-radius: 50px;
 }
 
 .button.clear {
     width: 150px;
     margin-left: auto;
+    border-radius: 50px;
 }
 
 .wrapper {
     display: flex;
     justify-content: end;
+    margin-bottom: 25px;
 }

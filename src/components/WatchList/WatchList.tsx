@@ -1,6 +1,6 @@
 import { FC, useEffect } from 'react';
 import { Button, ConfigProvider } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 import { AddCoinToWatchListModal, Cryptocurrencies } from '../components';
 import { EmptyWatchList } from '../EmptyWatchList/EmptyWatchList';
@@ -37,7 +37,7 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
             {watchList.length ? (
                 <div className={styles.wrapper}>
                     <Button
-                        icon={<PlusCircleOutlined />}
+                        icon={<DeleteOutlined />}
                         type='primary'
                         className={`${styles.button} ${styles.clear}`}
                         onClick={() => dispatch(clearWatchList())}>
