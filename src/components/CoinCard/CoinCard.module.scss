@@ -7,13 +7,13 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    &:hover {
-        background-color: #eff2f5;
-    }
 }
 
 .modalList.wrapper {
     justify-content: space-between;
+    &:hover {
+        background-color: #eff2f5;
+    }
 }
 
 .name,

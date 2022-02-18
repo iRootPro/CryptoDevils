@@ -21,25 +21,24 @@ import {
     selectWatchList,
     selectWatchListIds,
 } from '../../redux/selectors/watchListSelectors';
-import { useSelectCoin } from '../../hooks/useSelectCoin';
-
-import { useModalSelectedCoinsContext } from '../../contexts/ModalSelectedCoinsContext';
 
 const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     const [pageSize, setPageSize] = useState(50);
     const watchList: ICoinWL[] = useAppSelector(selectWatchList);
     const watchListIds: string[] = useAppSelector(selectWatchListIds);
-    const { prepareCoin } = useSelectCoin();
-    const { removeCoin, addCoin } = useModalSelectedCoinsContext();
 
     const dispatch = useAppDispatch();
 
     const handleOnStar = (coin: ICoin) => {
-        const preparedCoin = prepareCoin(coin);
+        const preparedCoin = {
+            name: coin.name,
+            id: coin.id,
+            image: coin.image,
+            symbol: coin.symbol,
+        };
 
         if (!watchList.length) {
             dispatch(addCoinToWatchList(preparedCoin));
-            addCoin({ ...preparedCoin, type: 'watchlist-modal-tag' });
             return;
         }
 
@@ -49,10 +48,8 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
 
         if (findedElem) {
             dispatch(removeCoinFromWatchList(findedElem));
-            removeCoin({ ...preparedCoin, type: 'watchlist-modal-tag' });
         } else {
             dispatch(addCoinToWatchList(preparedCoin));
-            addCoin({ ...preparedCoin, type: 'watchlist-modal-tag' });
         }
     };
 

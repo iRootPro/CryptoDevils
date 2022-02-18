@@ -1,5 +1,6 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Button, ConfigProvider } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
 
 import { AddCoinToWatchListModal, Cryptocurrencies } from '../components';
 import { EmptyWatchList } from '../EmptyWatchList/EmptyWatchList';
@@ -7,43 +8,55 @@ import { EmptyWatchList } from '../EmptyWatchList/EmptyWatchList';
 import { ICoinsData } from '../../types/ICoin';
 
 import styles from './WatchList.module.scss';
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { useModalVisible } from '../../hooks/useModal';
-import { ModalVisibleContext } from '../../contexts/ModalContext';
-import { ModalSelectedCoinsContext } from '../../contexts/ModalSelectedCoinsContext';
-import { useSelectCoin } from '../../hooks/useSelectCoin';
-import { useAppSelector } from '../../hooks/redux';
-import { selectWatchListIds } from '../../redux/selectors/watchListSelectors';
+
+import { ModalVisibleContext } from '../../contexts/ModalVisibleContext';
+import { useModalVisible } from '../../hooks/useModalVisible';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { selectWatchList } from '../../redux/selectors/watchListSelectors';
+import {
+    addCoinToModalSelectedCoins,
+    clearModalSelectedCoins,
+} from '../../redux/reducers/modalSelectedCoinsSlice';
+import { clearWatchList } from '../../redux/reducers/watchListSlice';
 
 const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
-    const watchListIds = useAppSelector(selectWatchListIds);
+    const watchList = useAppSelector(selectWatchList);
     const { modalVisible, toogleModal } = useModalVisible(false);
-    const { selectedCoinsIds, selectedCoins, addCoin, removeCoin } =
-        useSelectCoin();
+
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(clearModalSelectedCoins());
+        watchList.forEach((item) =>
+            dispatch(addCoinToModalSelectedCoins(item)),
+        );
+    }, [watchList]);
+
     return (
         <ModalVisibleContext.Provider value={{ modalVisible, toogleModal }}>
-            {watchListIds.length ? (
-                <Button
-                    icon={<PlusCircleOutlined />}
-                    type='primary'
-                    className={styles.button}
-                    onClick={toogleModal}>
-                    Add coins
-                </Button>
+            {watchList.length ? (
+                <div className={styles.wrapper}>
+                    <Button
+                        icon={<PlusCircleOutlined />}
+                        type='primary'
+                        className={`${styles.button} ${styles.clear}`}
+                        onClick={() => dispatch(clearWatchList())}>
+                        Clear watch list
+                    </Button>
+                    <Button
+                        icon={<PlusCircleOutlined />}
+                        type='primary'
+                        className={`${styles.button} ${styles.add}`}
+                        onClick={toogleModal}>
+                        Add coins
+                    </Button>
+                </div>
             ) : null}
 
-            <ModalSelectedCoinsContext.Provider
-                value={{
-                    selectedCoinsIds,
-                    selectedCoins,
-                    addCoin,
-                    removeCoin,
-                }}>
-                <ConfigProvider renderEmpty={() => <EmptyWatchList />}>
-                    <Cryptocurrencies dataCoins={dataCoins} />
-                </ConfigProvider>
-                <AddCoinToWatchListModal />
-            </ModalSelectedCoinsContext.Provider>
+            <ConfigProvider renderEmpty={() => <EmptyWatchList />}>
+                <Cryptocurrencies dataCoins={dataCoins} />
+            </ConfigProvider>
+            <AddCoinToWatchListModal />
         </ModalVisibleContext.Provider>
     );
 };

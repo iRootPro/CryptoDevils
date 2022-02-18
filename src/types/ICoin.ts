@@ -36,7 +36,7 @@ export interface ICoinCard {
 }
 
 export type ICoinsResponse = ICoinRaw[] | undefined;
-export type ICoinsNormalized = ICoin[];
+export type ICoinsNormalized = ICoin[] | undefined;
 
 export type ICoinsData = {
     dataCoins: ICoinsNormalized;

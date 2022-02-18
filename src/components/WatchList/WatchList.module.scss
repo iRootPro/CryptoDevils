@@ -1,5 +1,18 @@
 .button {
     width: 130px;
     margin: 5px;
+}
+
+.button.add {
+    margin-right: 5px;
+}
+
+.button.clear {
+    width: 150px;
     margin-left: auto;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: end;
 }

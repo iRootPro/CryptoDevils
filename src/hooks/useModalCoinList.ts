@@ -27,7 +27,7 @@ const useModalCoinList = () => {
     }
 
     const parseCoinList = (searchTerm: string) => {
-        return coinList?.filter(
+        return coinList!.filter(
             (coin) =>
                 coin.name.toLowerCase().replace(/\s/g, '').indexOf(searchTerm) >
                 -1,
@@ -35,7 +35,12 @@ const useModalCoinList = () => {
     };
 
     const getCoinsIds = (coinList: ICoinList) => {
-        return coinList?.map((item) => item.id);
+        return coinList.map((item) => item.id);
+    };
+
+    const makeCoinList = (searchTerm: string) => {
+        const searchedCoinList = searchTerm ? parseCoinList(searchTerm) : [];
+        setSearchedCoinsIds(getCoinsIds(searchedCoinList));
     };
 
     return {
@@ -44,6 +49,7 @@ const useModalCoinList = () => {
         dataCoins,
         setSearchedCoinsIds,
         searchedCoinsIds,
+        makeCoinList,
     };
 };
 

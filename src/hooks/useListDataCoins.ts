@@ -1,11 +1,7 @@
-import { useMemo } from 'react';
 import { ICoinRaw, ICoinsResponse } from '../types/ICoin';
-import { ICoinListWL, ICoinListItemWL } from '../types/ICoinList';
+import { ICoinListWL } from '../types/ICoinList';
 
-type IUseDataCoins = (
-    data: ICoinsResponse,
-    refetch?: () => void,
-) => ICoinListWL;
+type IUseDataCoins = (data: ICoinsResponse) => ICoinListWL;
 
 export const useListDataCoins: IUseDataCoins = (data) => {
     const dataCoins: ICoinListWL = data?.map((coin: ICoinRaw) => ({

@@ -6,7 +6,7 @@ import styles from './EmptyWatchList.module.scss';
 import { ReactComponent as CommonStar } from '../../assets/svg/commonStar.svg';
 
 import { AddCoinToWatchListModal } from '../components';
-import { useModalContext } from '../../contexts/ModalContext';
+import { useModalVisibleContext } from '../../contexts/ModalVisibleContext';
 
 export const EmptyWatchList: FC = () => {
     return (
@@ -60,7 +60,7 @@ const SkeletonInput: FC<{ width: number }> = ({ width }) => {
 };
 
 const WatchListMessage: FC = () => {
-    const { toogleModal } = useModalContext();
+    const { toogleModal } = useModalVisibleContext();
 
     return (
         <div className={styles.message}>

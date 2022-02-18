@@ -1,13 +1,14 @@
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 50px;
-  >.content {
-    width: 80%
-  }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 50px;
+    > .content {
+        width: 100%;
+        @media screen and (min-width: 1200px) {
+            width: 80%;
+        }
+    }
 }
-
-

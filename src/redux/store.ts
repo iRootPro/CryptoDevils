@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { cryptoApi } from '../services/api';
 import watchListReducer from './reducers/watchListSlice';
+import modalSelectedCoinsReducer from './reducers/modalSelectedCoinsSlice';
 import {
     persistStore,
     persistReducer,
@@ -16,12 +17,13 @@ import storage from 'redux-persist/lib/storage';
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['cryptoApi'],
+    blacklist: ['cryptoApi', 'modalSelectedCoinsReducer'],
 };
 
 const rootReducer = combineReducers({
     [cryptoApi.reducerPath]: cryptoApi.reducer,
     watchListReducer: watchListReducer,
+    modalSelectedCoinsReducer: modalSelectedCoinsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

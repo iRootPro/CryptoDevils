@@ -2,64 +2,48 @@ import { ChangeEventHandler, FC, useState } from 'react';
 import { Input, Button, List, Modal, Tag } from 'antd';
 
 import styles from './AddCoinToWatchListModal.module.scss';
-import { useModalContext } from '../../contexts/ModalContext';
 
 import CoinCard from '../CoinCard/CoinCard';
 import useModalCoinList from '../../hooks/useModalCoinList';
 import { useDebounce } from '../../hooks/useDebounce';
-import { useSelectCoin } from '../../hooks/useSelectCoin';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
     addCoinToWatchList,
     clearWatchList,
 } from '../../redux/reducers/watchListSlice';
-import { useModalSelectedCoinsContext } from '../../contexts/ModalSelectedCoinsContext';
+import { useModalVisibleContext } from '../../contexts/ModalVisibleContext';
+import { selectModalSelectedCoins } from '../../redux/selectors/modalSelectedCoinsSelectors';
+import {
+    clearModalSelectedCoins,
+    removeCoinFromModalSelectedCoins,
+} from '../../redux/reducers/modalSelectedCoinsSlice';
 
 const { Search } = Input;
 
 const AddCoinToWatchListModal: FC = () => {
-    const { modalVisible, toogleModal } = useModalContext();
-    const { prepareCoin } = useSelectCoin();
-    const { removeCoin, selectedCoins } = useModalSelectedCoinsContext();
+    const { modalVisible, toogleModal } = useModalVisibleContext();
 
-    const [loading, setLoading] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-
+    const selectedCoins = useAppSelector(selectModalSelectedCoins);
     const dispatch = useAppDispatch();
 
-    const {
-        getCoinsIds,
-        parseCoinList,
-        dataCoins,
-        setSearchedCoinsIds,
-        searchedCoinsIds,
-    } = useModalCoinList();
+    const [inputValue, setInputValue] = useState('');
+
+    const { dataCoins, searchedCoinsIds, makeCoinList } = useModalCoinList();
 
     const handleCancel = () => {
         toogleModal();
         setInputValue('');
+        dispatch(clearModalSelectedCoins());
     };
 
     const handleOK = () => {
-        setLoading(true);
-
-        const preparedCoins = selectedCoins.map(prepareCoin);
-
         dispatch(clearWatchList());
 
-        preparedCoins.forEach((coin) => {
+        selectedCoins.forEach((coin) => {
             dispatch(addCoinToWatchList(coin));
         });
 
-        setLoading(false);
-        toogleModal();
-
-        setInputValue('');
-    };
-
-    const makeCoinList = (searchTerm: string) => {
-        const searchedCoinList = searchTerm ? parseCoinList(searchTerm) : [];
-        setSearchedCoinsIds(getCoinsIds(searchedCoinList));
+        handleCancel();
     };
 
     const debouncedMakeCoinList = useDebounce(makeCoinList, 500);
@@ -78,7 +62,7 @@ const AddCoinToWatchListModal: FC = () => {
                     className={`${styles.tag} ${styles.modal}`}
                     closable
                     onClose={() => {
-                        removeCoin(item);
+                        dispatch(removeCoinFromModalSelectedCoins(item));
                     }}>
                     <CoinCard
                         key={`tag_coincard_${item.id}`}
@@ -114,7 +98,6 @@ const AddCoinToWatchListModal: FC = () => {
                 <Button
                     key='modal_submit'
                     type='primary'
-                    loading={loading}
                     block
                     onClick={handleOK}>
                     OK

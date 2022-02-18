@@ -3,17 +3,23 @@ import { Avatar, Typography } from 'antd';
 import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
-import { useModalSelectedCoinsContext } from '../../contexts/ModalSelectedCoinsContext';
-import { ICoinCard } from '../../types/ICoin';
+
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import {
+    addCoinToModalSelectedCoins,
+    removeCoinFromModalSelectedCoins,
+} from '../../redux/reducers/modalSelectedCoinsSlice';
+import { selectModalSelectedCoinsIds } from '../../redux/selectors/modalSelectedCoinsSelectors';
+import { ICoinCard, ICoinWL } from '../../types/ICoin';
 import styles from './CoinCard.module.scss';
 
 const { Text } = Typography;
 
 const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type }) => {
-    const { removeCoin, addCoin, selectedCoinsIds, selectedCoins } =
-        useModalSelectedCoinsContext();
-
     const [showSelect, setShowSelect] = useState(false);
+
+    const selectedCoinsIds = useAppSelector(selectModalSelectedCoinsIds);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         selectedCoinsIds.length
@@ -24,16 +30,15 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type }) => {
     const handleOnClick = () => {
         setShowSelect(!showSelect);
 
-        const coin = {
+        const coin: ICoinWL = {
             id,
             image,
             name,
             symbol,
-            type,
         };
 
-        if (showSelect) removeCoin(coin);
-        else addCoin(coin);
+        if (showSelect) dispatch(removeCoinFromModalSelectedCoins(coin));
+        else dispatch(addCoinToModalSelectedCoins(coin));
     };
 
     if (type === 'cryptocurrencies')
