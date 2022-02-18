@@ -1,0 +1,35 @@
+$symbolColor: #58667e;
+$symbolBackgroundColor: #eff2f5;
+
+
+.linksMenu {
+    margin-top: 20px;
+}
+
+.homePage {
+    padding: 7px;
+    border: 1px solid $symbolBackgroundColor;
+    background-color: $symbolBackgroundColor;
+    margin-right: 5px;
+    border-radius: 10px;
+    &:hover {
+        background-color: #808a9d;
+        a, svg {
+            color: #fff;
+        }
+    }
+}
+
+.homePageLink.homePageButton {
+    height: 35px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    text-decoration: none;
+    color: #000;
+    &:hover {
+        color: #fff;
+        border-color: $symbolBackgroundColor;
+    }
+}
+

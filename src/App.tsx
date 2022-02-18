@@ -17,26 +17,10 @@ function App() {
             <Navbar />
             <Layout style={{ backgroundColor: '#fff' }}>
                 <Switch>
-                    <Route
-                        exact
-                        path={ROUTES.main}
-                        render={() => <CryptocurrenciesContainer />}
-                    />
-                    <Route
-                        exact
-                        path={ROUTES.coin}
-                        render={() => <CoinDetails />}
-                    />
-                    <Route
-                        exact
-                        path={ROUTES.portfolio}
-                        render={() => <Portfolio />}
-                    />
-                    <Route
-                        exact
-                        path={ROUTES.watchlist}
-                        render={() => <WatchListContainer />}
-                    />
+                  <Route exact path={ROUTES.main} render={() => <CryptocurrenciesContainer />} />
+                  <Route exact path={`${ROUTES.coin}/:id`} render={() => <CoinDetails />} />
+                  <Route exact path={ROUTES.portfolio} render={() => <Portfolio />} />
+                  <Route exact path={ROUTES.watchlist} render={() => <WatchListContainer />} />
                 </Switch>
             </Layout>
             <Footer />

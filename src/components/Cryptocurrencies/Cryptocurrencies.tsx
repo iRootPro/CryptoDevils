@@ -2,7 +2,6 @@ import { FC, useCallback, useState } from 'react';
 import { Table, TablePaginationConfig } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Icon from '@ant-design/icons';
-import millify from 'millify';
 
 import CoinCard from '../CoinCard/CoinCard';
 
@@ -36,7 +35,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             image: coin.image,
             symbol: coin.symbol,
         };
-
+      
         if (!watchList.length) {
             dispatch(addCoinToWatchList(preparedCoin));
             return;
@@ -59,7 +58,6 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
         },
         [pageSize],
     );
-
     const columns: ColumnsType<ICoin> = [
         {
             title: '',
@@ -112,7 +110,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                     a.price - b.price,
                 multiple: 3,
             },
-            render: (price: number) => millify(price, { precision: 5 }),
+            render: (price: number) => formatUSDforTable(price),
         },
         {
             title: '24h %',
@@ -125,24 +123,14 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                 ) => a.dailychange - b.dailychange,
                 multiple: 2,
             },
-            render: (dailychange: number) => {
+            onCell: (dailychange: { dailychange: number }) => {
                 return {
-                    props: {
-                        style: {
-                            color: dailychange > 0 ? COLORS.green : COLORS.red,
-                        },
+                    style: {
+                        color: dailychange.dailychange > 0 ? COLORS.green : COLORS.red,
                     },
-                    children: (
-                        <div>
-                            {millify(dailychange, {
-                                units: ['%'],
-                                space: true,
-                                precision: 2,
-                            })}
-                        </div>
-                    ),
                 };
             },
+            render: (dailychange) => formatPercent(dailychange/100)
         },
         {
             title: 'Market Cap',
@@ -153,7 +141,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                     a.marketcap - b.marketcap,
                 multiple: 1,
             },
-            render: (marketCap: number) => millify(marketCap, { precision: 2 }),
+            render: (marketCap: number) => formatUSD(marketCap),
         },
     ];
 

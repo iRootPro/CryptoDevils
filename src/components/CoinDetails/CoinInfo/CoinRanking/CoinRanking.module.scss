@@ -1,0 +1,21 @@
+$symbolColor: #58667e;
+$symbolBackgroundColor: #eff2f5;
+
+.rankingSection {
+    display: flex;
+    flex-wrap: wrap;
+
+    .category,
+    .rankingText {
+        text-transform: uppercase;
+        font-weight: 600;
+        color: $symbolColor;
+        font-size: 12px;
+        line-height: 100%;
+        border: 1px solid $symbolBackgroundColor;
+        border-radius: 10px;
+        padding: 5px;
+        background-color: $symbolBackgroundColor;
+        margin: 5px 5px 5px 0;
+    }
+}
