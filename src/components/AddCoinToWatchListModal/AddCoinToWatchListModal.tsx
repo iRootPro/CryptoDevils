@@ -1,11 +1,17 @@
-import { ChangeEventHandler, FC, useState } from 'react';
+import {
+    ChangeEvent,
+    ChangeEventHandler,
+    FC,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react';
 import { Input, Button, List, Modal, Tag } from 'antd';
 
 import styles from './AddCoinToWatchListModal.module.scss';
 import { useModalVisibleContext } from '../../contexts/ModalVisibleContext';
 
 import CoinCard from '../CoinCard/CoinCard';
-import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
     addCoinToWatchList,
@@ -22,6 +28,7 @@ import {
     useGetCoinsListQuery,
 } from '../../services/api';
 import { useListDataCoins } from '../../hooks/useListDataCoins';
+import { debounce } from '../../utils/debounce';
 
 const { Search } = Input;
 
@@ -39,16 +46,16 @@ const AddCoinToWatchListModal: FC = () => {
     const ids = searchedCoinsIds.join(',');
     const pageLimit = inputValue && !ids ? 0 : 50;
 
-    const { data, error, isFetching, isLoading } = useGetCoinsByIdsQuery({
+    const { data, error } = useGetCoinsByIdsQuery({
         currency: 'usd',
         ids: ids,
         perPage: pageLimit,
     });
 
-    const dataCoins = useListDataCoins(data);
-
     if (error)
         console.log(`error fetching with status: ${JSON.stringify(error)}`);
+
+    const dataCoins = useListDataCoins(data);
 
     const parseCoinList = (searchTerm: string) => {
         return coinList!.filter(
@@ -62,7 +69,9 @@ const AddCoinToWatchListModal: FC = () => {
         return coinList?.map((item) => item.id);
     };
 
-    const makeSearchedCoinList = (searchTerm: string) => {
+    const makeSearchedCoinList = () => {
+        const searchTerm = inputValue;
+
         const searchedCoinList = searchTerm ? parseCoinList(searchTerm) : [];
         const searchedIds = getCoinsIds(searchedCoinList);
 
@@ -80,15 +89,26 @@ const AddCoinToWatchListModal: FC = () => {
         setSearchedCoinsIds(lengthNormalizedSearchedIds);
     };
 
-    const debouncedMakeSearchedCoinList = useDebounce(
-        makeSearchedCoinList,
-        500,
-    );
+    useEffect(() => {
+        makeSearchedCoinList();
+    }, [inputValue]);
+
+    const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+        setInputValue(e.target.value);
+    };
+
+    const [debouncedHandleChange, teardown] = useMemo(() => {
+        return debounce<ChangeEvent<HTMLInputElement>, void>(
+            handleOnChange,
+            300,
+        );
+    }, [inputValue]);
 
     const handleCancel = () => {
         toogleModal();
         setInputValue('');
         dispatch(clearModalSelectedCoins());
+        teardown();
     };
 
     const handleOK = () => {
@@ -99,12 +119,6 @@ const AddCoinToWatchListModal: FC = () => {
         });
 
         handleCancel();
-    };
-
-    const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-        const searchTerm = e.target.value;
-        setInputValue(searchTerm);
-        debouncedMakeSearchedCoinList(searchTerm);
     };
 
     const makeSelectedCoinsTags = () => {
@@ -160,11 +174,9 @@ const AddCoinToWatchListModal: FC = () => {
                 defaultValue={''}
                 allowClear
                 placeholder='Search'
-                onChange={handleOnChange}
-                value={inputValue}
+                onChange={debouncedHandleChange}
             />
             <List
-                loading={isLoading || isFetching}
                 itemLayout='horizontal'
                 dataSource={dataCoins}
                 className={styles.list}
