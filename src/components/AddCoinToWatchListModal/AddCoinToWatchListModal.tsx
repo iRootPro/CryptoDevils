@@ -47,7 +47,8 @@ const AddCoinToWatchListModal: FC = () => {
 
     const dataCoins = useListDataCoins(data);
 
-    if (error) console.log(`error fetching with status: ${error}`);
+    if (error)
+        console.log(`error fetching with status: ${JSON.stringify(error)}`);
 
     const parseCoinList = (searchTerm: string) => {
         return coinList!.filter(
@@ -64,8 +65,19 @@ const AddCoinToWatchListModal: FC = () => {
     const makeSearchedCoinList = (searchTerm: string) => {
         const searchedCoinList = searchTerm ? parseCoinList(searchTerm) : [];
         const searchedIds = getCoinsIds(searchedCoinList);
-        if (searchedIds.join(',').length < 8093)
-            setSearchedCoinsIds(searchedIds);
+
+        let lengthNormalizedSearchedIds: string[] = [];
+
+        if (searchedIds.join(',').length < 8000)
+            lengthNormalizedSearchedIds = searchedIds;
+        else {
+            let index = 0;
+            do {
+                lengthNormalizedSearchedIds.push(searchedIds[index++]);
+            } while (lengthNormalizedSearchedIds.join(',').length < 8000);
+        }
+
+        setSearchedCoinsIds(lengthNormalizedSearchedIds);
     };
 
     const debouncedMakeSearchedCoinList = useDebounce(
