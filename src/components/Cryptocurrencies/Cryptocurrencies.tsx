@@ -25,37 +25,12 @@ import {
     formatUSD,
     formatUSDforTable,
 } from '../../utils/formatters';
+import { useAddCoinToWL } from '../../hooks/useAddCoinToWL';
 
 const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     const [pageSize, setPageSize] = useState(50);
-    const watchList: ICoinWL[] = useAppSelector(selectWatchList);
-    const watchListIds: string[] = useAppSelector(selectWatchListIds);
 
-    const dispatch = useAppDispatch();
-
-    const handleOnStar = (coin: ICoin) => {
-        const preparedCoin = {
-            name: coin.name,
-            id: coin.id,
-            image: coin.image,
-            symbol: coin.symbol,
-        };
-
-        if (!watchList.length) {
-            dispatch(addCoinToWatchList(preparedCoin));
-            return;
-        }
-
-        const findedElem = watchList.find(
-            (coin) => coin.id === preparedCoin.id,
-        );
-
-        if (findedElem) {
-            dispatch(removeCoinFromWatchList(findedElem));
-        } else {
-            dispatch(addCoinToWatchList(preparedCoin));
-        }
-    };
+    const { watchListIds, handleOnStar } = useAddCoinToWL();
 
     const onChangeTable = useCallback(
         (pagination: TablePaginationConfig) => {
