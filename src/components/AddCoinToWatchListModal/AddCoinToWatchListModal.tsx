@@ -22,7 +22,7 @@ import {
     clearModalSelectedCoins,
     removeCoinFromModalSelectedCoins,
 } from '../../redux/reducers/modalSelectedCoinsSlice';
-import { ICoinListItem } from '../../types/ICoinList';
+import { ICoinListItem, ICoinListWL } from '../../types/ICoinList';
 import {
     useGetCoinsByIdsQuery,
     useGetCoinsListQuery,
@@ -46,6 +46,8 @@ const AddCoinToWatchListModal: FC = () => {
     const ids = searchedCoinsIds.join(',');
     const pageLimit = inputValue && !ids ? 0 : 50;
 
+    const [isListLoading, setIsListLoading] = useState(false);
+
     const { data, error } = useGetCoinsByIdsQuery({
         currency: 'usd',
         ids: ids,
@@ -55,7 +57,49 @@ const AddCoinToWatchListModal: FC = () => {
     if (error)
         console.log(`error fetching with status: ${JSON.stringify(error)}`);
 
-    const dataCoins = useListDataCoins(data);
+    const [dataCoins, setDataCoins] = useState<ICoinListWL>([]);
+
+    useEffect(() => {
+        setIsListLoading(true);
+        setDataCoins([]);
+        makeSearchedCoinList();
+    }, [inputValue]);
+
+    useEffect(() => {
+        setDataCoins(useListDataCoins(data));
+    }, [data]);
+
+    useEffect(() => {
+        if (
+            inputValue &&
+            data?.length !== 0 &&
+            searchedCoinsIds.length !== 0 &&
+            dataCoins?.length !== 0
+        )
+            setIsListLoading(false);
+        else setIsListLoading(true);
+
+        if (inputValue && data?.length === 0 && dataCoins?.length === 0)
+            setIsListLoading(false);
+
+        if (
+            inputValue &&
+            data?.length === 0 &&
+            searchedCoinsIds.length !== 0 &&
+            dataCoins?.length === 0
+        )
+            setIsListLoading(true);
+
+        if (
+            inputValue &&
+            data?.length !== 0 &&
+            searchedCoinsIds.length !== 0 &&
+            dataCoins?.length === 0
+        )
+            setIsListLoading(true);
+
+        if (!inputValue) setIsListLoading(false);
+    }, [inputValue, dataCoins, searchedCoinsIds]);
 
     const parseCoinList = (searchTerm: string) => {
         return coinList!.filter(
@@ -88,10 +132,6 @@ const AddCoinToWatchListModal: FC = () => {
 
         setSearchedCoinsIds(lengthNormalizedSearchedIds);
     };
-
-    useEffect(() => {
-        makeSearchedCoinList();
-    }, [inputValue]);
 
     const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         setInputValue(e.target.value);
@@ -177,6 +217,7 @@ const AddCoinToWatchListModal: FC = () => {
                 onChange={debouncedHandleChange}
             />
             <List
+                loading={isListLoading}
                 itemLayout='horizontal'
                 dataSource={dataCoins}
                 className={styles.list}
