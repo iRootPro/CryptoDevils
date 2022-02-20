@@ -1,8 +1,11 @@
-import { CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Typography } from 'antd';
-import { FC } from 'react';
+import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Button, Card, Spin, Typography } from 'antd';
+import { FC, useLayoutEffect, useState } from 'react';
 import { COLORS } from '../../../constants/colors';
-import { ICoin } from '../../../types/ICoin';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import { removeCoinFromWatchList } from '../../../redux/reducers/watchListSlice';
+import { selectWatchListIds } from '../../../redux/selectors/watchListSelectors';
+import { ICoin, ICoinWL } from '../../../types/ICoin';
 import {
     formatPercent,
     formatUSD,
@@ -24,9 +27,40 @@ const WatchListCardItem: FC<ICoin> = ({
     image,
     marketcap,
 }) => {
+    const [isCardLoading, setIsCardLoading] = useState(false);
+
+    const watchListIds: string[] = useAppSelector(selectWatchListIds);
+    const dispatch = useAppDispatch();
+
+    useLayoutEffect(() => {
+        const findedElem = watchListIds.find(
+            (watchListID) => watchListID === id,
+        );
+        if (findedElem) {
+            setIsCardLoading(false);
+        }
+    }, []);
+
+    const handleClose = () => {
+        setIsCardLoading(true);
+        const coin: ICoinWL = {
+            name: name,
+            id: id,
+            image: image,
+            symbol: symbol,
+        };
+
+        dispatch(removeCoinFromWatchList(coin));
+    };
+
     return (
         <Card hoverable className={styles.card}>
-            <Button type='ghost' className={`${styles.close} ${styles.btn}`}>
+            {isCardLoading ? <HoverLoading /> : null}
+
+            <Button
+                onClick={handleClose}
+                type='ghost'
+                className={`${styles.close} ${styles.btn}`}>
                 <CloseOutlined />
             </Button>
 
@@ -53,6 +87,15 @@ const WatchListCardItem: FC<ICoin> = ({
                 Marketcap: {formatUSD(marketcap)}
             </Paragraph>
         </Card>
+    );
+};
+
+const HoverLoading: FC = () => {
+    const antIcon = <LoadingOutlined style={{ fontSize: 30 }} spin />;
+    return (
+        <div className={styles.hover}>
+            <Spin indicator={antIcon} />
+        </div>
     );
 };
 

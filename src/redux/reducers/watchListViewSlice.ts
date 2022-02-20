@@ -12,8 +12,6 @@ const watchListView = createSlice({
     initialState: initialState,
     reducers: {
         changeView(state) {
-            console.log('reducer');
-
             if (state.view === 'table') state.view = 'cards';
             else state.view = 'table';
         },
