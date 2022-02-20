@@ -1,22 +1,26 @@
 
-import { Options } from "highcharts";
-import { Dispatch, SetStateAction } from "react";
-import { TCoinByIdOHLC } from "../../types/ICoinByIdOHLC";
+import { Options } from 'highcharts';
+import { Dispatch, SetStateAction } from 'react';
+import { TCoinByIdOHLC } from '../../types/ICoinByIdOHLC';
 
 export type TChartOptions = {
-  setDays: Dispatch<SetStateAction<number | string>>,
-  data: TCoinByIdOHLC[],
+  setDays: Dispatch<SetStateAction<number | 'max'>>,
+  data: TCoinByIdOHLC[] | undefined,
   name: string,
   averagePrice?: number,
+  selected: number,
+  setSelected: Dispatch<SetStateAction<number>>,
 }
 
-export const configureOptions = ({ data, name, setDays, averagePrice }: TChartOptions): Options => ({
+export const configureOptions = (
+  { data, name, setDays, averagePrice, selected, setSelected }: TChartOptions
+): Options => ({
   yAxis: {
     opposite: true,
     offset: 30,
     plotLines: [{
       value: averagePrice,
-      width: 1,
+      width: 3,
       color: 'green',
       dashStyle: 'Dash',
       label: {
@@ -34,11 +38,18 @@ export const configureOptions = ({ data, name, setDays, averagePrice }: TChartOp
     zoomType: 'xy'
   },
   rangeSelector: {
+    allButtonsEnabled: true,
     buttons: [{
       type: 'day',
       count: 7,
       text: '7d',
       title: 'View 7 days',
+      events: {
+        click: function () {
+          setSelected(0);
+          setDays(30);
+        }
+      }
     }, {
       type: 'day',
       count: 14,
@@ -46,6 +57,7 @@ export const configureOptions = ({ data, name, setDays, averagePrice }: TChartOp
       title: 'View 14 days',
       events: {
         click: function () {
+          setSelected(1);
           setDays(30);
         }
       }
@@ -53,35 +65,45 @@ export const configureOptions = ({ data, name, setDays, averagePrice }: TChartOp
       type: 'month',
       count: 6,
       text: '6m',
-      title: 'View 6 months'
+      title: 'View 6 months',
+      events: {
+        click: function () {
+          setSelected(2);
+          setDays(365);
+        }
+      },
     }, {
       type: 'month',
       count: 12,
-      text: '12m',
-      title: 'View 12 months'
-    }, {
-      type: 'year',
-      count: 3,
-      text: '3y',
-      title: 'View 3 year'
-    }, {
-      type: 'ytd',
-      text: 'YTD',
-      title: 'View year to date',
+      text: 'year',
+      title: 'View 1 year',
       events: {
         click: function () {
+          setSelected(3);
           setDays(365);
         }
       }
     }, {
-      type: 'ytd',
+      type: 'year',
+      count: 3,
+      text: '3y',
+      title: 'View 3 year',
+      events: {
+        click: function () {
+          setSelected(4);
+          setDays('max');
+        }
+      },
+    }, {
+      type: 'all',
       text: 'Full',
       title: 'View for full data',
       events: {
         click: function () {
+          setSelected(5);
           setDays('max');
         }
-      }
+      },
     }, {
       type: 'all',
       text: 'All',
@@ -118,7 +140,7 @@ export const configureOptions = ({ data, name, setDays, averagePrice }: TChartOp
       color: 'silver',
       fontWeight: 'bold'
     },
-    selected: 1
+    selected,
   },
   stockTools: {
     gui: {

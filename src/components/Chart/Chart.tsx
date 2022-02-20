@@ -94,7 +94,7 @@ const Chart: FC<TPropsChart> = ({ options }) => {
 };
 
 type TPropsChart = {
-  options: Options;
+  	options: Options;
 }
 
 export default Chart;
