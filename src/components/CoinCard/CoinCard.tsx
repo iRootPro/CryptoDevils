@@ -45,7 +45,10 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
         return (
             <Link to={`${ROUTES.coin}/${id}`} className={styles.link}>
                 <div className={styles.wrapper}>
-                    <Avatar src={`${image}`} />
+                    <Avatar
+                        src={`${image}`}
+                        className={`${styles.image} ${styles.fix}`}
+                    />
                     <Text className={styles.name}>{name}</Text>
                     <Text className={styles.symbol}>{symbol}</Text>
                 </div>
@@ -57,7 +60,10 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                 className={`${styles.wrapper} ${styles.modalList}`}
                 onClick={handleOnClick}>
                 <div className={styles.centerContent}>
-                    <Avatar src={`${image}`} />
+                    <Avatar
+                        src={`${image}`}
+                        className={`${styles.image} ${styles.fix}`}
+                    />
                     <Text className={styles.name}>{name}</Text>
                     <Text className={styles.symbol}>{symbol}</Text>
                 </div>
@@ -83,7 +89,7 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                     </Text>
                     <Avatar
                         src={`${image}`}
-                        className={`${styles.image} ${styles.WLCardView}`}
+                        className={`${styles.image} ${styles.fix}`}
                     />
                     <Text className={`${styles.name} ${styles.WLCardView}`}>
                         {name}
