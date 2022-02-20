@@ -3,6 +3,7 @@ import {
     ChangeEventHandler,
     FC,
     useEffect,
+    useLayoutEffect,
     useMemo,
     useState,
 } from 'react';
@@ -69,7 +70,7 @@ const AddCoinToWatchListModal: FC = () => {
         setDataCoins(useListDataCoins(data));
     }, [data]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (
             inputValue &&
             data?.length !== 0 &&
