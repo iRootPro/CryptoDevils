@@ -1,6 +1,10 @@
 import { FC, useEffect } from 'react';
 import { Button, ConfigProvider } from 'antd';
-import { DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import {
+    AppstoreOutlined,
+    DeleteOutlined,
+    PlusCircleOutlined,
+} from '@ant-design/icons';
 
 import { AddCoinToWatchListModal, Cryptocurrencies } from '../components';
 import { EmptyWatchList } from '../EmptyWatchList/EmptyWatchList';
@@ -18,6 +22,7 @@ import {
     clearModalSelectedCoins,
 } from '../../redux/reducers/modalSelectedCoinsSlice';
 import { clearWatchList } from '../../redux/reducers/watchListSlice';
+import { WatchListCardView } from '../WatchListCardView/WatchListCardView';
 
 const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
     const watchList = useAppSelector(selectWatchList);
@@ -37,6 +42,10 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
             {watchList.length ? (
                 <div className={styles.wrapper}>
                     <Button
+                        icon={<AppstoreOutlined style={{ fontSize: '27px' }} />}
+                        className={`${styles.button} ${styles.tile}`}
+                    />
+                    <Button
                         icon={<DeleteOutlined />}
                         type='primary'
                         className={`${styles.button} ${styles.clear}`}
@@ -53,9 +62,10 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
                 </div>
             ) : null}
 
-            <ConfigProvider renderEmpty={() => <EmptyWatchList />}>
+            {/* <ConfigProvider renderEmpty={() => <EmptyWatchList />}>
                 <Cryptocurrencies dataCoins={dataCoins} />
-            </ConfigProvider>
+            </ConfigProvider> */}
+            <WatchListCardView dataCoins={dataCoins} />
             <AddCoinToWatchListModal />
         </ModalVisibleContext.Provider>
     );

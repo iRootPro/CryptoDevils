@@ -32,7 +32,12 @@ export interface ICoinCard {
     id: string;
     image: string;
     symbol: string;
-    type: 'cryptocurrencies' | 'watchlist-modal-list' | 'watchlist-modal-tag';
+    rank?: number;
+    type:
+        | 'cryptocurrencies'
+        | 'watchlist-modal-list'
+        | 'watchlist-modal-tag'
+        | 'watch-list-card-view';
 }
 
 export type ICoinsResponse = ICoinRaw[] | undefined;
@@ -47,65 +52,64 @@ export type ICoinIdData = {
     symbol: string;
     name: string;
     description: {
-      en: string;
+        en: string;
     };
     links: {
-      homepage: string[];
-      blockchain_site: string[];
-      official_forum_url: string[];
-      chat_url: string[];
-      subreddit_url: string;
-      repos_url: {
-        github: string[];
-      };
+        homepage: string[];
+        blockchain_site: string[];
+        official_forum_url: string[];
+        chat_url: string[];
+        subreddit_url: string;
+        repos_url: {
+            github: string[];
+        };
     };
     image: {
-      thumb: string;
-      small: string;
-      large: string;
+        thumb: string;
+        small: string;
+        large: string;
     };
     country_origin: string;
     genesis_date: string;
     market_cap_rank: number;
     categories: string[];
     market_data: {
-      current_price: {
-        usd: number;
-        btc: number;
-        eth: number;
-      };
-      ath: {
-        usd: number;
-      };
-      ath_change_percentage: {
-        usd: number;
-      };
-      ath_date: {
-        usd: string;
-      };
-      circulating_supply: number;
-      market_cap: {
-        usd: number;
-      };
-      high_24h: {
-        usd: number;
-      };
-      low_24h: {
-        usd: number;
-      };
-      market_cap_change_percentage_24h: number;
-      price_change_percentage_24h_in_currency: {
-        usd: number;
-        btc: number;
-        eth: number;
-      };
-      price_change_percentage_24h: number;
-      total_volume: {
-        usd: number;
-      };
-      total_supply: number;
+        current_price: {
+            usd: number;
+            btc: number;
+            eth: number;
+        };
+        ath: {
+            usd: number;
+        };
+        ath_change_percentage: {
+            usd: number;
+        };
+        ath_date: {
+            usd: string;
+        };
+        circulating_supply: number;
+        market_cap: {
+            usd: number;
+        };
+        high_24h: {
+            usd: number;
+        };
+        low_24h: {
+            usd: number;
+        };
+        market_cap_change_percentage_24h: number;
+        price_change_percentage_24h_in_currency: {
+            usd: number;
+            btc: number;
+            eth: number;
+        };
+        price_change_percentage_24h: number;
+        total_volume: {
+            usd: number;
+        };
+        total_supply: number;
     };
     sentiment_votes_down_percentage: number;
     sentiment_votes_up_percentage: number;
-  };
-  
+};

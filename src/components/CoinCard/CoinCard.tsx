@@ -15,7 +15,7 @@ import styles from './CoinCard.module.scss';
 
 const { Text } = Typography;
 
-const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type }) => {
+const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
     const [showSelect, setShowSelect] = useState(false);
 
     const selectedCoinsIds = useAppSelector(selectModalSelectedCoinsIds);
@@ -64,7 +64,7 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type }) => {
                 {showSelect ? <Check /> : null}
             </div>
         );
-    else
+    else if (type === 'watchlist-modal-tag')
         return (
             <div className={styles.wrapper}>
                 <Avatar
@@ -73,6 +73,26 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type }) => {
                 />
                 <Text className={`${styles.name} ${styles.tag}`}>{name}</Text>
             </div>
+        );
+    else
+        return (
+            <Link to={`${ROUTES.coin}/${id}`} className={styles.link}>
+                <div className={`${styles.wrapper} ${styles.WLCardView}`}>
+                    <Text className={`${styles.rank} ${styles.WLCardView}`}>
+                        #{rank ? rank : 'N'}
+                    </Text>
+                    <Avatar
+                        src={`${image}`}
+                        className={`${styles.image} ${styles.WLCardView}`}
+                    />
+                    <Text className={`${styles.name} ${styles.WLCardView}`}>
+                        {name}
+                    </Text>
+                    <Text className={`${styles.symbol} ${styles.WLCardView}`}>
+                        {symbol}
+                    </Text>
+                </div>
+            </Link>
         );
 };
 

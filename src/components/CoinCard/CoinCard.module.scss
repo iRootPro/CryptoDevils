@@ -3,7 +3,6 @@
 }
 
 .wrapper {
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -52,4 +51,42 @@
 .tag.name {
     margin-left: 2px;
     font-size: 12px;
+}
+
+.rank {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 38px;
+    min-width: 38px;
+    border: 1px #71b1ec solid;
+    border-radius: 50%;
+}
+
+.WLCardView.wrapper {
+    flex-direction: column;
+}
+
+.WLCardView.rank {
+    color: #1890ff;
+}
+
+.WLCardView.image {
+    min-width: 32px;
+    min-height: 32px;
+}
+
+.WLCardView.name {
+    font-size: 20px;
+    margin-left: 0;
+    text-align: center;
+}
+
+.WLCardView.symbol {
+    font-size: 16px;
+    margin-left: 0;
+    text-align: center;
 }
