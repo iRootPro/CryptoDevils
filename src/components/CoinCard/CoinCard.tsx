@@ -89,7 +89,7 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                     </Text>
                     <Avatar
                         src={`${image}`}
-                        className={`${styles.image} ${styles.fix}`}
+                        className={`${styles.image} ${styles.fix} ${styles.WLCardView}`}
                     />
                     <Text className={`${styles.name} ${styles.WLCardView}`}>
                         {name}
