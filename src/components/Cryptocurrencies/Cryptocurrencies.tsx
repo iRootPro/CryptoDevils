@@ -54,6 +54,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             title: 'Rank',
             dataIndex: 'rank',
             key: 'rank',
+            render: (rank: number) => (rank ? rank : 'N'),
         },
         {
             title: 'Name',

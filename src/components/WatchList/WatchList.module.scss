@@ -10,7 +10,16 @@
 
 .button.clear {
     width: 150px;
+    margin-left: 5px;
+    border-radius: 50px;
+}
+
+.button.tile {
+    margin-right: 10px;
+    width: 30px;
+    border: 0;
     margin-left: auto;
+    font-size: 50px;
     border-radius: 50px;
 }
 

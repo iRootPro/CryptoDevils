@@ -1,6 +1,11 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button, ConfigProvider } from 'antd';
-import { DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import {
+    AppstoreOutlined,
+    DeleteOutlined,
+    PlusCircleOutlined,
+    TableOutlined,
+} from '@ant-design/icons';
 
 import { AddCoinToWatchListModal, Cryptocurrencies } from '../components';
 import { EmptyWatchList } from '../EmptyWatchList/EmptyWatchList';
@@ -18,12 +23,19 @@ import {
     clearModalSelectedCoins,
 } from '../../redux/reducers/modalSelectedCoinsSlice';
 import { clearWatchList } from '../../redux/reducers/watchListSlice';
+import { WatchListCardView } from '../WatchListCardView/WatchListCardView';
+import { selectView } from '../../redux/selectors/watchListViewSelectors';
+import { changeView } from '../../redux/reducers/watchListViewSlice';
 
 const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
     const watchList = useAppSelector(selectWatchList);
     const { modalVisible, toogleModal } = useModalVisible(false);
 
     const dispatch = useAppDispatch();
+
+    const view = useAppSelector(selectView);
+
+    const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
     useEffect(() => {
         dispatch(clearModalSelectedCoins());
@@ -32,10 +44,37 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
         );
     }, [watchList]);
 
+    const handleChangeView = () => {
+        setIsBtnDisabled(true);
+        setTimeout(() => {
+            setIsBtnDisabled(false);
+        }, 300);
+
+        dispatch(changeView());
+    };
+
+    const renderViewIcon = () => {
+        if (view === 'table')
+            return <AppstoreOutlined style={{ fontSize: '27px' }} />;
+        else return <TableOutlined style={{ fontSize: '27px' }} />;
+    };
+
+    const renderView = () => {
+        if (view === 'table') return <Cryptocurrencies dataCoins={dataCoins} />;
+        else return <WatchListCardView dataCoins={dataCoins} />;
+    };
+
     return (
         <ModalVisibleContext.Provider value={{ modalVisible, toogleModal }}>
             {watchList.length ? (
                 <div className={styles.wrapper}>
+                    <Button
+                        disabled={isBtnDisabled}
+                        type='ghost'
+                        icon={renderViewIcon()}
+                        className={`${styles.button} ${styles.tile}`}
+                        onClick={handleChangeView}
+                    />
                     <Button
                         icon={<DeleteOutlined />}
                         type='primary'
@@ -54,7 +93,7 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
             ) : null}
 
             <ConfigProvider renderEmpty={() => <EmptyWatchList />}>
-                <Cryptocurrencies dataCoins={dataCoins} />
+                {renderView()}
             </ConfigProvider>
             <AddCoinToWatchListModal />
         </ModalVisibleContext.Provider>

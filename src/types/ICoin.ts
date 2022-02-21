@@ -32,7 +32,12 @@ export interface ICoinCard {
     id: string;
     image: string;
     symbol: string;
-    type: 'cryptocurrencies' | 'watchlist-modal-list' | 'watchlist-modal-tag';
+    rank?: number;
+    type:
+        | 'cryptocurrencies'
+        | 'watchlist-modal-list'
+        | 'watchlist-modal-tag'
+        | 'watch-list-card-view';
 }
 
 export type ICoinsResponse = ICoinRaw[] | undefined;

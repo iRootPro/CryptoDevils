@@ -3,7 +3,6 @@
 }
 
 .wrapper {
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -54,7 +53,80 @@
     font-size: 12px;
 }
 
-.image {
+.rank {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 38px;
+    min-width: 38px;
+    border: 1px #71b1ec solid;
+    border-radius: 50%;
+}
+
+.WLCardView.wrapper {
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.WLCardView.rank {
+    color: #1890ff;
+}
+
+.fix.image {
     min-width: 32px;
     min-height: 32px;
+}
+
+.fix.image.WLCardView {
+    min-width: 100px;
+    min-height: 100px;
+    margin-bottom: 10px;
+}
+
+.WLCardView.name,
+.WLCardView.symbol {
+    display: inline-block;
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.runningStringWrapper {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.runningStringAnim.runningStringWrapper {
+    &:hover {
+        animation: marquee 5s linear infinite;
+        animation-play-state: paused;
+        animation-delay: 300ms;
+        animation-play-state: running;
+    }
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-250%);
+    }
+}
+
+.WLCardView.name {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.WLCardView.symbol {
+    font-size: 16px;
+    margin-top: 5px;
 }
