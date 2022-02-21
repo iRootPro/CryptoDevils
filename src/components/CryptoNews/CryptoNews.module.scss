@@ -1,0 +1,33 @@
+.imageWrapper.wrapper {
+    width: 260px;
+    height: 130px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.newsImage.image {
+    width: 260px;
+    height: 130px;
+    object-fit: cover;
+    object-position: 0 0;
+
+}
+
+.nameWrapper.wrapper {
+    display: flex;
+}
+
+
+.newsName.name {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pubDate.date {
+    font-size: 12px;
+    font-weight: 600;
+    color: #58667e;
+}

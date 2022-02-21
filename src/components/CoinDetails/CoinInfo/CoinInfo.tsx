@@ -8,6 +8,7 @@ import {formatDescription, formatUrl} from '../../../utils/formatters';
 import CoinDescription from './CoinDescription/CoinDescription';
 import CoinInfoHeader from './CoinInfoHeader/CoinInfoHeader';
 import CoinRanking from './CoinRanking/CoinRanking';
+import React from 'react';
 
 type TcoinInfoProps = {
     data: ICoinIdData;
@@ -62,8 +63,8 @@ const CoinInfo: FC<TcoinInfoProps> = ({isFetching, data}) => {
     const menuSourceCode = menuTemplate(data.links.repos_url.github)
 
     return (
-        <Col xs={24} sm={24} lg={12}>
-            <Card style={{height: cardHeight}}>
+        <Col xs={24} lg={12}>
+            <Card style={{ height: cardHeight }}>
                 <CoinInfoHeader
                     isFetching={isFetching}
                     coinName={coinName}
@@ -98,4 +99,4 @@ const CoinInfo: FC<TcoinInfoProps> = ({isFetching, data}) => {
     )
 }
 
-export default CoinInfo
+export default React.memo(CoinInfo)

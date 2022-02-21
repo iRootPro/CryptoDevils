@@ -28,6 +28,7 @@
     color: #61dafb;
 }
 
+
 .ant-table table td {
     font-size: 16px;
     font-weight: 600;
@@ -40,4 +41,14 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+
+.slick-arrow.slick-prev {
+  margin-top: -25px !important;
+  background-image: url(./assets/svg/leftArrow.svg) !important;
+}
+.slick-arrow.slick-next {
+  margin-top: -25px !important;
+  background-image: url(./assets/svg/righArrow.svg) !important;
 }

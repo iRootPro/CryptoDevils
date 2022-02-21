@@ -1,6 +1,6 @@
-import {FC, useCallback, useState} from 'react';
-import {Table, TablePaginationConfig} from 'antd';
-import {ColumnsType} from 'antd/lib/table';
+import React, { FC, useCallback, useState } from 'react';
+import { Table, TablePaginationConfig } from 'antd';
+import { ColumnsType } from 'antd/lib/table';
 import Icon from '@ant-design/icons';
 
 import CoinCard from '../CoinCard/CoinCard';
