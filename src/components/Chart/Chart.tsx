@@ -1,39 +1,39 @@
-import { FC } from 'react';
+import {FC} from 'react';
 import HighchartsReact from 'highcharts-react-official';
-import Highcharts, { Options } from 'highcharts/highstock';
+import Highcharts, {Options} from 'highcharts/highstock';
 
 import Indicators from 'highcharts/indicators/indicators.js';
-import acceleration_bands from'highcharts/indicators/acceleration-bands.js';
-import AO from'highcharts/indicators/ao.js';
-import APO from'highcharts/indicators/apo.js';
-import aroon from'highcharts/indicators/aroon.js';
-import aroon_oscillator from'highcharts/indicators/aroon-oscillator.js';
-import atr from'highcharts/indicators/atr.js';
-import bollinger_bands from'highcharts/indicators/bollinger-bands.js';
-import cci from'highcharts/indicators/cci.js';
-import dema from'highcharts/indicators/dema.js';
-import dpo from'highcharts/indicators/dpo';
-import ikh from'highcharts/indicators/ichimoku-kinko-hyo.js';
-import keltner_channels from'highcharts/indicators/keltner-channels.js';
-import macd from'highcharts/indicators/macd.js';
-import momentum from'highcharts/indicators/momentum.js';
-import natr from'highcharts/indicators/natr.js';
-import pivot_points from'highcharts/indicators/pivot-points.js';
-import ppo from'highcharts/indicators/ppo.js';
-import price_channel from'highcharts/indicators/price-channel.js';
-import price_envelopes from'highcharts/indicators/price-envelopes.js';
-import psar from'highcharts/indicators/psar.js';
-import regressions from'highcharts/indicators/regressions.js';
-import roc from'highcharts/indicators/roc.js';
-import rsi from'highcharts/indicators/rsi.js';
-import stochastic from'highcharts/indicators/stochastic.js';
-import supertrend from'highcharts/indicators/supertrend.js';
-import tema from'highcharts/indicators/tema.js';
-import trendline from'highcharts/indicators/trendline.js';
-import trix from'highcharts/indicators/trix.js';
-import williams from'highcharts/indicators/williams-r.js';
-import wma from'highcharts/indicators/wma.js';
-import zigzag from'highcharts/indicators/zigzag.js';
+import acceleration_bands from 'highcharts/indicators/acceleration-bands.js';
+import AO from 'highcharts/indicators/ao.js';
+import APO from 'highcharts/indicators/apo.js';
+import aroon from 'highcharts/indicators/aroon.js';
+import aroon_oscillator from 'highcharts/indicators/aroon-oscillator.js';
+import atr from 'highcharts/indicators/atr.js';
+import bollinger_bands from 'highcharts/indicators/bollinger-bands.js';
+import cci from 'highcharts/indicators/cci.js';
+import dema from 'highcharts/indicators/dema.js';
+import dpo from 'highcharts/indicators/dpo';
+import ikh from 'highcharts/indicators/ichimoku-kinko-hyo.js';
+import keltner_channels from 'highcharts/indicators/keltner-channels.js';
+import macd from 'highcharts/indicators/macd.js';
+import momentum from 'highcharts/indicators/momentum.js';
+import natr from 'highcharts/indicators/natr.js';
+import pivot_points from 'highcharts/indicators/pivot-points.js';
+import ppo from 'highcharts/indicators/ppo.js';
+import price_channel from 'highcharts/indicators/price-channel.js';
+import price_envelopes from 'highcharts/indicators/price-envelopes.js';
+import psar from 'highcharts/indicators/psar.js';
+import regressions from 'highcharts/indicators/regressions.js';
+import roc from 'highcharts/indicators/roc.js';
+import rsi from 'highcharts/indicators/rsi.js';
+import stochastic from 'highcharts/indicators/stochastic.js';
+import supertrend from 'highcharts/indicators/supertrend.js';
+import tema from 'highcharts/indicators/tema.js';
+import trendline from 'highcharts/indicators/trendline.js';
+import trix from 'highcharts/indicators/trix.js';
+import williams from 'highcharts/indicators/williams-r.js';
+import wma from 'highcharts/indicators/wma.js';
+import zigzag from 'highcharts/indicators/zigzag.js';
 
 import DragPanes from 'highcharts/modules/drag-panes.js';
 import AnnotationsAdvanced from 'highcharts/modules/annotations-advanced.js';
@@ -85,16 +85,16 @@ Exporting(Highcharts);
 OfflineExporting(Highcharts);
 StockTools(Highcharts);
 
-const Chart: FC<TPropsChart> = ({options }) => {
-	return (
-		<div id="container" >
-			<HighchartsReact highcharts={Highcharts} constructorType={'stockChart'} options={options} />
-		</div>
-	)
+const Chart: FC<TPropsChart> = ({options}) => {
+    return (
+        <div id="container">
+            <HighchartsReact highcharts={Highcharts} constructorType={'stockChart'} options={options} immutable/>
+        </div>
+    )
 };
 
 type TPropsChart = {
-  options: Options;
+    options: Options;
 }
 
 export default Chart;

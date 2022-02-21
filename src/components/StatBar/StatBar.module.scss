@@ -1,0 +1,31 @@
+$symbolColor: #58667e;
+$valueColor: rgb(56, 97, 251);
+$borderColor: rgb(239, 242, 245);
+
+.statBar {
+    padding: 5px 0;
+    border-bottom: 1px solid $borderColor;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.statType.type {
+    font-size: 12px;
+    padding-right: 10px;
+    font-weight: 600;
+    color: $symbolColor;
+
+    span {
+        color: $valueColor;
+        cursor: pointer;
+    }
+}
+
+.icon {
+    width: 10px;
+    height: 10px;
+    fill: $symbolColor;
+    align-self: center;
+    margin-right: 5px;
+}

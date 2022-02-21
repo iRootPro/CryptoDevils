@@ -6,6 +6,8 @@ import Navbar from './Navbar/Navbar';
 import Portfolio from './Portfolio/Portfolio';
 import WatchList from './WatchList/WatchList';
 import SearchEngine from './SearchEngine/SearchEngine';
+import StatBar from './StatBar/StatBar';
+
 
 export {
     CoinDetails,
@@ -16,4 +18,5 @@ export {
     WatchList,
     AddCoinToWatchListModal,
     SearchEngine,
+    StatBar
 };
