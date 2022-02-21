@@ -52,6 +52,7 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                         src={`${image}`}
                         className={`${styles.image} ${styles.fix}`}
                     />
+                    <Avatar src={`${image}`} className={styles.image} />
                     <Text className={styles.name}>{name}</Text>
                     <Text className={styles.symbol}>{symbol}</Text>
                 </div>

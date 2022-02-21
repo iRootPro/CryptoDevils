@@ -1,11 +1,18 @@
-import { ChangeEventHandler, FC, useState } from 'react';
+import {
+    ChangeEvent,
+    ChangeEventHandler,
+    FC,
+    useEffect,
+    useLayoutEffect,
+    useMemo,
+    useState,
+} from 'react';
 import { Input, Button, List, Modal, Tag } from 'antd';
 
 import styles from './AddCoinToWatchListModal.module.scss';
 import { useModalVisibleContext } from '../../contexts/ModalVisibleContext';
 
 import CoinCard from '../CoinCard/CoinCard';
-import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
     addCoinToWatchList,
@@ -16,12 +23,13 @@ import {
     clearModalSelectedCoins,
     removeCoinFromModalSelectedCoins,
 } from '../../redux/reducers/modalSelectedCoinsSlice';
-import { ICoinListItem } from '../../types/ICoinList';
+import { ICoinListItem, ICoinListWL } from '../../types/ICoinList';
 import {
     useGetCoinsByIdsQuery,
     useGetCoinsListQuery,
 } from '../../services/api';
 import { useListDataCoins } from '../../hooks/useListDataCoins';
+import { debounce } from '../../utils/debounce';
 
 const { Search } = Input;
 
@@ -39,15 +47,60 @@ const AddCoinToWatchListModal: FC = () => {
     const ids = searchedCoinsIds.join(',');
     const pageLimit = inputValue && !ids ? 0 : 50;
 
-    const { data, error, isFetching, isLoading } = useGetCoinsByIdsQuery({
+    const [isListLoading, setIsListLoading] = useState(false);
+
+    const { data, error } = useGetCoinsByIdsQuery({
         currency: 'usd',
         ids: ids,
         perPage: pageLimit,
     });
 
-    const dataCoins = useListDataCoins(data);
+    if (error)
+        console.log(`error fetching with status: ${JSON.stringify(error)}`);
 
-    if (error) console.log(`error fetching with status: ${error}`);
+    const [dataCoins, setDataCoins] = useState<ICoinListWL>([]);
+
+    useEffect(() => {
+        setIsListLoading(true);
+        setDataCoins([]);
+        makeSearchedCoinList();
+    }, [inputValue]);
+
+    useEffect(() => {
+        setDataCoins(useListDataCoins(data));
+    }, [data]);
+
+    useLayoutEffect(() => {
+        if (
+            inputValue &&
+            data?.length !== 0 &&
+            searchedCoinsIds.length !== 0 &&
+            dataCoins?.length !== 0
+        )
+            setIsListLoading(false);
+        else setIsListLoading(true);
+
+        if (inputValue && data?.length === 0 && dataCoins?.length === 0)
+            setIsListLoading(false);
+
+        if (
+            inputValue &&
+            data?.length === 0 &&
+            searchedCoinsIds.length !== 0 &&
+            dataCoins?.length === 0
+        )
+            setIsListLoading(true);
+
+        if (
+            inputValue &&
+            data?.length !== 0 &&
+            searchedCoinsIds.length !== 0 &&
+            dataCoins?.length === 0
+        )
+            setIsListLoading(true);
+
+        if (!inputValue) setIsListLoading(false);
+    }, [inputValue, dataCoins, searchedCoinsIds]);
 
     const parseCoinList = (searchTerm: string) => {
         return coinList!.filter(
@@ -61,22 +114,42 @@ const AddCoinToWatchListModal: FC = () => {
         return coinList?.map((item) => item.id);
     };
 
-    const makeSearchedCoinList = (searchTerm: string) => {
+    const makeSearchedCoinList = () => {
+        const searchTerm = inputValue;
+
         const searchedCoinList = searchTerm ? parseCoinList(searchTerm) : [];
         const searchedIds = getCoinsIds(searchedCoinList);
-        if (searchedIds.join(',').length < 8093)
-            setSearchedCoinsIds(searchedIds);
+
+        let lengthNormalizedSearchedIds: string[] = [];
+
+        if (searchedIds.join(',').length < 8000)
+            lengthNormalizedSearchedIds = searchedIds;
+        else {
+            let index = 0;
+            do {
+                lengthNormalizedSearchedIds.push(searchedIds[index++]);
+            } while (lengthNormalizedSearchedIds.join(',').length < 8000);
+        }
+
+        setSearchedCoinsIds(lengthNormalizedSearchedIds);
     };
 
-    const debouncedMakeSearchedCoinList = useDebounce(
-        makeSearchedCoinList,
-        500,
-    );
+    const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+        setInputValue(e.target.value);
+    };
+
+    const [debouncedHandleChange, teardown] = useMemo(() => {
+        return debounce<ChangeEvent<HTMLInputElement>, void>(
+            handleOnChange,
+            300,
+        );
+    }, [inputValue]);
 
     const handleCancel = () => {
         toogleModal();
         setInputValue('');
         dispatch(clearModalSelectedCoins());
+        teardown();
     };
 
     const handleOK = () => {
@@ -87,12 +160,6 @@ const AddCoinToWatchListModal: FC = () => {
         });
 
         handleCancel();
-    };
-
-    const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-        const searchTerm = e.target.value;
-        setInputValue(searchTerm);
-        debouncedMakeSearchedCoinList(searchTerm);
     };
 
     const makeSelectedCoinsTags = () => {
@@ -148,11 +215,10 @@ const AddCoinToWatchListModal: FC = () => {
                 defaultValue={''}
                 allowClear
                 placeholder='Search'
-                onChange={handleOnChange}
-                value={inputValue}
+                onChange={debouncedHandleChange}
             />
             <List
-                loading={isLoading || isFetching}
+                loading={isListLoading}
                 itemLayout='horizontal'
                 dataSource={dataCoins}
                 className={styles.list}
