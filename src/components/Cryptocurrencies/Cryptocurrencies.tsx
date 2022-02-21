@@ -6,20 +6,11 @@ import Icon from '@ant-design/icons';
 import CoinCard from '../CoinCard/CoinCard';
 
 import { COLORS } from '../../constants/colors';
-import { ICoinsData, ICoin, ICoinWL } from '../../types/ICoin';
+import { ICoin, ICoinsData } from '../../types/ICoin';
 
 import { ReactComponent as CommonStar } from '../../assets/svg/commonStar.svg';
 import { ReactComponent as YellowStar } from '../../assets/svg/yellowStar.svg';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-    addCoinToWatchList,
-    removeCoinFromWatchList,
-} from '../../redux/reducers/watchListSlice';
-import {
-    selectWatchList,
-    selectWatchListIds,
-} from '../../redux/selectors/watchListSelectors';
 import {
     formatPercent,
     formatUSD,
@@ -38,6 +29,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
         },
         [pageSize],
     );
+
     const columns: ColumnsType<ICoin> = [
         {
             title: '',
@@ -133,11 +125,11 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             columns={columns}
             dataSource={dataCoins}
             onChange={onChangeTable}
-            pagination={
-                dataCoins!.length < 10
-                    ? false
-                    : { pageSize: pageSize, position: ['bottomCenter'] }
-            }
+            pagination={{
+                pageSize: pageSize,
+                position: ['bottomCenter'],
+                hideOnSinglePage: true,
+            }}
         />
     );
 };
