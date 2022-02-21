@@ -33,8 +33,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 23px;
-    height: 23px;
+    min-width: 23px;
+    min-height: 23px;
     background-color: dodgerblue;
     border-radius: 50%;
 }
