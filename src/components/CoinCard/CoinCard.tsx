@@ -1,6 +1,6 @@
 import { CheckOutlined } from '@ant-design/icons';
 import { Avatar, Typography } from 'antd';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
 
@@ -11,6 +11,7 @@ import {
 } from '../../redux/reducers/modalSelectedCoinsSlice';
 import { selectModalSelectedCoinsIds } from '../../redux/selectors/modalSelectedCoinsSelectors';
 import { ICoinCard, ICoinWL } from '../../types/ICoin';
+import { isOverflownWidth } from '../../utils/isOverflownWidth';
 import styles from './CoinCard.module.scss';
 
 const { Text } = Typography;
@@ -20,6 +21,8 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
 
     const selectedCoinsIds = useAppSelector(selectModalSelectedCoinsIds);
     const dispatch = useAppDispatch();
+
+    const divRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         selectedCoinsIds.length
@@ -80,7 +83,16 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                 <Text className={`${styles.name} ${styles.tag}`}>{name}</Text>
             </div>
         );
-    else
+    else {
+        const div = divRef.current;
+
+        const isAnimateString =
+            div !== null
+                ? isOverflownWidth(div)
+                    ? `${styles.runningStringAnim} ${styles.runningStringWrapper}`
+                    : `${styles.runningStringWrapper}`
+                : undefined;
+
         return (
             <Link to={`${ROUTES.coin}/${id}`} className={styles.link}>
                 <div className={`${styles.wrapper} ${styles.WLCardView}`}>
@@ -91,15 +103,22 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                         src={`${image}`}
                         className={`${styles.image} ${styles.fix} ${styles.WLCardView}`}
                     />
-                    <Text className={`${styles.name} ${styles.WLCardView}`}>
-                        {name}
-                    </Text>
-                    <Text className={`${styles.symbol} ${styles.WLCardView}`}>
-                        {symbol}
-                    </Text>
+                    <div
+                        ref={divRef}
+                        className={isAnimateString}
+                        data-string-width={'250%'}>
+                        <Text className={`${styles.name} ${styles.WLCardView}`}>
+                            {name}
+                        </Text>
+                        <Text
+                            className={`${styles.symbol} ${styles.WLCardView}`}>
+                            {symbol}
+                        </Text>
+                    </div>
                 </div>
             </Link>
         );
+    }
 };
 
 const Check: FC = () => {
