@@ -54,7 +54,7 @@ const WatchListCardItem: FC<ICoin> = ({
     };
 
     return (
-        <Card hoverable className={styles.card}>
+        <Card hoverable className={styles.card} bodyStyle={{ width: '100%' }}>
             {isCardLoading ? <HoverLoading /> : null}
 
             <Button
