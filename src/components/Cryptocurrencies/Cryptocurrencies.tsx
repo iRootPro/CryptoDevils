@@ -21,7 +21,7 @@ import { formatPercent, formatUSD, formatUSDforTable } from '../../utils/formatt
 import MiniChartContainer from '../MiniChart/MiniChartContainer';
 
 const Cryptocurrencies: FC<ICoinsData> = ({dataCoins}) => {
-    const [pageSize, setPageSize] = useState(50);
+    const [pageSize, setPageSize] = useState(10);
 
     const watchList: ICoinWL[] = useAppSelector(selectWatchList);
     const watchListIds: string[] = useAppSelector(selectWatchListIds);
