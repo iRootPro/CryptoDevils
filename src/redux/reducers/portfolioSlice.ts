@@ -5,18 +5,18 @@ export type PortfolioType = {
     name: string,
     trades: TradesType,
     totalSum: number,
-    summaryCoinsInfo: SummaryType
+    summaryCoinsInfo: SummaryType,
 }
 
 type SummaryType = {
     [coin: string]: {
         quantity: number
-        avgPrice: number
     }
 }
 
 export type PortfoliosType = {
     portfolios: Array<PortfolioType>
+    selectCoin: string,
 }
 
 export type TradesType = {
@@ -37,9 +37,16 @@ export type AddTradeType = {
     portfolioId: string
 }
 
+type RemoveTradeType = {
+    id: string,
+    coin: string,
+    portfolioId: string
+}
+
 
 const initialState: PortfoliosType = {
-    portfolios: []
+    portfolios: [],
+    selectCoin: 'bitcoin',
 }
 
 const portfolioSlice = createSlice({
@@ -56,18 +63,23 @@ const portfolioSlice = createSlice({
             const coin = action.payload.trade.coin
             const portfolio = state.portfolios.find(p => p.id === action.payload.portfolioId)
             if(portfolio) {
-                portfolio.trades[coin] ? portfolio.trades[coin].push(action.payload.trade) : portfolio.trades[coin] = [action.payload.trade]
+                state.selectCoin = 'bitcoin'
+                portfolio.trades[coin]
+                    ? portfolio.trades[coin].push(action.payload.trade)
+                    : portfolio.trades[coin] = [action.payload.trade]
                 portfolio.totalSum += action.payload.trade.totalSpent
                 portfolio.summaryCoinsInfo[coin]
                     ? portfolio.summaryCoinsInfo[coin] = {
                         quantity: portfolio.summaryCoinsInfo[coin].quantity += action.payload.trade.quantity,
-                        avgPrice: (action.payload.trade.price * action.payload.trade.quantity + portfolio.summaryCoinsInfo[coin].quantity * portfolio.summaryCoinsInfo[coin].avgPrice) / (action.payload.trade.quantity + portfolio.summaryCoinsInfo[coin].quantity)
                 }
-                    : portfolio.summaryCoinsInfo[coin] = {quantity: action.payload.trade.quantity, avgPrice: action.payload.trade.price }
+                    : portfolio.summaryCoinsInfo[coin] = {quantity: action.payload.trade.quantity }
             }
+        },
+        setSelectCoinForTrade(state, action:PayloadAction<string>) {
+            state.selectCoin = action.payload
         },
     },
 });
 
 export default portfolioSlice.reducer;
-export const { addPortfolio, removePortfolio, addTrade } = portfolioSlice.actions;
+export const { addPortfolio, removePortfolio, addTrade, setSelectCoinForTrade } = portfolioSlice.actions;

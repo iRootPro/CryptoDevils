@@ -37,6 +37,15 @@ export const formatUSDforTable: TnumberFormatter = (number) =>
     maximumFractionDigits: 5,
   }).format(number);
 
+export const formatUSDforTableMoney: TnumberFormatter = (number) =>
+    new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+    }).format(number);
+
+
 export const formatPercent: TnumberFormatter = (number) =>
   new Intl.NumberFormat("en-US", {
     style: "percent",

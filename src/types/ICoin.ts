@@ -108,4 +108,3 @@ export type ICoinIdData = {
     sentiment_votes_down_percentage: number;
     sentiment_votes_up_percentage: number;
   };
-  

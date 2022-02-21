@@ -1,5 +1,5 @@
 import { RootState } from '../store';
 
 export const selectPortfolios = (state: RootState) => state.portfolios.portfolios;
-// export const selectWatchListIds = (state: RootState) =>
-//     state.watchListReducer.data.map((item) => item.id);
+export const selectSelectedCoinForTrade = (state: RootState) => state.portfolios.selectCoin
+export const selectAllPortfolios = (state: RootState) => state.portfolios
