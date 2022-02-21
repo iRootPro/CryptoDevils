@@ -18,6 +18,7 @@ import { useSelectCoin } from '../../hooks/useSelectCoin';
 import styles from './Cryptocurrencies.module.scss';
 import { useModalSelectedCoinsContext } from '../../contexts/ModalSelectedCoinsContext';
 import { formatPercent, formatUSD, formatUSDforTable } from '../../utils/formatters';
+import MiniChartContainer from '../MiniChart/MiniChartContainer';
 
 const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
     const [pageSize, setPageSize] = useState(50);
@@ -142,6 +143,10 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             },
             render: (marketCap: number) => formatUSD(marketCap),
         },
+        {
+            title: 'Last 30 days',
+            render: (id) => <MiniChartContainer id={id.id} />
+        }
     ];
 
     return (
