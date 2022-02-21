@@ -1,14 +1,14 @@
-import { Card, Col, Row } from 'antd';
-import { FC } from 'react'
-import { useParams } from 'react-router-dom'
-import { useGetCoinByIdQuery } from '../../services/api';
+import {Card, Col, Row} from 'antd';
+import {FC} from 'react'
+import {useParams} from 'react-router-dom'
+import {useGetCoinByIdQuery} from '../../services/api';
 import Loader from '../Loader/Loader';
 import CoinData from './CoinData/CoinData';
 import CoinInfo from './CoinInfo/CoinInfo';
-import { Chart } from '../Chart'
+import {Chart} from '../Chart'
 
 type CoinParams = {
-  id: string;
+    id: string;
 };
 
 const CoinDetails: FC = () => {

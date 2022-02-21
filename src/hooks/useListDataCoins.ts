@@ -1,6 +1,5 @@
-import { useMemo } from 'react';
-import { ICoinRaw, ICoinsResponse } from '../types/ICoin';
-import { ICoinListWL, ICoinListItemWL } from '../types/ICoinList';
+import {ICoinRaw, ICoinsResponse} from '../types/ICoin';
+import {ICoinListWL} from '../types/ICoinList';
 
 type IUseDataCoins = (
     data: ICoinsResponse,

@@ -1,4 +1,4 @@
-import { RootState } from '../store';
+import {RootState} from '../store';
 
 export const selectWatchList = (state: RootState) =>
     state.watchListReducer.data;

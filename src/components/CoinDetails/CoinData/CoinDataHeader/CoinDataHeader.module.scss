@@ -5,83 +5,83 @@ $coinColor: #58667e;
 $green: #16c784;
 
 .header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .coinName.name,
 .coinSymbol.symbol,
 .coinName.title {
-    font-size: 16px;
-    color: $symbolColor;
-    font-weight: 500;
+  font-size: 16px;
+  color: $symbolColor;
+  font-weight: 500;
 }
 
 .coinSymbol.symbol {
-    text-transform: uppercase;
-    padding-left: 5px;
+  text-transform: uppercase;
+  padding-left: 5px;
 }
 
 .historyCard.card {
-    background-color: $symbolBackgroundColor;
-    margin: -20px;
+  background-color: $symbolBackgroundColor;
+  margin: -20px;
 }
 
 .coinName.title {
-    text-transform: uppercase;
-    font-size: 12px;
-    display: flex;
-    justify-content: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
 }
 
 .historyTitle.title {
-    display: flex;
-    font-weight: 500;
-    font-size: 24px;
-    justify-content: center;
+  display: flex;
+  font-weight: 500;
+  font-size: 24px;
+  justify-content: center;
 }
 
 .athStat {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .highestPercentage.percentage {
-    color: $red;
-    font-weight: 600;
-    margin: 0 auto;
+  color: $red;
+  font-weight: 600;
+  margin: 0 auto;
 }
 
 .historyDate.date {
-    margin: 0 auto;
-    font-weight: 500;
-    color: $coinColor;
+  margin: 0 auto;
+  font-weight: 500;
+  color: $coinColor;
 }
 
 .priceDynamic {
-    display: flex;
-    margin-top: -85px;
+  display: flex;
+  margin-top: -85px;
 }
 
 .currentPrice.price {
-    padding: 10px 0;
-    height: 40px;
+  padding: 10px 0;
+  height: 40px;
 }
 
 .dailyChangePrice.red,
 .dailyChangePrice.green {
-    border-radius: 10px;
-    margin: 10px 15px;
-    height: 45px;
-    padding: 15px;
-    line-height: 15px;
-    font-size: 16px;
-    font-weight: 600;
-    color: $symbolBackgroundColor;
-    background-color: $red;
+  border-radius: 10px;
+  margin: 10px 15px;
+  height: 45px;
+  padding: 15px;
+  line-height: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  color: $symbolBackgroundColor;
+  background-color: $red;
 }
 
 .dailyChangePrice.green {
-    background-color: $green;
+  background-color: $green;
 }
 

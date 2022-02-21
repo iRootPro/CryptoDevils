@@ -1,5 +1,5 @@
 import Layout from 'antd/lib/layout/layout';
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import './App.css';
 import { CoinDetails, Footer, Navbar, Portfolio, StatBar } from './components/components';
 import { WatchListContainer, CryptocurrenciesContainer } from './containers/containers'

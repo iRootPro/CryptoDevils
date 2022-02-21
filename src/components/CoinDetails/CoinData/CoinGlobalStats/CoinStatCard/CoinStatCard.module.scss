@@ -4,38 +4,38 @@ $red: #e93943;
 $green: #16c784;
 
 .priceDifference.price {
-    font-weight: 700;
-    color: $blackColor;
+  font-weight: 700;
+  color: $blackColor;
 }
 
 
 .infoCard.info {
-    height: 155px;
+  height: 155px;
 }
 
 .statTitle.title {
-    color: $symbolColor;
+  color: $symbolColor;
 
-    .tooltip {
-        padding-left: 5px;
-    }
+  .tooltip {
+    padding-left: 5px;
+  }
 
 }
 
 .highestPercentage.percentageMarket.green,
 .highestPercentage.percentageMarket.red {
-    font-weight: 700;
-    color: $green;
+  font-weight: 700;
+  color: $green;
 }
 
 .highestPercentage.percentageMarket.red {
-    color: $red;
+  color: $red;
 }
 
 .coinSymbol.symbol {
-    text-transform: uppercase;
-    padding-left: 5px;
-    font-size: 16px;
-    color: $symbolColor;
-    font-weight: 500;
+  text-transform: uppercase;
+  padding-left: 5px;
+  font-size: 16px;
+  color: $symbolColor;
+  font-weight: 500;
 }

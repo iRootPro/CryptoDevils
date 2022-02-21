@@ -5,7 +5,7 @@ import { useDataCoins } from '../../hooks/useDataCoins';
 import CryptoNews from '../../components/CryptoNews/CryptoNews';
 
 const CryptocurrenciesContainer: FC = () => {
-    const { data, refetch } = useGetCoinsQuery({
+    const {data, refetch} = useGetCoinsQuery({
         currency: 'usd',
         perPage: 250,
     });
@@ -18,7 +18,6 @@ const CryptocurrenciesContainer: FC = () => {
             <Cryptocurrencies dataCoins={dataCoins} />;
         </>
     )
-
 };
 
 export default CryptocurrenciesContainer;

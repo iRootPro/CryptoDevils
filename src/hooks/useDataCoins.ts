@@ -1,6 +1,6 @@
-import { useEffect, useMemo } from 'react';
+import {useEffect, useMemo} from 'react';
 
-import { ICoinRaw, ICoinsNormalized, ICoinsResponse } from '../types/ICoin';
+import {ICoinRaw, ICoinsNormalized, ICoinsResponse} from '../types/ICoin';
 
 type IUseDataCoins = (
     data: ICoinsResponse,

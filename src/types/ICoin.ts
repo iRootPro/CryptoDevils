@@ -9,6 +9,7 @@ export interface ICoinRaw {
   price_change_percentage_24h: number;
   symbol: string;
 }
+
 export interface ICoin {
   symbol: string;
   id: string;
@@ -27,6 +28,7 @@ export interface ICoinWL {
   image: string;
   symbol: string;
 }
+
 export interface ICoinCard {
   name: string;
   id: string;
