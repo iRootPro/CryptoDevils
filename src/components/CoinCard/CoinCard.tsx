@@ -45,7 +45,7 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type }) => {
         return (
             <Link to={`${ROUTES.coin}/${id}`} className={styles.link}>
                 <div className={styles.wrapper}>
-                    <Avatar src={`${image}`} />
+                    <Avatar src={`${image}`} className={styles.image} />
                     <Text className={styles.name}>{name}</Text>
                     <Text className={styles.symbol}>{symbol}</Text>
                 </div>
