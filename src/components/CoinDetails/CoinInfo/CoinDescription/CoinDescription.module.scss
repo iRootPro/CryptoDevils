@@ -1,25 +1,26 @@
 $symbolBackgroundColor: #eff2f5;
 
 .descriptionTitle {
-    margin-top: 15px;
-    padding: 0 5px 0 5px;
+  margin-top: 15px;
+  padding: 0 5px 0 5px;
 }
 
 .description {
-    margin-top: 10px;
-    border: 1px solid $symbolBackgroundColor;
-    padding: 5px;
-    border-radius: 10px;
-    position: relative;
-    .descriptionText {
-        font-size: 16px;
-    }
+  margin-top: 10px;
+  border: 1px solid $symbolBackgroundColor;
+  padding: 5px;
+  border-radius: 10px;
+  position: relative;
+
+  .descriptionText {
+    font-size: 16px;
+  }
 }
 
 .readMore.read {
-    position: absolute;
-    right: 7px;
-    bottom: 7px;
-    font-size: 24px;
-    color: rgb(56, 97, 251);
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+  font-size: 24px;
+  color: rgb(56, 97, 251);
 }

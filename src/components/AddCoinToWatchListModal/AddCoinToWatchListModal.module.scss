@@ -1,39 +1,41 @@
 .modal {
-    .title {
-        font-weight: bold;
-    }
+  .title {
+    font-weight: bold;
+  }
 
-    .list {
-        margin-top: 5px;
-        height: 300px;
-        overflow: scroll;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
+  .list {
+    margin-top: 5px;
+    height: 300px;
+    overflow: scroll;
 
-    .footerSelect {
-        margin-bottom: 10px;
+    &::-webkit-scrollbar {
+      display: none;
     }
+  }
+
+  .footerSelect {
+    margin-bottom: 10px;
+  }
 }
 
 .modal.tag {
-    border-radius: 10px;
-    padding: 3px;
-    display: inline-flex;
-    align-items: center;
+  border-radius: 10px;
+  padding: 3px;
+  display: inline-flex;
+  align-items: center;
 }
 
 .tagWrapper {
-    margin-bottom: 10px;
-    display: flex;
-    height: 30px;
-    overflow-x: scroll;
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  margin-bottom: 10px;
+  display: flex;
+  height: 30px;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .hide {
-    display: none;
+  display: none;
 }

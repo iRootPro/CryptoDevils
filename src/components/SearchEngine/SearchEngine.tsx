@@ -1,31 +1,29 @@
-import { FC, useCallback } from 'react';
-import { Select } from 'antd';
-import { BaseOptionType, DefaultOptionType } from 'antd/lib/select';
-import { useGetCoinsListQuery } from '../../services/api';
-import { useHistory } from 'react-router-dom';
-import { ROUTES } from '../../constants/routes';
+import {FC, useCallback} from 'react';
+import {Select} from 'antd';
+import {BaseOptionType, DefaultOptionType} from 'antd/lib/select';
+import {useHistory} from 'react-router-dom';
+import {useGetCoinsListQuery} from '../../services/api';
+import {ROUTES} from '../../constants/routes';
 
-const { Option } = Select;
+const {Option} = Select;
 
 const SearchEngine: FC = () => {
-    const { data } = useGetCoinsListQuery('');
+    const {data} = useGetCoinsListQuery('');
     const history = useHistory();
 
     const handlerOnSelect = useCallback((e: string) => {
-        history.push(ROUTES.coin + '/' + e);
+        history.push(`${ROUTES.coin}/${e}`);
     }, []);
 
     const filterOption = useCallback(
-        (input: string, option: OptionT) =>
-            option?.children.toLowerCase().indexOf(input.toLowerCase()) === 0,
+        (input: string, option: OptionT) => option?.children.toLowerCase().indexOf(input.toLowerCase()) === 0,
         [],
     );
 
     const filterSort = useCallback(
-        (optionA, optionB) =>
-            optionA.children
-                .toLowerCase()
-                .localeCompare(optionB.children.toLowerCase()),
+        (optionA, optionB) => optionA.children
+            .toLowerCase()
+            .localeCompare(optionB.children.toLowerCase()),
         [],
     );
 
@@ -35,13 +33,14 @@ const SearchEngine: FC = () => {
         <Select
             showSearch
             allowClear
-            style={{ width: '300px' }}
+            style={{width: '300px'}}
             value={null}
             onSelect={handlerOnSelect}
-            placeholder='Search to Select'
-            optionFilterProp='children'
+            placeholder="Search to Select"
+            optionFilterProp="children"
             filterOption={filterOption}
-            filterSort={filterSort}>
+            filterSort={filterSort}
+        >
             {options}
         </Select>
     );

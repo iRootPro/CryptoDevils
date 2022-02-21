@@ -1,32 +1,22 @@
-import { FC, useCallback, useState } from 'react';
-import { Table, TablePaginationConfig } from 'antd';
-import { ColumnsType } from 'antd/lib/table';
+import {FC, useCallback, useState} from 'react';
+import {Table, TablePaginationConfig} from 'antd';
+import {ColumnsType} from 'antd/lib/table';
 import Icon from '@ant-design/icons';
 
 import CoinCard from '../CoinCard/CoinCard';
 
-import { COLORS } from '../../constants/colors';
-import { ICoinsData, ICoin, ICoinWL } from '../../types/ICoin';
+import {COLORS} from '../../constants/colors';
+import {ICoin, ICoinsData, ICoinWL} from '../../types/ICoin';
 
-import { ReactComponent as CommonStar } from '../../assets/svg/commonStar.svg';
-import { ReactComponent as YellowStar } from '../../assets/svg/yellowStar.svg';
+import {ReactComponent as CommonStar} from '../../assets/svg/commonStar.svg';
+import {ReactComponent as YellowStar} from '../../assets/svg/yellowStar.svg';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-    addCoinToWatchList,
-    removeCoinFromWatchList,
-} from '../../redux/reducers/watchListSlice';
-import {
-    selectWatchList,
-    selectWatchListIds,
-} from '../../redux/selectors/watchListSelectors';
-import {
-    formatPercent,
-    formatUSD,
-    formatUSDforTable,
-} from '../../utils/formatters';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {addCoinToWatchList, removeCoinFromWatchList,} from '../../redux/reducers/watchListSlice';
+import {selectWatchList, selectWatchListIds,} from '../../redux/selectors/watchListSelectors';
+import {formatPercent, formatUSD, formatUSDforTable,} from '../../utils/formatters';
 
-const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
+const Cryptocurrencies: FC<ICoinsData> = ({dataCoins}) => {
     const [pageSize, setPageSize] = useState(50);
     const watchList: ICoinWL[] = useAppSelector(selectWatchList);
     const watchListIds: string[] = useAppSelector(selectWatchListIds);
@@ -68,33 +58,33 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             title: '',
             dataIndex: ['id', 'image', 'name', 'symbol'],
             key: 'star',
-            render: (value, record: ICoin) => {
-                return (
-                    <Icon
-                        onClick={() => {
-                            handleOnStar(record);
-                        }}
-                        component={
-                            watchListIds.includes(record.id)
-                                ? YellowStar
-                                : CommonStar
-                        }
-                    />
-                );
-            },
+            render: (value, record: ICoin) => (
+                <Icon
+                    onClick={() => {
+                        handleOnStar(record);
+                    }}
+                    component={
+                        watchListIds.includes(record.id)
+                            ? YellowStar
+                            : CommonStar
+                    }
+                />
+            ),
         },
         {
             title: 'Rank',
             dataIndex: 'rank',
             key: 'rank',
-            render: (rank: number) => (rank ? rank : 'N'),
+            render: (rank: number) => (rank || 'N'),
         },
         {
             title: 'Name',
             dataIndex: ['id', 'image', 'name', 'symbol'],
             key: 'coin',
             render: (value, record: ICoin) => {
-                const { id, image, name, symbol } = record;
+                const {
+                    id, image, name, symbol,
+                } = record;
                 return (
                     <CoinCard
                         id={id}
@@ -102,7 +92,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                         image={image}
                         name={name}
                         symbol={symbol}
-                        type='cryptocurrencies'
+                        type="cryptocurrencies"
                     />
                 );
             },
@@ -112,8 +102,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             dataIndex: 'price',
             key: 'price',
             sorter: {
-                compare: (a: { price: number }, b: { price: number }) =>
-                    a.price - b.price,
+                compare: (a: { price: number }, b: { price: number }) => a.price - b.price,
                 multiple: 3,
             },
             render: (price: number) => formatUSDforTable(price),
@@ -129,16 +118,14 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                 ) => a.dailychange - b.dailychange,
                 multiple: 2,
             },
-            onCell: (dailychange: { dailychange: number }) => {
-                return {
-                    style: {
-                        color:
-                            dailychange.dailychange > 0
-                                ? COLORS.green
-                                : COLORS.red,
-                    },
-                };
-            },
+            onCell: (dailychange: { dailychange: number }) => ({
+                style: {
+                    color:
+                        dailychange.dailychange > 0
+                            ? COLORS.green
+                            : COLORS.red,
+                },
+            }),
             render: (dailychange) => formatPercent(dailychange / 100),
         },
         {
@@ -146,8 +133,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             dataIndex: 'marketcap',
             key: 'marketcap',
             sorter: {
-                compare: (a: { marketcap: number }, b: { marketcap: number }) =>
-                    a.marketcap - b.marketcap,
+                compare: (a: { marketcap: number }, b: { marketcap: number }) => a.marketcap - b.marketcap,
                 multiple: 1,
             },
             render: (marketCap: number) => formatUSD(marketCap),
@@ -162,7 +148,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             pagination={
                 dataCoins!.length < 10
                     ? false
-                    : { pageSize: pageSize, position: ['bottomCenter'] }
+                    : {pageSize, position: ['bottomCenter']}
             }
         />
     );

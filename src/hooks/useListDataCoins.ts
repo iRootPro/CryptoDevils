@@ -1,5 +1,5 @@
-import { ICoinRaw, ICoinsResponse } from '../types/ICoin';
-import { ICoinListWL } from '../types/ICoinList';
+import {ICoinRaw, ICoinsResponse} from '../types/ICoin';
+import {ICoinListWL} from '../types/ICoinList';
 
 type IUseDataCoins = (data: ICoinsResponse) => ICoinListWL;
 

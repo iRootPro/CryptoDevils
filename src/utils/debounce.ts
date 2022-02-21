@@ -4,16 +4,15 @@ export function debounce<A = unknown, R = void>(
 ): [(args: A) => Promise<R>, () => void] {
     let timer: NodeJS.Timeout;
 
-    const debouncedFunc = (args: A): Promise<R> =>
-        new Promise((resolve) => {
-            if (timer) {
-                clearTimeout(timer);
-            }
+    const debouncedFunc = (args: A): Promise<R> => new Promise((resolve) => {
+        if (timer) {
+            clearTimeout(timer);
+        }
 
-            timer = setTimeout(() => {
-                resolve(fn(args));
-            }, ms);
-        });
+        timer = setTimeout(() => {
+            resolve(fn(args));
+        }, ms);
+    });
 
     const teardown = () => clearTimeout(timer);
 

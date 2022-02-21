@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICoinWL } from '../../types/ICoin';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {ICoinWL} from '../../types/ICoin';
 
 type IModalSelectedCoins = {
     data: ICoinWL[];
@@ -11,7 +11,7 @@ const initialState: IModalSelectedCoins = {
 
 const modalSelectedCoinsSlice = createSlice({
     name: 'modalSelectedCoinsSlice',
-    initialState: initialState,
+    initialState,
     reducers: {
         addCoinToModalSelectedCoins(state, action: PayloadAction<ICoinWL>) {
             state.data.push(action.payload);
