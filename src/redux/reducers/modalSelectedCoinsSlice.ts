@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICoinWL } from '../../types/ICoin';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {ICoinWL} from '../../types/ICoin';
 
 type IModalSelectedCoins = {
     data: ICoinWL[];

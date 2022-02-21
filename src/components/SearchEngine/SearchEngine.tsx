@@ -1,14 +1,14 @@
-import { FC, useCallback } from 'react';
-import { Select } from 'antd';
-import { BaseOptionType, DefaultOptionType } from 'antd/lib/select';
-import { useGetCoinsListQuery } from '../../services/api';
-import { useHistory } from 'react-router-dom';
-import { ROUTES } from '../../constants/routes';
+import {FC, useCallback} from 'react';
+import {Select} from 'antd';
+import {BaseOptionType, DefaultOptionType} from 'antd/lib/select';
+import {useGetCoinsListQuery} from '../../services/api';
+import {useHistory} from 'react-router-dom';
+import {ROUTES} from '../../constants/routes';
 
-const { Option } = Select;
+const {Option} = Select;
 
 const SearchEngine: FC = () => {
-    const { data } = useGetCoinsListQuery('');
+    const {data} = useGetCoinsListQuery('');
     const history = useHistory();
 
     const handlerOnSelect = useCallback((e: string) => {
@@ -35,7 +35,7 @@ const SearchEngine: FC = () => {
         <Select
             showSearch
             allowClear
-            style={{ width: '300px' }}
+            style={{width: '300px'}}
             value={null}
             onSelect={handlerOnSelect}
             placeholder='Search to Select'

@@ -1,32 +1,28 @@
-import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Button, Card, Spin, Typography } from 'antd';
-import { FC, useLayoutEffect, useState } from 'react';
-import { COLORS } from '../../../constants/colors';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { removeCoinFromWatchList } from '../../../redux/reducers/watchListSlice';
-import { selectWatchListIds } from '../../../redux/selectors/watchListSelectors';
-import { ICoin, ICoinWL } from '../../../types/ICoin';
-import {
-    formatPercent,
-    formatUSD,
-    formatUSDforTable,
-} from '../../../utils/formatters';
+import {CloseOutlined, LoadingOutlined} from '@ant-design/icons';
+import {Button, Card, Spin, Typography} from 'antd';
+import {FC, useLayoutEffect, useState} from 'react';
+import {COLORS} from '../../../constants/colors';
+import {useAppDispatch, useAppSelector} from '../../../hooks/redux';
+import {removeCoinFromWatchList} from '../../../redux/reducers/watchListSlice';
+import {selectWatchListIds} from '../../../redux/selectors/watchListSelectors';
+import {ICoin, ICoinWL} from '../../../types/ICoin';
+import {formatPercent, formatUSD, formatUSDforTable,} from '../../../utils/formatters';
 import CoinCard from '../../CoinCard/CoinCard';
 
 import styles from './WatchListCardItem.module.scss';
 
-const { Paragraph } = Typography;
+const {Paragraph} = Typography;
 
 const WatchListCardItem: FC<ICoin> = ({
-    id,
-    symbol,
-    rank,
-    dailychange,
-    name,
-    price,
-    image,
-    marketcap,
-}) => {
+                                          id,
+                                          symbol,
+                                          rank,
+                                          dailychange,
+                                          name,
+                                          price,
+                                          image,
+                                          marketcap,
+                                      }) => {
     const [isCardLoading, setIsCardLoading] = useState(false);
 
     const watchListIds: string[] = useAppSelector(selectWatchListIds);
@@ -54,14 +50,14 @@ const WatchListCardItem: FC<ICoin> = ({
     };
 
     return (
-        <Card hoverable className={styles.card} bodyStyle={{ width: '100%' }}>
-            {isCardLoading ? <HoverLoading /> : null}
+        <Card hoverable className={styles.card} bodyStyle={{width: '100%'}}>
+            {isCardLoading ? <HoverLoading/> : null}
 
             <Button
                 onClick={handleClose}
                 type='ghost'
                 className={`${styles.close} ${styles.btn}`}>
-                <CloseOutlined />
+                <CloseOutlined/>
             </Button>
 
             <CoinCard
@@ -91,12 +87,12 @@ const WatchListCardItem: FC<ICoin> = ({
 };
 
 const HoverLoading: FC = () => {
-    const antIcon = <LoadingOutlined style={{ fontSize: 30 }} spin />;
+    const antIcon = <LoadingOutlined style={{fontSize: 30}} spin/>;
     return (
         <div className={styles.hover}>
-            <Spin indicator={antIcon} />
+            <Spin indicator={antIcon}/>
         </div>
     );
 };
 
-export { WatchListCardItem };
+export {WatchListCardItem};

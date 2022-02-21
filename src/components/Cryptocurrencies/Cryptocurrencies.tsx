@@ -1,32 +1,22 @@
-import { FC, useCallback, useState } from 'react';
-import { Table, TablePaginationConfig } from 'antd';
-import { ColumnsType } from 'antd/lib/table';
+import {FC, useCallback, useState} from 'react';
+import {Table, TablePaginationConfig} from 'antd';
+import {ColumnsType} from 'antd/lib/table';
 import Icon from '@ant-design/icons';
 
 import CoinCard from '../CoinCard/CoinCard';
 
-import { COLORS } from '../../constants/colors';
-import { ICoinsData, ICoin, ICoinWL } from '../../types/ICoin';
+import {COLORS} from '../../constants/colors';
+import {ICoin, ICoinsData, ICoinWL} from '../../types/ICoin';
 
-import { ReactComponent as CommonStar } from '../../assets/svg/commonStar.svg';
-import { ReactComponent as YellowStar } from '../../assets/svg/yellowStar.svg';
+import {ReactComponent as CommonStar} from '../../assets/svg/commonStar.svg';
+import {ReactComponent as YellowStar} from '../../assets/svg/yellowStar.svg';
 
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-    addCoinToWatchList,
-    removeCoinFromWatchList,
-} from '../../redux/reducers/watchListSlice';
-import {
-    selectWatchList,
-    selectWatchListIds,
-} from '../../redux/selectors/watchListSelectors';
-import {
-    formatPercent,
-    formatUSD,
-    formatUSDforTable,
-} from '../../utils/formatters';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {addCoinToWatchList, removeCoinFromWatchList,} from '../../redux/reducers/watchListSlice';
+import {selectWatchList, selectWatchListIds,} from '../../redux/selectors/watchListSelectors';
+import {formatPercent, formatUSD, formatUSDforTable,} from '../../utils/formatters';
 
-const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
+const Cryptocurrencies: FC<ICoinsData> = ({dataCoins}) => {
     const [pageSize, setPageSize] = useState(50);
     const watchList: ICoinWL[] = useAppSelector(selectWatchList);
     const watchListIds: string[] = useAppSelector(selectWatchListIds);
@@ -94,7 +84,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             dataIndex: ['id', 'image', 'name', 'symbol'],
             key: 'coin',
             render: (value, record: ICoin) => {
-                const { id, image, name, symbol } = record;
+                const {id, image, name, symbol} = record;
                 return (
                     <CoinCard
                         id={id}
@@ -162,7 +152,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             pagination={
                 dataCoins!.length < 10
                     ? false
-                    : { pageSize: pageSize, position: ['bottomCenter'] }
+                    : {pageSize: pageSize, position: ['bottomCenter']}
             }
         />
     );

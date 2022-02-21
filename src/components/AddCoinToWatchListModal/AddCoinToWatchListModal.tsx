@@ -1,32 +1,23 @@
-import { ChangeEventHandler, FC, useState } from 'react';
-import { Input, Button, List, Modal, Tag } from 'antd';
+import {ChangeEventHandler, FC, useState} from 'react';
+import {Button, Input, List, Modal, Tag} from 'antd';
 
 import styles from './AddCoinToWatchListModal.module.scss';
-import { useModalVisibleContext } from '../../contexts/ModalVisibleContext';
+import {useModalVisibleContext} from '../../contexts/ModalVisibleContext';
 
 import CoinCard from '../CoinCard/CoinCard';
-import { useDebounce } from '../../hooks/useDebounce';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {
-    addCoinToWatchList,
-    clearWatchList,
-} from '../../redux/reducers/watchListSlice';
-import { selectModalSelectedCoins } from '../../redux/selectors/modalSelectedCoinsSelectors';
-import {
-    clearModalSelectedCoins,
-    removeCoinFromModalSelectedCoins,
-} from '../../redux/reducers/modalSelectedCoinsSlice';
-import { ICoinListItem } from '../../types/ICoinList';
-import {
-    useGetCoinsByIdsQuery,
-    useGetCoinsListQuery,
-} from '../../services/api';
-import { useListDataCoins } from '../../hooks/useListDataCoins';
+import {useDebounce} from '../../hooks/useDebounce';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {addCoinToWatchList, clearWatchList,} from '../../redux/reducers/watchListSlice';
+import {selectModalSelectedCoins} from '../../redux/selectors/modalSelectedCoinsSelectors';
+import {clearModalSelectedCoins, removeCoinFromModalSelectedCoins,} from '../../redux/reducers/modalSelectedCoinsSlice';
+import {ICoinListItem} from '../../types/ICoinList';
+import {useGetCoinsByIdsQuery, useGetCoinsListQuery,} from '../../services/api';
+import {useListDataCoins} from '../../hooks/useListDataCoins';
 
-const { Search } = Input;
+const {Search} = Input;
 
 const AddCoinToWatchListModal: FC = () => {
-    const { modalVisible, toogleModal } = useModalVisibleContext();
+    const {modalVisible, toogleModal} = useModalVisibleContext();
 
     const [inputValue, setInputValue] = useState('');
 
@@ -39,7 +30,7 @@ const AddCoinToWatchListModal: FC = () => {
     const ids = searchedCoinsIds.join(',');
     const pageLimit = inputValue && !ids ? 0 : 50;
 
-    const { data, error, isFetching, isLoading } = useGetCoinsByIdsQuery({
+    const {data, error, isFetching, isLoading} = useGetCoinsByIdsQuery({
         currency: 'usd',
         ids: ids,
         perPage: pageLimit,
