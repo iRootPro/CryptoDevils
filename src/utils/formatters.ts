@@ -56,6 +56,14 @@ export const formatSupply: TnumberFormatter = (number) =>
     maximumFractionDigits: 0,
   }).format(number);
 
+export const formatUSDNoDecimal: TnumberFormatter = (number) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(number);
+
 type TformatUrl = (url: string) => string;
 
 export const formatUrl: TformatUrl = (url) => {

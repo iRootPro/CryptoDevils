@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { Table, TablePaginationConfig } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Icon from '@ant-design/icons';
@@ -129,7 +129,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                     },
                 };
             },
-            render: (dailychange) => formatPercent(dailychange/100)
+            render: (dailychange) => formatPercent(dailychange / 100)
         },
         {
             title: 'Market Cap',

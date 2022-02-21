@@ -1,25 +1,26 @@
 import Layout from 'antd/lib/layout/layout';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { CoinDetails, Footer, Navbar, Portfolio,  } from './components/components';
-import {WatchListContainer, CryptocurrenciesContainer} from './containers/containers'
-import {ROUTES} from './constants/routes'
-import {Wrapper} from "./components/Wrapper/Wrapper";
+import { CoinDetails, Footer, Navbar, Portfolio, StatBar } from './components/components';
+import { WatchListContainer, CryptocurrenciesContainer } from './containers/containers'
+import { ROUTES } from './constants/routes'
+import { Wrapper } from "./components/Wrapper/Wrapper";
 
 function App() {
   return (
-        <Wrapper>
-              <Navbar />
-              <Layout>
-                <Switch>
-                  <Route exact path={ROUTES.main} render={() => <CryptocurrenciesContainer />} />
-                  <Route exact path={`${ROUTES.coin}/:id`} render={() => <CoinDetails />} />
-                  <Route exact path={ROUTES.portfolio} render={() => <Portfolio />} />
-                  <Route exact path={ROUTES.watchlist} render={() => <WatchListContainer />} />
-                </Switch>
-              </Layout>
-              <Footer />
-        </Wrapper>
+    <Wrapper>
+      <StatBar />
+      <Navbar />
+      <Layout>
+        <Switch>
+          <Route exact path={ROUTES.main} render={() => <CryptocurrenciesContainer />} />
+          <Route exact path={`${ROUTES.coin}/:id`} render={() => <CoinDetails />} />
+          <Route exact path={ROUTES.portfolio} render={() => <Portfolio />} />
+          <Route exact path={ROUTES.watchlist} render={() => <WatchListContainer />} />
+        </Switch>
+      </Layout>
+      <Footer />
+    </Wrapper>
   );
 }
 

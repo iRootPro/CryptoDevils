@@ -16,21 +16,19 @@ const CoinDetails: FC = () => {
   const { data, isFetching, isLoading, refetch } = useGetCoinByIdQuery(coinId)
   if (isLoading) return <Loader />
   return (
-    <>
-      <Row>
-        {data &&
-          <>
-            <CoinInfo data={data} isFetching={isFetching} />
-            <CoinData data={data} refetch={refetch}/>
-            <Col span={24} >
-              <Card>
-                <Chart id={coinId} />
-              </Card>
-            </Col>
-          </>
-        }
-      </Row>
-    </>
+    <Row>
+      {data &&
+        <>
+          <CoinInfo data={data} isFetching={isFetching} />
+          <CoinData data={data} refetch={refetch} />
+          <Col span={24} >
+            <Card>
+              <Chart id={coinId} />
+            </Card>
+          </Col>
+        </>
+      }
+    </Row>
   )
 }
 
