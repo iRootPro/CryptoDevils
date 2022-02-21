@@ -1,6 +1,6 @@
-import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown } from 'antd'
-import React, { FC, ReactElement } from 'react'
+import {DownOutlined} from '@ant-design/icons';
+import {Button, Dropdown} from 'antd'
+import React, {FC, ReactElement} from 'react'
 import styles from './DropdownMenu.module.scss';
 
 type CoinInfoProps = {
@@ -10,17 +10,17 @@ type CoinInfoProps = {
     menu: ReactElement;
 }
 
-const DropdownMenu: FC<CoinInfoProps> = ({ children, datapath, name, menu }) => {
+const DropdownMenu: FC<CoinInfoProps> = ({children, datapath, name, menu}) => {
     return (
         <>
             {Boolean(datapath.filter(Boolean).length) &&
-                <Dropdown className={`${styles.homePage} ${styles.page}`} overlay={menu} placement="bottomCenter">
-                    <Button className={`${styles.homePageLink} ${styles.link}`}>
-                        {children}
-                        {name}
-                        <DownOutlined />
-                    </Button>
-                </Dropdown>
+            <Dropdown className={`${styles.homePage} ${styles.page}`} overlay={menu} placement="bottomCenter">
+                <Button className={`${styles.homePageLink} ${styles.link}`}>
+                    {children}
+                    {name}
+                    <DownOutlined/>
+                </Button>
+            </Dropdown>
             }
         </>
     )

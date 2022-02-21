@@ -3,29 +3,29 @@ $symbolColor: #808a9d;
 $whiteColor: #fff;
 
 .homePage.page {
-    padding: 7px;
-    border: 1px solid $symbolBackgroundColor;
-    background-color: $symbolBackgroundColor;
-    margin-right: 5px;
-    border-radius: 10px;
+  padding: 7px;
+  border: 1px solid $symbolBackgroundColor;
+  background-color: $symbolBackgroundColor;
+  margin-right: 5px;
+  border-radius: 10px;
 
-    &:hover {
-        background-color: $symbolColor;
+  &:hover {
+    background-color: $symbolColor;
 
-        a,
-        svg {
-            color: $whiteColor;
-        }
+    a,
+    svg {
+      color: $whiteColor;
     }
+  }
 }
 
 .homePageLink.link {
-    height: 35px;
-    font-weight: 600;
-    margin-bottom: 5px;
+  height: 35px;
+  font-weight: 600;
+  margin-bottom: 5px;
 
-    &:hover {
-        color: $whiteColor;
-        border-color: $symbolBackgroundColor;
-    }
+  &:hover {
+    color: $whiteColor;
+    border-color: $symbolBackgroundColor;
+  }
 }

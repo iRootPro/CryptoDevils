@@ -1,16 +1,7 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { cryptoApi } from '../services/api';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {cryptoApi} from '../services/api';
 import watchListReducer from './reducers/watchListSlice';
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from 'redux-persist';
+import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE,} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {

@@ -1,26 +1,23 @@
-import { ChangeEventHandler, FC, useState } from 'react';
-import { Input, Button, List, Modal, Tag } from 'antd';
+import {ChangeEventHandler, FC, useState} from 'react';
+import {Button, Input, List, Modal, Tag} from 'antd';
 
 import styles from './AddCoinToWatchListModal.module.scss';
-import { useModalContext } from '../../contexts/ModalContext';
+import {useModalContext} from '../../contexts/ModalContext';
 
 import CoinCard from '../CoinCard/CoinCard';
 import useModalCoinList from '../../hooks/useModalCoinList';
-import { useDebounce } from '../../hooks/useDebounce';
-import { useSelectCoin } from '../../hooks/useSelectCoin';
-import { useAppDispatch } from '../../hooks/redux';
-import {
-    addCoinToWatchList,
-    clearWatchList,
-} from '../../redux/reducers/watchListSlice';
-import { useModalSelectedCoinsContext } from '../../contexts/ModalSelectedCoinsContext';
+import {useDebounce} from '../../hooks/useDebounce';
+import {useSelectCoin} from '../../hooks/useSelectCoin';
+import {useAppDispatch} from '../../hooks/redux';
+import {addCoinToWatchList, clearWatchList,} from '../../redux/reducers/watchListSlice';
+import {useModalSelectedCoinsContext} from '../../contexts/ModalSelectedCoinsContext';
 
-const { Search } = Input;
+const {Search} = Input;
 
 const AddCoinToWatchListModal: FC = () => {
-    const { modalVisible, toogleModal } = useModalContext();
-    const { prepareCoin } = useSelectCoin();
-    const { removeCoin, selectedCoins } = useModalSelectedCoinsContext();
+    const {modalVisible, toogleModal} = useModalContext();
+    const {prepareCoin} = useSelectCoin();
+    const {removeCoin, selectedCoins} = useModalSelectedCoinsContext();
 
     const [loading, setLoading] = useState(false);
     const [inputValue, setInputValue] = useState('');

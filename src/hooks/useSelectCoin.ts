@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
-import { selectWatchList } from '../redux/selectors/watchListSelectors';
-import { ICoin, ICoinCard, ICoinWL } from '../types/ICoin';
-import { useAppSelector } from './redux';
+import {useMemo, useState} from 'react';
+import {selectWatchList} from '../redux/selectors/watchListSelectors';
+import {ICoin, ICoinCard, ICoinWL} from '../types/ICoin';
+import {useAppSelector} from './redux';
 
 type useSelectCoin = {
     selectedCoinsIds: string[];
