@@ -1,13 +1,10 @@
-import { FC, useLayoutEffect } from 'react';
-import { useAppSelector } from '../../hooks/redux';
-import {
-    selectWatchList,
-    selectWatchListIds,
-} from '../../redux/selectors/watchListSelectors';
-import { useGetCoinsByIdsQuery } from '../../services/api';
-import { ICoinsNormalized, ICoinWL } from '../../types/ICoin';
-import { WatchList } from '../../components/components';
-import { useDataCoins } from '../../hooks/useDataCoins';
+import {FC} from 'react';
+import {useAppSelector} from '../../hooks/redux';
+import {selectWatchListIds,} from '../../redux/selectors/watchListSelectors';
+import {useGetCoinsByIdsQuery} from '../../services/api';
+import {ICoinsNormalized} from '../../types/ICoin';
+import {WatchList} from '../../components/components';
+import {useDataCoins} from '../../hooks/useDataCoins';
 
 const WatchListContainer: FC = () => {
     const watchListId: string[] = useAppSelector(selectWatchListIds);
@@ -15,7 +12,7 @@ const WatchListContainer: FC = () => {
 
     let dataCoins: ICoinsNormalized;
 
-    const { data, refetch } = useGetCoinsByIdsQuery({
+    const {data, refetch} = useGetCoinsByIdsQuery({
         currency: 'usd',
         ids: watchListString,
     });
@@ -24,10 +21,10 @@ const WatchListContainer: FC = () => {
 
     return watchListString ? (
         <>
-            <WatchList dataCoins={dataCoins} />
+            <WatchList dataCoins={dataCoins}/>
         </>
     ) : (
-        <WatchList dataCoins={[]} />
+        <WatchList dataCoins={[]}/>
     );
 };
 

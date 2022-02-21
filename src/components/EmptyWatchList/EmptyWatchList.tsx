@@ -1,19 +1,19 @@
-import { FC } from 'react';
+import {FC} from 'react';
 import Icon from '@ant-design/icons';
-import { Skeleton, Space, Button } from 'antd';
+import {Button, Skeleton, Space} from 'antd';
 
 import styles from './EmptyWatchList.module.scss';
-import { ReactComponent as CommonStar } from '../../assets/svg/commonStar.svg';
+import {ReactComponent as CommonStar} from '../../assets/svg/commonStar.svg';
 
-import { AddCoinToWatchListModal } from '../components';
-import { useModalContext } from '../../contexts/ModalContext';
+import {AddCoinToWatchListModal} from '../components';
+import {useModalContext} from '../../contexts/ModalContext';
 
 export const EmptyWatchList: FC = () => {
     return (
         <div className={styles.listWrapper}>
-            <WatchListItems count={6} />
-            <WatchListMessage />
-            <AddCoinToWatchListModal />
+            <WatchListItems count={6}/>
+            <WatchListMessage/>
+            <AddCoinToWatchListModal/>
         </div>
     );
 };
@@ -22,11 +22,11 @@ type IWLItemsProps = {
     count: number;
 };
 
-const WatchListItems: FC<IWLItemsProps> = ({ count }) => {
+const WatchListItems: FC<IWLItemsProps> = ({count}) => {
     const items = [];
 
     for (let i = 0; i < count; i++) {
-        items.push(<WatchListItem key={`WatchListSkeleton${i}`} />);
+        items.push(<WatchListItem key={`WatchListSkeleton${i}`}/>);
     }
 
     return <>{items}</>;
@@ -41,31 +41,31 @@ const WatchListItem: FC = () => {
                     size={10}
                     shape={'circle'}
                 />
-                <Skeleton.Avatar size={20} shape={'circle'} />
-                <SkeletonInput width={250} />
-                <SkeletonInput width={150} />
-                <SkeletonInput width={150} />
-                <SkeletonInput width={100} />
+                <Skeleton.Avatar size={20} shape={'circle'}/>
+                <SkeletonInput width={250}/>
+                <SkeletonInput width={150}/>
+                <SkeletonInput width={150}/>
+                <SkeletonInput width={100}/>
             </Space>
         </div>
     );
 };
 
-const SkeletonInput: FC<{ width: number }> = ({ width }) => {
+const SkeletonInput: FC<{ width: number }> = ({width}) => {
     return (
         <div className={styles.currencyName}>
-            <Skeleton.Input style={{ width }} active size={'default'} />
+            <Skeleton.Input style={{width}} active size={'default'}/>
         </div>
     );
 };
 
 const WatchListMessage: FC = () => {
-    const { toogleModal } = useModalContext();
+    const {toogleModal} = useModalContext();
 
     return (
         <div className={styles.message}>
             <div className={styles.iconWrapper}>
-                <Icon className={styles.starIcon} component={CommonStar} />
+                <Icon className={styles.starIcon} component={CommonStar}/>
             </div>
             <h3 className={styles.header}>Your watchlist is empty</h3>
             <p className={styles.info}>

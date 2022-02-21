@@ -1,13 +1,14 @@
-import { FC, useCallback, useEffect, useState } from 'react'
-import { Card, Col, Menu, Typography } from 'antd';
+import {FC, useCallback, useEffect, useState} from 'react'
+import {Card, Col, Menu, Typography} from 'antd';
 import styles from './CoinInfo.module.scss';
-import { GithubOutlined, LinkOutlined, RedditOutlined, SearchOutlined } from '@ant-design/icons';
-import { ICoinIdData } from '../../../types/ICoin';
+import {GithubOutlined, LinkOutlined, RedditOutlined, SearchOutlined} from '@ant-design/icons';
+import {ICoinIdData} from '../../../types/ICoin';
 import DropdownMenu from './DropdownMenu/DropdownMenu';
-import { formatDescription, formatUrl } from '../../../utils/formatters';
+import {formatDescription, formatUrl} from '../../../utils/formatters';
 import CoinDescription from './CoinDescription/CoinDescription';
 import CoinInfoHeader from './CoinInfoHeader/CoinInfoHeader';
 import CoinRanking from './CoinRanking/CoinRanking';
+import React from 'react';
 
 type TcoinInfoProps = {
     data: ICoinIdData;
@@ -18,7 +19,7 @@ type Tdescription = string;
 type TshowButton = boolean;
 type TtoggleReading = () => void
 
-const { Text } = Typography
+const {Text} = Typography
 
 const menuTemplate = (datapath: string[]) => {
     return (
@@ -33,7 +34,7 @@ const menuTemplate = (datapath: string[]) => {
 }
 
 
-const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
+const CoinInfo: FC<TcoinInfoProps> = ({isFetching, data}) => {
     const coinName = data.name;
     const coinSymbol = data.symbol;
     const descriptionEN = data.description.en;
@@ -60,38 +61,42 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
     const menuExplorers = menuTemplate(data.links.blockchain_site)
     const menuChat = menuTemplate(data.links.chat_url)
     const menuSourceCode = menuTemplate(data.links.repos_url.github)
-    
+
     return (
-        <Col xs={24} sm={24} lg={12}>
+        <Col xs={24} lg={12}>
             <Card style={{ height: cardHeight }}>
                 <CoinInfoHeader
                     isFetching={isFetching}
                     coinName={coinName}
                     coinSymbol={coinSymbol}
-                    image={image} />
+                    image={image}/>
                 <CoinRanking
                     genesisDate={genesisDate}
                     categories={categories}
-                    rank={rank} />
+                    rank={rank}/>
                 <div className={styles.linksMenu}>
                     <Text className={styles.homePage}>
-                        <LinkOutlined />
-                        <a target="_blank" rel="noopener noreferrer" className={`${styles.homePageLink} ${styles.homePageButton}`} href={url}>
+                        <LinkOutlined/>
+                        <a target="_blank" rel="noopener noreferrer"
+                           className={`${styles.homePageLink} ${styles.homePageButton}`} href={url}>
                             {formatUrl(url)}
                         </a>
                     </Text>
-                    <DropdownMenu menu={menuExplorers} name={'Explorers'} datapath={data.links.blockchain_site}><SearchOutlined /></ DropdownMenu>
-                    <DropdownMenu menu={menuChat} name={'Chat'} datapath={data.links.chat_url}><RedditOutlined /></ DropdownMenu>
-                    <DropdownMenu menu={menuSourceCode} name={'Source Code'} datapath={data.links.repos_url.github}><GithubOutlined /></ DropdownMenu>
+                    <DropdownMenu menu={menuExplorers} name={'Explorers'}
+                                  datapath={data.links.blockchain_site}><SearchOutlined/></ DropdownMenu>
+                    <DropdownMenu menu={menuChat} name={'Chat'}
+                                  datapath={data.links.chat_url}><RedditOutlined/></ DropdownMenu>
+                    <DropdownMenu menu={menuSourceCode} name={'Source Code'}
+                                  datapath={data.links.repos_url.github}><GithubOutlined/></ DropdownMenu>
                 </div>
                 <CoinDescription
                     showButton={showButton}
                     handleToggleReading={handleToggleReading}
                     description={description}
-                    coinName={coinName} />
+                    coinName={coinName}/>
             </Card>
         </Col>
     )
 }
 
-export default CoinInfo
+export default React.memo(CoinInfo)
