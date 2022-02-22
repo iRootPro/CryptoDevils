@@ -19,6 +19,7 @@ import {
     img15,
 } from '../../assets/images/newsTemplates';
 import { useGetNewsQuery } from '../../services/newsApi';
+import shuffle from '../../utils/shuffleArray';
 import styles from './CryptoNews.module.scss';
 
 
@@ -42,7 +43,7 @@ const CryptoNews: FC = () => {
         img14,
         img15,
     ];
-        shuffle(imageTemplates)
+    shuffle(imageTemplates)
     return (
         <Carousel slidesToShow={5} arrows autoplay dots={false}>
             {data?.results.map((news, index) => (
