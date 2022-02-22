@@ -1,9 +1,7 @@
-import React, { FC } from 'react'
+import React, {FC} from 'react';
 
-const Portfolio:FC = () => {
-  return (
+const Portfolio: FC = () => (
     <div>Portifolio</div>
-  )
-}
+);
 
-export default Portfolio
+export default Portfolio;

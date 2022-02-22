@@ -1,20 +1,20 @@
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
-import { Card, Typography } from 'antd'
-import { FC } from 'react'
-import { ICoinIdData } from '../../../../types/ICoin';
-import { formatDate, formatName, formatPercent, formatSymbol, formatUSD } from '../../../../utils/formatters'
+import {CaretDownOutlined, CaretUpOutlined} from '@ant-design/icons';
+import {Card, Typography} from 'antd';
+import {FC} from 'react';
+import {ICoinIdData} from '../../../../types/ICoin';
+import {formatDate, formatName, formatPercent, formatSymbol, formatUSD,} from '../../../../utils/formatters';
 import styles from './CoinDataHeader.module.scss';
 import CoinPrice from './CoinPrice/CoinPrice';
 
-const { Text, Title } = Typography
+const {Text, Title} = Typography;
 
 type TCoinDataHeaderProps = {
     data: ICoinIdData;
 }
 
-const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
-    const coinName = data.name
-    const coinSymbol = data.symbol
+const CoinDataHeader: FC<TCoinDataHeaderProps> = ({data}) => {
+    const coinName = data.name;
+    const coinSymbol = data.symbol;
     const currentPrice = data.market_data.current_price.usd;
     const ath = data.market_data.ath.usd;
     const athChangePercent = data.market_data.ath_change_percentage.usd;
@@ -28,8 +28,16 @@ const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
         <>
             <div className={styles.header}>
                 <div>
-                    <Text className={`${styles.coinName} ${styles.name}`}>{formatName(coinName)} price</Text>
-                    <Text className={`${styles.coinSymbol} ${styles.symbol}`}>({formatSymbol(coinSymbol)})</Text>
+                    <Text className={`${styles.coinName} ${styles.name}`}>
+                        {formatName(coinName)}
+                        {' '}
+                        price
+                    </Text>
+                    <Text className={`${styles.coinSymbol} ${styles.symbol}`}>
+                        (
+                        {formatSymbol(coinSymbol)}
+                        )
+                    </Text>
                 </div>
                 <Card className={`${styles.historyCard} ${styles.card}`}>
                     <Text className={`${styles.coinName} ${styles.title}`}>All time high:</Text>
@@ -49,14 +57,14 @@ const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
                     {formatUSD(currentPrice)}
                 </Title>
                 <Text className={`${styles.dailyChangePrice} ${priceChange24h > 0 ? styles.green : styles.red}`}>
-                    {priceChange24h > 0 ? <CaretUpOutlined /> : <CaretDownOutlined />}
+                    {priceChange24h > 0 ? <CaretUpOutlined/> : <CaretDownOutlined/>}
                     {formatPercent(priceChange24h / 100)}
                 </Text>
             </div>
-            <CoinPrice currentCoinPrice={currentPriceBTC} coinName={'BTC'} priceChange={priceChange24hBTC} />
-            <CoinPrice currentCoinPrice={currentPriceETH} coinName={'ETH'} priceChange={priceChange24hETH} />
+            <CoinPrice currentCoinPrice={currentPriceBTC} coinName="BTC" priceChange={priceChange24hBTC}/>
+            <CoinPrice currentCoinPrice={currentPriceETH} coinName="ETH" priceChange={priceChange24hETH}/>
         </>
-    )
-}
+    );
+};
 
-export default CoinDataHeader
+export default CoinDataHeader;

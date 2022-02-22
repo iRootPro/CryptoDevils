@@ -2,10 +2,9 @@ export const ROUTES: typeRoutes = {
     main: '/',
     portfolio: '/portfolio',
     watchlist: '/watchlist',
-    coin: '/coin'
+    coin: '/coin',
 
-}
-
+};
 
 type typeRoutes = {
     main: string,

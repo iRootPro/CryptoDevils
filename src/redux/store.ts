@@ -1,19 +1,10 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { cryptoApi } from '../services/api';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE,} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import {cryptoApi} from '../services/api';
 import watchListReducer from './reducers/watchListSlice';
 import modalSelectedCoinsReducer from './reducers/modalSelectedCoinsSlice';
 import watchListViewReducer from './reducers/watchListViewSlice';
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
     key: 'root',
@@ -23,31 +14,28 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
     [cryptoApi.reducerPath]: cryptoApi.reducer,
-    watchListReducer: watchListReducer,
-    modalSelectedCoinsReducer: modalSelectedCoinsReducer,
-    watchListViewReducer: watchListViewReducer,
+    watchListReducer,
+    modalSelectedCoinsReducer,
+    watchListViewReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const setupStore = () => {
-    return configureStore({
-        reducer: persistedReducer,
-        middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware({
-                serializableCheck: {
-                    ignoredActions: [
-                        FLUSH,
-                        REHYDRATE,
-                        PAUSE,
-                        PERSIST,
-                        PURGE,
-                        REGISTER,
-                    ],
-                },
-            }).concat(cryptoApi.middleware),
-    });
-};
+const setupStore = () => configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: {
+            ignoredActions: [
+                FLUSH,
+                REHYDRATE,
+                PAUSE,
+                PERSIST,
+                PURGE,
+                REGISTER,
+            ],
+        },
+    }).concat(cryptoApi.middleware),
+});
 
 export const store = setupStore();
 

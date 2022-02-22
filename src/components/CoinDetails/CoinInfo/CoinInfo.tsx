@@ -52,7 +52,7 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
     const image = data.image.large;
     const rank = data.market_cap_rank;
     const genesisDate = data.genesis_date;
-    const categories = data.categories;
+    const { categories } = data;
     const url = data.links.homepage[0];
     const id = data.id;
 

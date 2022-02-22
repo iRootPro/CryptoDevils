@@ -35,26 +35,24 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             title: '',
             dataIndex: ['id', 'image', 'name', 'symbol'],
             key: 'star',
-            render: (value, record: ICoin) => {
-                return (
-                    <Icon
-                        onClick={() => {
-                            handleOnStar(record);
-                        }}
-                        component={
-                            watchListIds.includes(record.id)
-                                ? YellowStar
-                                : CommonStar
-                        }
-                    />
-                );
-            },
+            render: (value, record: ICoin) => (
+                <Icon
+                    onClick={() => {
+                        handleOnStar(record);
+                    }}
+                    component={
+                        watchListIds.includes(record.id)
+                            ? YellowStar
+                            : CommonStar
+                    }
+                />
+            ),
         },
         {
             title: 'Rank',
             dataIndex: 'rank',
             key: 'rank',
-            render: (rank: number) => (rank ? rank : 'N'),
+            render: (rank: number) => rank || 'N',
         },
         {
             title: 'Name',
@@ -96,16 +94,12 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                 ) => a.dailychange - b.dailychange,
                 multiple: 2,
             },
-            onCell: (dailychange: { dailychange: number }) => {
-                return {
-                    style: {
-                        color:
-                            dailychange.dailychange > 0
-                                ? COLORS.green
-                                : COLORS.red,
-                    },
-                };
-            },
+            onCell: (dailychange: { dailychange: number }) => ({
+                style: {
+                    color:
+                        dailychange.dailychange > 0 ? COLORS.green : COLORS.red,
+                },
+            }),
             render: (dailychange) => formatPercent(dailychange / 100),
         },
         {

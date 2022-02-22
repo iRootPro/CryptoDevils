@@ -1,25 +1,28 @@
-import React, { FC } from 'react'
-import {Margin} from "../common/Margin";
-import {MARGIN} from "../../constants/margins";
-import {HeartFilled} from "@ant-design/icons";
+import React, {FC} from 'react';
+import {HeartFilled} from '@ant-design/icons';
+import {Divider} from 'antd';
+import {Margin} from '../common/Margin';
+import {MARGIN} from '../../constants/margins';
 import styles from './Footer.module.scss';
-import {Divider} from "antd";
 
-const logo = require('./../../assets/images/logo.png')
+const logo = require('../../assets/images/logo.png');
 
-const Footer:FC = () => {
-  return (
-      <>
-          <Divider />
-          <Margin vertical={MARGIN.xl}>
+const Footer: FC = () => (
+    <>
+        <Divider/>
+        <Margin vertical={MARGIN.xl}>
             <div className={styles.wrapper}>
-              <img src={logo} alt="logo" height="50px"/>
-                <span className={styles.text}>Made with <HeartFilled /> by CryptoDevils</span>
+                <img src={logo} alt="logo" height="50px"/>
+                <span className={styles.text}>
+          Made with
+          <HeartFilled/>
+                    {' '}
+                    by CryptoDevils
+        </span>
                 <span className={styles.text}>copyright © 2022</span>
             </div>
-          </Margin>
-      </>
-  )
-}
+        </Margin>
+    </>
+);
 
-export default Footer
+export default Footer;

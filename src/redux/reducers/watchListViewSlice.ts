@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 type IWLView = {
     view: 'cards' | 'table';
@@ -9,7 +9,7 @@ const initialState: IWLView = {
 
 const watchListView = createSlice({
     name: 'watchListSlice',
-    initialState: initialState,
+    initialState,
     reducers: {
         changeView(state) {
             if (state.view === 'table') state.view = 'cards';
@@ -19,4 +19,4 @@ const watchListView = createSlice({
 });
 
 export default watchListView.reducer;
-export const { changeView } = watchListView.actions;
+export const {changeView} = watchListView.actions;

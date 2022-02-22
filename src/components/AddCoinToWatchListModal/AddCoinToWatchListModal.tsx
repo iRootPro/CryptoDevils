@@ -13,6 +13,7 @@ import styles from './AddCoinToWatchListModal.module.scss';
 import { useModalVisibleContext } from '../../contexts/ModalVisibleContext';
 
 import CoinCard from '../CoinCard/CoinCard';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
     addCoinToWatchList,
@@ -51,7 +52,7 @@ const AddCoinToWatchListModal: FC = () => {
 
     const { data, error } = useGetCoinsByIdsQuery({
         currency: 'usd',
-        ids: ids,
+        ids,
         perPage: pageLimit,
     });
 
@@ -102,17 +103,15 @@ const AddCoinToWatchListModal: FC = () => {
         if (!inputValue) setIsListLoading(false);
     }, [inputValue, dataCoins, searchedCoinsIds]);
 
-    const parseCoinList = (searchTerm: string) => {
-        return coinList!.filter(
+    const parseCoinList = (searchTerm: string) =>
+        coinList!.filter(
             (coin) =>
                 coin.name.toLowerCase().replace(/\s/g, '').indexOf(searchTerm) >
                 -1,
         );
-    };
 
-    const getCoinsIds = (coinList: ICoinListItem[]) => {
-        return coinList?.map((item) => item.id);
-    };
+    const getCoinsIds = (coinList: ICoinListItem[]) =>
+        coinList?.map((item) => item.id);
 
     const makeSearchedCoinList = () => {
         const searchTerm = inputValue;
@@ -197,7 +196,7 @@ const AddCoinToWatchListModal: FC = () => {
             centered
             footer={[
                 <div
-                    key={`modal_tags_wrapper`}
+                    key='modal_tags_wrapper'
                     className={`${styles.tagWrapper} ${
                         selectedCoins.length ? null : styles.hide
                     }`}>
@@ -212,7 +211,7 @@ const AddCoinToWatchListModal: FC = () => {
                 </Button>,
             ]}>
             <Search
-                defaultValue={''}
+                defaultValue=''
                 allowClear
                 placeholder='Search'
                 onChange={debouncedHandleChange}

@@ -12,6 +12,7 @@ import {
 import { selectModalSelectedCoinsIds } from '../../redux/selectors/modalSelectedCoinsSelectors';
 import { ICoinCard, ICoinWL } from '../../types/ICoin';
 import { isOverflownWidth } from '../../utils/isOverflownWidth';
+
 import styles from './CoinCard.module.scss';
 
 const { Text } = Typography;
@@ -44,7 +45,7 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
         else dispatch(addCoinToModalSelectedCoins(coin));
     };
 
-    if (type === 'cryptocurrencies')
+    if (type === 'cryptocurrencies') {
         return (
             <Link to={`${ROUTES.coin}/${id}`} className={styles.link}>
                 <div className={styles.wrapper}>
@@ -57,7 +58,8 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                 </div>
             </Link>
         );
-    else if (type === 'watchlist-modal-list')
+    }
+    if (type === 'watchlist-modal-list') {
         return (
             <div
                 className={`${styles.wrapper} ${styles.modalList}`}
@@ -73,7 +75,8 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                 {showSelect ? <Check /> : null}
             </div>
         );
-    else if (type === 'watchlist-modal-tag')
+    }
+    if (type === 'watchlist-modal-tag') {
         return (
             <div className={styles.wrapper}>
                 <Avatar
@@ -83,7 +86,7 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                 <Text className={`${styles.name} ${styles.tag}`}>{name}</Text>
             </div>
         );
-    else {
+    } else {
         const div = divRef.current;
 
         const isAnimateString =
@@ -121,12 +124,10 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
     }
 };
 
-const Check: FC = () => {
-    return (
-        <div className={styles.checkWrapper}>
-            <CheckOutlined style={{ color: 'white' }} />
-        </div>
-    );
-};
+const Check: FC = () => (
+    <div className={styles.checkWrapper}>
+        <CheckOutlined style={{ color: 'white' }} />
+    </div>
+);
 
 export default CoinCard;

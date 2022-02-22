@@ -1,32 +1,28 @@
-import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Button, Card, Spin, Typography } from 'antd';
-import { FC, useLayoutEffect, useState } from 'react';
-import { COLORS } from '../../../constants/colors';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { removeCoinFromWatchList } from '../../../redux/reducers/watchListSlice';
-import { selectWatchListIds } from '../../../redux/selectors/watchListSelectors';
-import { ICoin, ICoinWL } from '../../../types/ICoin';
-import {
-    formatPercent,
-    formatUSD,
-    formatUSDforTable,
-} from '../../../utils/formatters';
+import {CloseOutlined, LoadingOutlined} from '@ant-design/icons';
+import {Button, Card, Spin, Typography,} from 'antd';
+import {FC, useLayoutEffect, useState} from 'react';
+import {COLORS} from '../../../constants/colors';
+import {useAppDispatch, useAppSelector} from '../../../hooks/redux';
+import {removeCoinFromWatchList} from '../../../redux/reducers/watchListSlice';
+import {selectWatchListIds} from '../../../redux/selectors/watchListSelectors';
+import {ICoin, ICoinWL} from '../../../types/ICoin';
+import {formatPercent, formatUSD, formatUSDforTable,} from '../../../utils/formatters';
 import CoinCard from '../../CoinCard/CoinCard';
 
 import styles from './WatchListCardItem.module.scss';
 
-const { Paragraph } = Typography;
+const {Paragraph} = Typography;
 
 const WatchListCardItem: FC<ICoin> = ({
-    id,
-    symbol,
-    rank,
-    dailychange,
-    name,
-    price,
-    image,
-    marketcap,
-}) => {
+                                          id,
+                                          symbol,
+                                          rank,
+                                          dailychange,
+                                          name,
+                                          price,
+                                          image,
+                                          marketcap,
+                                      }) => {
     const [isCardLoading, setIsCardLoading] = useState(false);
 
     const watchListIds: string[] = useAppSelector(selectWatchListIds);
@@ -44,28 +40,29 @@ const WatchListCardItem: FC<ICoin> = ({
     const handleClose = () => {
         setIsCardLoading(true);
         const coin: ICoinWL = {
-            name: name,
-            id: id,
-            image: image,
-            symbol: symbol,
+            name,
+            id,
+            image,
+            symbol,
         };
 
         dispatch(removeCoinFromWatchList(coin));
     };
 
     return (
-        <Card hoverable className={styles.card} bodyStyle={{ width: '100%' }}>
-            {isCardLoading ? <HoverLoading /> : null}
+        <Card hoverable className={styles.card} bodyStyle={{width: '100%'}}>
+            {isCardLoading ? <HoverLoading/> : null}
 
             <Button
                 onClick={handleClose}
-                type='ghost'
-                className={`${styles.close} ${styles.btn}`}>
-                <CloseOutlined />
+                type="ghost"
+                className={`${styles.close} ${styles.btn}`}
+            >
+                <CloseOutlined/>
             </Button>
 
             <CoinCard
-                type='watch-list-card-view'
+                type="watch-list-card-view"
                 name={name}
                 id={id}
                 symbol={symbol}
@@ -74,29 +71,36 @@ const WatchListCardItem: FC<ICoin> = ({
             />
 
             <Paragraph className={`${styles.price} ${styles.fake}`}>
-                Price: {formatUSDforTable(price)}
+                Price:
+                {' '}
+                {formatUSDforTable(price)}
             </Paragraph>
             <Paragraph
                 className={`${styles.dailychange} ${styles.fake}`}
                 style={{
                     color: dailychange > 0 ? COLORS.green : COLORS.red,
-                }}>
-                24h change: {formatPercent(dailychange / 100)}
+                }}
+            >
+                24h change:
+                {' '}
+                {formatPercent(dailychange / 100)}
             </Paragraph>
             <Paragraph className={`${styles.marketcap} ${styles.fake}`}>
-                Marketcap: {formatUSD(marketcap)}
+                Marketcap:
+                {' '}
+                {formatUSD(marketcap)}
             </Paragraph>
         </Card>
     );
 };
 
 const HoverLoading: FC = () => {
-    const antIcon = <LoadingOutlined style={{ fontSize: 30 }} spin />;
+    const antIcon = <LoadingOutlined style={{fontSize: 30}} spin/>;
     return (
         <div className={styles.hover}>
-            <Spin indicator={antIcon} />
+            <Spin indicator={antIcon}/>
         </div>
     );
 };
 
-export { WatchListCardItem };
+export {WatchListCardItem};
