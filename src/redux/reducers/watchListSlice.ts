@@ -1,5 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {ICoinWL} from '../../types/ICoin';
+/* eslint-disable no-param-reassign */
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ICoinWL } from '../../types/ICoin';
 
 type IWatchList = {
     data: ICoinWL[];
@@ -10,7 +11,7 @@ const initialState: IWatchList = {
 
 const watchListSlice = createSlice({
     name: 'watchListSlice',
-    initialState: initialState,
+    initialState,
     reducers: {
         addCoinToWatchList(state, action: PayloadAction<ICoinWL>) {
             state.data.push(action.payload);
@@ -27,5 +28,5 @@ const watchListSlice = createSlice({
 });
 
 export default watchListSlice.reducer;
-export const {addCoinToWatchList, removeCoinFromWatchList, clearWatchList} =
+export const { addCoinToWatchList, removeCoinFromWatchList, clearWatchList } =
     watchListSlice.actions;

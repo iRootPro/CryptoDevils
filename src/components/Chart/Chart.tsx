@@ -1,8 +1,10 @@
-import {FC} from 'react';
+/* eslint-disable import/extensions */
+/* eslint-disable camelcase */
+import { FC } from 'react';
 import HighchartsReact from 'highcharts-react-official';
-import Highcharts, {Options} from 'highcharts/highstock';
+import Highcharts, { Options } from 'highcharts/highstock';
 
-import Indicators from 'highcharts/indicators/indicators.js';
+import Indicators from 'highcharts/indicators/indicators';
 import acceleration_bands from 'highcharts/indicators/acceleration-bands.js';
 import AO from 'highcharts/indicators/ao.js';
 import APO from 'highcharts/indicators/apo.js';
@@ -85,16 +87,19 @@ Exporting(Highcharts);
 OfflineExporting(Highcharts);
 StockTools(Highcharts);
 
-const Chart: FC<TPropsChart> = ({options}) => {
-    return (
-        <div id="container">
-            <HighchartsReact highcharts={Highcharts} constructorType={'stockChart'} options={options} immutable/>
-        </div>
-    )
-};
-
 type TPropsChart = {
     options: Options;
-}
+};
+
+const Chart: FC<TPropsChart> = ({ options }) => (
+    <div id="container">
+        <HighchartsReact
+            highcharts={Highcharts}
+            constructorType="stockChart"
+            options={options}
+            immutable
+        />
+    </div>
+);
 
 export default Chart;

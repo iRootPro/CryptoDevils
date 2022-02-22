@@ -1,16 +1,18 @@
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons'
-import { Typography } from 'antd'
+/* eslint-disable react/jsx-no-useless-fragment */
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
+import { Typography } from 'antd';
 import { FC } from 'react';
-import { formatCrypto, formatPercent } from '../../../../../utils/formatters'
+import { formatCrypto, formatPercent } from '../../../../../utils/formatters';
 import styles from './CoinPrice.module.scss';
 
-const { Text, Title } = Typography
+const { Text, Title } = Typography;
 
 type Tcoinprice = {
     currentCoinPrice: number;
     coinName: string;
     priceChange: number;
-}
+};
+
 
 const CoinPrice: FC<Tcoinprice> = ({ currentCoinPrice, coinName, priceChange }) => {
     return (
@@ -36,4 +38,5 @@ const CoinPrice: FC<Tcoinprice> = ({ currentCoinPrice, coinName, priceChange }) 
     )
 }
 
-export default CoinPrice
+
+export default CoinPrice;

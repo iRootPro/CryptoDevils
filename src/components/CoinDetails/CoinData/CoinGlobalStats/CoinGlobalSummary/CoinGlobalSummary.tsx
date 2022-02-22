@@ -1,13 +1,14 @@
-import {Space, Typography} from "antd"
-import {FC} from "react";
+import { Space, Typography } from 'antd';
+import { FC } from 'react';
 import styles from './CoinGlobalSummary.module.scss';
 
-const {Title} = Typography
+const { Title } = Typography;
+
 type TcoinGlobalSummary = {
     value: number;
     tooltip: string;
-    formater: (number: number) => string
-}
+    formater: (number: number) => string;
+};
 
 const CoinGlobalSummary: FC<TcoinGlobalSummary> = ({value, tooltip, formater}) => {
     return (
@@ -22,4 +23,5 @@ const CoinGlobalSummary: FC<TcoinGlobalSummary> = ({value, tooltip, formater}) =
     )
 }
 
-export default CoinGlobalSummary
+
+export default CoinGlobalSummary;

@@ -1,7 +1,8 @@
-export function debounce<A = unknown, R = void>(
+function debounce<A = unknown, R = void>(
     fn: (args: A) => R,
     ms: number,
 ): [(args: A) => Promise<R>, () => void] {
+    // eslint-disable-next-line no-undef
     let timer: NodeJS.Timeout;
 
     const debouncedFunc = (args: A): Promise<R> =>
@@ -19,3 +20,5 @@ export function debounce<A = unknown, R = void>(
 
     return [debouncedFunc, teardown];
 }
+
+export default debounce;

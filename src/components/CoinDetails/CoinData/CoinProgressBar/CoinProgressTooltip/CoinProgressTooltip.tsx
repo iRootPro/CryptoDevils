@@ -1,14 +1,16 @@
-import {Typography} from 'antd'
-import {FC} from 'react'
-import {formatUSD} from '../../../../../utils/formatters'
+import { Typography } from 'antd';
+import { FC } from 'react';
+import { formatUSD } from '../../../../../utils/formatters';
+
 import styles from './CoinProgressTooltip.module.scss';
 
 type TcoinProgressToolTip = {
     value24h: number;
     text: string;
-}
+};
 
-const {Text} = Typography
+const { Text } = Typography;
+
 
 const CoinProgressTooltip: FC<TcoinProgressToolTip> = ({value24h, text}) => {
     return (
@@ -19,4 +21,5 @@ const CoinProgressTooltip: FC<TcoinProgressToolTip> = ({value24h, text}) => {
     )
 }
 
-export default CoinProgressTooltip
+
+export default CoinProgressTooltip;

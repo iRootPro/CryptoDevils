@@ -4,7 +4,7 @@ export interface ICoinListItem {
     name: string;
 }
 
-export type ICoinList = ICoinListItem[] | undefined;
+export type ICoinList = ICoinListItem[];
 
 export interface ICoinListItemWL {
     id: string;

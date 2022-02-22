@@ -1,10 +1,17 @@
-import { CaretDownOutlined, CaretUpOutlined, InfoCircleOutlined } from '@ant-design/icons'
-import { Card, Col, Tooltip, Typography } from 'antd'
+/* eslint-disable react/require-default-props */
+/* eslint-disable no-unused-vars */
+import {
+    CaretDownOutlined,
+    CaretUpOutlined,
+    InfoCircleOutlined,
+} from '@ant-design/icons';
+import { Card, Col, Tooltip, Typography } from 'antd';
 import { FC } from 'react';
 import { formatSupplySymbol } from '../../../../../utils/formatters';
 import styles from './CoinStatCard.module.scss';
 
 const { Title, Text } = Typography
+
 
 type TcoinStatCard = {
     name: string;
@@ -14,7 +21,7 @@ type TcoinStatCard = {
     valueChange24h?: number;
     tooltip: string;
     symbol?: string;
-}
+};
 
 const CoinStatCard: FC<TcoinStatCard> = ({
     name,
@@ -54,4 +61,4 @@ const CoinStatCard: FC<TcoinStatCard> = ({
     )
 }
 
-export default CoinStatCard
+export default CoinStatCard;
