@@ -12,14 +12,13 @@ type TcoinProgressToolTip = {
 const { Text } = Typography;
 
 
-const CoinProgressTooltip: FC<TcoinProgressToolTip> = ({value24h, text}) => {
-    return (
-        <Text className={`${styles.priceDifference} ${styles.price}`}>
-            <span className={`${styles.coinName} ${styles.name}`}>{text}</span>
-            {value24h ? formatUSD(value24h) : '0%'}
-        </Text>
-    )
-}
+const CoinProgressTooltip: FC<TcoinProgressToolTip> = ({ value24h, text }) =>
+    <Text className={`${styles.priceDifference} ${styles.price}`}>
+        <span className={`${styles.coinName} ${styles.name}`}>{text}</span>
+        {value24h ? formatUSD(value24h) : '0%'}
+    </Text>
+
+
 
 
 export default CoinProgressTooltip;

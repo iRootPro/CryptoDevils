@@ -10,18 +10,14 @@ type TcoinGlobalSummary = {
     formater: (number: number) => string;
 };
 
-const CoinGlobalSummary: FC<TcoinGlobalSummary> = ({value, tooltip, formater}) => {
-    return (
+const CoinGlobalSummary: FC<TcoinGlobalSummary> = ({value, tooltip, formater}) => 
         <Title level={5} className={`${styles.statTitle} ${styles.stat}`}>
             <Space>
                 {tooltip}
                 <div className={`${styles.priceDifference} ${styles.price}`}>
-                    {isFinite(value) ? formater(value) : 0}
+                    {Number.isFinite(value) ? formater(value) : 0}
                 </div>
             </Space>
         </Title>
-    )
-}
-
 
 export default CoinGlobalSummary;
