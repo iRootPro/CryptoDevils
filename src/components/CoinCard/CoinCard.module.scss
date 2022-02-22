@@ -1,56 +1,166 @@
 .link {
-  color: #000;
+    color: #000;
 }
 
 .wrapper {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-
-  &:hover {
-    background-color: #eff2f5;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 
 .modalList.wrapper {
-  justify-content: space-between;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 5px;
+    &:hover {
+        background-color: #eff2f5;
+        cursor: pointer;
+    }
+    @media (hover: none) {
+        &:hover {
+            background-color: inherit;
+        }
+    }
 }
 
 .name,
 .symbol {
-  display: inline-block;
-  margin: 0px 0px 0px 10px;
-  font-size: 20px;
-  line-height: 100%;
+    display: inline-block;
+    margin: 0px 0px 0px 10px;
+    font-size: 16px;
+    line-height: 100%;
 }
 
 .symbol {
-  text-transform: uppercase;
-  color: rgb(165, 165, 165) !important;
+    text-transform: uppercase;
+    color: rgb(165, 165, 165) !important;
+}
+
+.name.modalList {
+    font-weight: 500;
 }
 
 .checkWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 23px;
-  height: 23px;
-  background-color: dodgerblue;
-  border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 23px;
+    min-height: 23px;
+    background-color: dodgerblue;
+    border-radius: 50%;
 }
 
 .centerContent {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .tag.avatar {
-  width: 20px;
-  height: 20px;
+    width: 20px;
+    height: 20px;
 }
 
 .tag.name {
-  margin-left: 2px;
-  font-size: 12px;
+    margin-left: 2px;
+    font-size: 12px;
+}
+
+.rank {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 38px;
+    min-width: 38px;
+    border: 1px #71b1ec solid;
+    border-radius: 50%;
+}
+
+.WLCardView.wrapper {
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.WLCardView.rank {
+    color: #1890ff;
+}
+
+.fix.image {
+    min-width: 32px;
+    min-height: 32px;
+}
+
+.fix.image.WLCardView {
+    min-width: 100px;
+    min-height: 100px;
+    margin-bottom: 10px;
+}
+
+.WLCardView.name,
+.WLCardView.symbol {
+    display: inline-block;
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.runningStringWrapper {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.runningStringAnim.runningStringWrapper {
+    display: inline-block;
+    &:hover {
+        transition-delay: 0s;
+        visibility: visible;
+        animation: marquee 5s linear 300ms infinite running;
+        animation-fill-mode: forwards;
+    }
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    35% {
+        transform: translateX(-100%);
+    }
+    48% {
+        transform: translateX(-160%);
+    }
+    49% {
+        transform: translate(-160%, 150%);
+    }
+    50% {
+        transform: translate(105%, 150%);
+    }
+    51% {
+        transform: translate(105%);
+    }
+    52% {
+        transform: translateX(100%);
+    }
+    80% {
+        transform: translateX(40%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.WLCardView.name {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.WLCardView.symbol {
+    font-size: 16px;
+    margin-top: 5px;
 }

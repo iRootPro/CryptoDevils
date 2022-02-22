@@ -1,8 +1,8 @@
 import {FC, useState} from 'react';
 import {Input} from 'antd';
 import Icon from '@ant-design/icons/lib/components/Icon';
-import styles from './ModalSearch.module.scss';
 import {SearchOutlined} from '@ant-design/icons';
+import styles from './ModalSearch.module.scss';
 
 type searchprops = {
     select: boolean;
@@ -15,12 +15,12 @@ type searchprops = {
 };
 
 const ModalSearch: FC<searchprops> = ({
-                                          select,
-                                          selectProps,
-                                          onSearch,
-                                          selectOptions,
-                                          placeholder,
-                                      }) => {
+    select,
+    selectProps,
+    onSearch,
+    selectOptions,
+    placeholder,
+}) => {
     const size = 'default';
     const initialSelectValue =
         select && selectProps ? selectProps.defaultValue : '';

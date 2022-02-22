@@ -1,15 +1,17 @@
 import {FC, useCallback} from 'react';
 import {Select} from 'antd';
 import {BaseOptionType, DefaultOptionType} from 'antd/lib/select';
-import {useGetCoinsListQuery} from '../../services/api';
+import {useSelector} from "react-redux";
 import {useHistory} from 'react-router-dom';
-import {ROUTES} from "../../constants/routes";
+import {useGetCoinsListQuery} from '../../services/api';
+import ROUTES from '../../constants/routes';
 import {useAppDispatch} from "../../hooks/redux";
 import {setSelectCoinForTrade} from "../../redux/reducers/portfolioSlice";
 import {selectSelectedCoinForTrade} from "../../redux/selectors/portfolioSelectors";
-import {useSelector} from "react-redux";
 
-const { Option } = Select;
+const {Option} = Select;
+
+type OptionT = DefaultOptionType | BaseOptionType | undefined;
 
 type typeProps = {
     getId?: boolean
@@ -25,7 +27,7 @@ const SearchEngine: FC<typeProps> = ({getId = false}) => {
         if(getId) {
             dispatch(setSelectCoinForTrade(e))
         } else {
-            history.push(ROUTES.coin + '/' + e);
+            history.push(`${ROUTES.coin  }/${  e}`);
         }
     }, []);
 
@@ -60,7 +62,5 @@ const SearchEngine: FC<typeProps> = ({getId = false}) => {
         </Select>
     );
 };
-
-type OptionT = DefaultOptionType | BaseOptionType | undefined;
 
 export default SearchEngine;

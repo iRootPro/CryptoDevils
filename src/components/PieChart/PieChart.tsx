@@ -35,7 +35,7 @@ export const PieChart = ({data}: {data: ItemDataTypePie[]}) => {
 
     return (
         <div>
-            <PieChartReact highcharts={Highcharts} options={options} ></PieChartReact>
+            <PieChartReact highcharts={Highcharts} options={options}  />
         </div>
     );
 };

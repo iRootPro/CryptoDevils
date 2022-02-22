@@ -1,15 +1,15 @@
-import {useEffect, useMemo} from 'react';
+import { useEffect, useMemo } from 'react';
 
-import {ICoinRaw, ICoinsNormalized, ICoinsResponse} from '../types/ICoin';
+import { ICoinRaw, ICoinsNormalized, ICoinsResponse } from '../types/ICoin';
 
 type IUseDataCoins = (
-    data: ICoinsResponse,
     refetch: () => void,
+    data: ICoinsResponse,
 ) => ICoinsNormalized;
 
 const fetchInterval = 10000;
 
-export const useDataCoins: IUseDataCoins = (data = [], refetch) => {
+const useDataCoins: IUseDataCoins = (refetch, data = []) => {
     useEffect(() => {
         const timer = setInterval(() => {
             refetch();
@@ -19,7 +19,7 @@ export const useDataCoins: IUseDataCoins = (data = [], refetch) => {
 
     const dataCoins: ICoinsNormalized = useMemo(
         () =>
-            data.map((coin: ICoinRaw) => ({
+            data?.map((coin: ICoinRaw) => ({
                 id: coin.id,
                 rank: coin.market_cap_rank,
                 dailychange: coin.price_change_percentage_24h,
@@ -35,3 +35,5 @@ export const useDataCoins: IUseDataCoins = (data = [], refetch) => {
 
     return dataCoins;
 };
+
+export default useDataCoins;

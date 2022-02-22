@@ -49,7 +49,7 @@ const initialState: PortfoliosType = {
 
 const portfolioSlice = createSlice({
     name: 'portfolioSlice',
-    initialState: initialState,
+    initialState,
     reducers: {
         addPortfolio(state, action) {
             state.portfolios.push(action.payload)
@@ -65,7 +65,7 @@ const portfolioSlice = createSlice({
             state.portfolios = state.portfolios.filter(p => p.id !== action.payload)
         },
         addTrade(state, action:PayloadAction<AddTradeType>) {
-            const coin = action.payload.trade.coin
+            const {coin} = action.payload.trade
             const portfolio = state.portfolios.find(p => p.id === action.payload.portfolioId)
             if(portfolio) {
                 state.selectCoin = 'bitcoin'
@@ -76,7 +76,7 @@ const portfolioSlice = createSlice({
                 portfolio.summaryCoinsInfo[coin]
                     ? portfolio.summaryCoinsInfo[coin] = {
                         quantity: portfolio.summaryCoinsInfo[coin].quantity += action.payload.trade.quantity,
-                }
+                    }
                     : portfolio.summaryCoinsInfo[coin] = {quantity: action.payload.trade.quantity }
             }
         },

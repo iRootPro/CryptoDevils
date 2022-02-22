@@ -28,7 +28,6 @@
     color: #61dafb;
 }
 
-
 .ant-table table td {
     font-size: 16px;
     font-weight: 600;
@@ -43,6 +42,9 @@
     }
 }
 
+.ant-layout {
+    background-color: #fff !important;
+}
 
 .slick-arrow.slick-prev {
   margin-top: -25px !important;

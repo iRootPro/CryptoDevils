@@ -1,19 +1,21 @@
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {
     DeleteFilled,
-    DollarCircleOutlined, EditOutlined,
+    DollarCircleOutlined,
+    EditOutlined,
     PieChartOutlined,
     PlusCircleFilled,
     StockOutlined,
     UserOutlined
 } from "@ant-design/icons";
-import styles from './Portfolio.module.scss';
 import {Button, DatePicker, Divider, Input, Modal, Radio, RadioChangeEvent, Table, Typography} from "antd";
-import {Margin} from "../common/Margin";
-import {MARGIN} from "../../constants/margins";
 import Title from "antd/es/typography/Title";
 import moment from "moment";
 import {v4 as uuid} from 'uuid'
+import {useSelector} from "react-redux";
+import styles from './Portfolio.module.scss';
+import Margin from "../common/Margin";
+import MARGIN from "../../constants/margins";
 import {
     addPortfolio,
     addTrade,
@@ -25,7 +27,6 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {selectPortfolios, selectSelectedCoinForTrade} from "../../redux/selectors/portfolioSelectors";
 import {formatPercent, formatUSDforTable, formatUSDforTableMoney} from "../../utils/formatters";
 import {SearchEngine} from "../components";
-import {useSelector} from "react-redux";
 import {useGetCoinsByIdsQuery} from "../../services/api";
 import CoinCard from "../CoinCard/CoinCard";
 import {ICoinRaw} from "../../types/ICoin";
@@ -48,6 +49,8 @@ export type DataType = {
     profitLossUSD: string,
 }
 
+type DirectionType = 'buy' | 'sell'
+
 const optionsTradeDirection = [
     { label: 'Buy', value: 'buy' },
     { label: 'Sell', value: 'sell' },
@@ -55,7 +58,6 @@ const optionsTradeDirection = [
 
 const dateFormat = 'DD/MM/YYYY';
 const dateNow = moment().format(dateFormat)
-
 const Portfolio:FC = () => {
     const [showNewPortfolioModal, setShowNewPortfolioModal] = useState<boolean>(false)
     const [showNewTradeModal, setShowNewTradeModal] = useState<boolean>(false)
@@ -98,7 +100,7 @@ const Portfolio:FC = () => {
                     key={name}
                     image={image}
                     name={name}
-                    symbol={''}
+                    symbol=""
                     type='cryptocurrencies'
                 />
             }
@@ -122,33 +124,29 @@ const Portfolio:FC = () => {
             title: '24h %',
             dataIndex: 'change_24h_percent',
             key: 'change_24h_percent',
-            render: (value: any, record: DataType) => {
-                return <span style={{color: colorChange(record.change_24h_percent)}}>{record.change_24h_percent}</span>
-            }
+            render: (value: any, record: DataType) =>
+                <span style={{color: colorChange(record.change_24h_percent)}}>{record.change_24h_percent}</span>
         },
         {
             title: 'Profit/Loss %',
             dataIndex: 'profitLoss',
             key: 'profit_loss',
-            render: (value: any, record: DataType) => {
-                return <span style={{color: colorChange(record.profitLoss)}}>{record.profitLoss}</span>
-            }
+            render: (value: any, record: DataType) =>
+                <span style={{color: colorChange(record.profitLoss)}}>{record.profitLoss}</span>
         },
         {
             title: 'Profit/Loss $',
             dataIndex: 'profitLossUSD',
             key: 'profit_loss_usd',
-            render: (value: any, record: DataType) => {
-                return <span style={{color: colorChange(record.profitLossUSD)}}>{record.profitLossUSD}</span>
-            }
+            render: (value: any, record: DataType) =>
+                <span style={{color: colorChange(record.profitLossUSD)}}>{record.profitLossUSD}</span>
         },
         {
             title: 'chart',
             dataIndex: 'name',
             key: 'action',
-            render: (value: any, record: DataType) => {
-                return <StockOutlined style={{cursor: "pointer"}} onClick={() => setIdChart(record.name.toLowerCase())}/>
-            }
+            render: (value: any, record: DataType) =>
+                <StockOutlined style={{cursor: "pointer"}} onClick={() => setIdChart(record.name.toLowerCase())}/>
         },
     ];
 
@@ -208,9 +206,8 @@ const Portfolio:FC = () => {
     }, [newPortfolioName])
 
 
-    const portfolio = useMemo(() => {
-        return portfolios.find(p => p.id === selectedPortfolio)
-    }, [selectedPortfolio, portfolios, marketData])
+    const portfolio = useMemo(() =>
+        portfolios.find(p => p.id === selectedPortfolio), [selectedPortfolio, portfolios, marketData])
 
     const { data: fetchedData } = useGetCoinsByIdsQuery({
         currency: 'usd',
@@ -229,7 +226,11 @@ const Portfolio:FC = () => {
         let currentSum: number = 0
 
         if(portfolio) {
-            Object.values(portfolio.trades).flat().forEach((t => currentSum +=t.quantity * getPriceCurrent(t.coin)))
+            Object.values(portfolio.trades)
+                .flat()
+                .forEach((trade => {
+                    currentSum += trade.quantity * getPriceCurrent(trade.coin)
+                }))
         }
         return currentSum
     }, [marketData, portfolio])
@@ -253,16 +254,16 @@ const Portfolio:FC = () => {
                 avgPrice: `${formatUSDforTableMoney(getAveragePrice(portfolio.trades[coin]))}`,
                 marketPrice: `${formatUSDforTable(foundedCoin?.current_price || 0)}`,
                 change_24h_percent: `${formatPercent(foundedCoin?.price_change_percentage_24h 
-                    ?  foundedCoin?.price_change_percentage_24h/100  
+                    ?  foundedCoin.price_change_percentage_24h/100  
                     : 0)
                 }`,
                 image:  foundedCoin?.image || '',
                 profitLoss:  `${formatPercent(foundedCoin?.current_price 
-                    ? (foundedCoin?.current_price - getAveragePrice(portfolio.trades[coin])) / foundedCoin?.current_price 
+                    ? (foundedCoin.current_price - getAveragePrice(portfolio.trades[coin])) / foundedCoin.current_price 
                     : 0
                 )}`,
                 profitLossUSD: `${formatUSDforTableMoney(foundedCoin?.current_price 
-                    ? foundedCoin?.current_price - getAveragePrice(portfolio.trades[coin]) 
+                    ? foundedCoin.current_price - getAveragePrice(portfolio.trades[coin]) 
                     : 0
                 )}`
             })
@@ -278,6 +279,12 @@ const Portfolio:FC = () => {
         setPricePerCoin(Number(e.target.value))
     }
 
+    const clearForm = () => {
+        setQuantity(0)
+        setPricePerCoin(0)
+        setDate(dateNow)
+    }
+
     const handleClickCancelAddNew = () => {
         clearForm()
         setShowNewTradeModal(false)
@@ -285,15 +292,9 @@ const Portfolio:FC = () => {
         setErrorPriceCoin(false)
         setErrorSelectedCoinForTrade(false)
     }
-    const clearForm = () => {
-        setQuantity(0)
-        setPricePerCoin(0)
-        setDate(dateNow)
-    }
 
-    const firstLetterUpper = (str: string): string => {
-        return  str[0].toUpperCase() + str.substring(1)
-    }
+
+    const firstLetterUpper = (str: string): string => str[0].toUpperCase() + str.substring(1)
 
     const handleClickAddNew = () => {
         if(!quantity) {
@@ -328,7 +329,7 @@ const Portfolio:FC = () => {
         setDirection(e.target.value as DirectionType)
     }
 
-    const handleChangeDate = (date: moment.Moment | null, dateString: string) => {
+    const handleChangeDate = (dateTime: moment.Moment | null, dateString: string) => {
         setDate(dateString)
     }
 
@@ -404,22 +405,24 @@ const Portfolio:FC = () => {
     },[idChart])
 
     const getDataForPie = useMemo(() => {
-        let data: ItemDataTypePie[] = []
+        const dataPie: ItemDataTypePie[] = []
         if(portfolio) {
             const coins = Object.keys(portfolio.trades)
             coins.forEach(coin => {
-                const foundCoin = data.find(c => c.name === coin)
+                const foundCoin = dataPie.find(c => c.name === coin)
                 let sumTotal:number = 0
-                portfolio.trades[coin].forEach(trade => sumTotal += trade.totalSpent)
+                portfolio.trades[coin].forEach(trade => {
+                    sumTotal += trade.totalSpent
+                })
                 if(foundCoin) {
                     foundCoin.y += totalSpent
                 } else {
-                    data.push({name: coin, y: sumTotal})
+                    dataPie.push({name: coin, y: sumTotal})
                 }
                 sumTotal = 0
             })
         }
-        return data
+        return dataPie
     }, [portfolio, marketData])
 
     const handleClickTogglePie = () => {
@@ -433,101 +436,123 @@ const Portfolio:FC = () => {
 
 
     return (
-    <div className={styles.wrapper}>
-        <div className={styles.leftSide}>
-        <div className={styles.allPortfolio}><DollarCircleOutlined style={{fontSize: 36, marginRight: 10, color: "#FF7E21"}} />
-            <div className={styles.infoBlock}>
-                <div>All portfolios</div>
-                <div>Invest money <Text strong>≈{formatUSDforTableMoney(summary.summaryInvest)}</Text></div>
-                <div>Current money <Text strong style={{color: summary.summaryInvest > summary.summaryDataMarket ? 'red': 'green'}} >≈{formatUSDforTableMoney(summary.summaryDataMarket)}</Text></div>
-            </div>
-        </div>
-        <Divider/>
-            {
-                portfolios.map(p => {
-                    return (
+        <div className={styles.wrapper}>
+            <div className={styles.leftSide}>
+                <div className={styles.allPortfolio}>
+                    <DollarCircleOutlined style={{fontSize: 36, marginRight: 10, color: "#FF7E21"}} />
+                    <div className={styles.infoBlock}>
+                        <div>All portfolios</div>
+                        <div>Invest money <Text strong>≈{formatUSDforTableMoney(summary.summaryInvest)}</Text></div>
+                        <div>Current money
+                            <Text strong style={
+                                {color: summary.summaryInvest > summary.summaryDataMarket ? 'red': 'green'}}>
+                                ≈{formatUSDforTableMoney(summary.summaryDataMarket)}</Text></div>
+                    </div>
+                </div>
+                <Divider/>
+                {
+                    portfolios.map(p => (
                         <div
+                            aria-hidden="true"
                             key={p.id}
-                            className={`${styles.allPortfolio} ${p.id === selectedPortfolio && styles.selectedPortfolio}`}
+                            className={`
+                            ${styles.allPortfolio} ${p.id === selectedPortfolio && styles.selectedPortfolio}
+                            `}
                             onClick={() => onClickSelectPortfolio(p.id)}
                         >
                             <UserOutlined style={{fontSize: 36, marginRight: 10}}
-                        />
+                            />
                             <div className={styles.infoBlock}>
                                 <div>{p.name}</div>
                             </div>
-                                <div className={styles.actionButton}>
-                                    { p.id === selectedPortfolio &&
-                                        <>
-                                            <EditOutlined style={{marginRight: 8}} onClick={handleEditPortfolioName} />
-                                            <DeleteFilled onClick={() => handleClickRemovePortfolio(p.id)} />
-                                        </>
-                                   }
-                                </div>
+                            <div className={styles.actionButton}>
+                                { p.id === selectedPortfolio &&
+                                <>
+                                    <EditOutlined style={{marginRight: 8}} onClick={handleEditPortfolioName} />
+                                    <DeleteFilled onClick={() => handleClickRemovePortfolio(p.id)} />
+                                </>
+                                }
+                            </div>
                         </div>
-                    )
-                })
-            }
-
-        <div className={styles.createPortfolio} onClick={()=> setShowNewPortfolioModal(true)}><PlusCircleFilled /> Create portfolio</div>
-        </div>
-        <div className={styles.rightSide}>
-            <div className={styles.RightBlock}>
-                {selectedPortfolio && (
-                    <div className={styles.summaryButtonBlock}>
-                        <div>
-                            <div>Current Balance</div>
-                            <div className={styles.summary}>{formatUSDforTableMoney(currentBalance)}</div>
-                        </div>
-                        <div>
-                            <div>Invest money</div>
-                            <div className={styles.summary}>{portfolio && formatUSDforTableMoney(portfolio.totalSum)}</div>
-                        </div>
-                        <div>
-                            <div>Profit/Loss</div>
-                            <div className={styles.summary}>{portfolio && formatUSDforTableMoney(currentBalance - portfolio.totalSum)}</div>
-                        </div>
-
-                        {portfolios.length > 0 && selectedPortfolio && <div><Button type="primary" shape="round" icon={<PlusCircleFilled />} onClick={() => setShowNewTradeModal(true)}>Add new</Button></div>}
-                    </div>
-                )}
-
-                <Margin vertical={MARGIN.xxl}>
-                        <Title level={4}>Your assets</Title>
-                </Margin>
-                {selectedPortfolio && (
-                    <div style={{display: "flex", justifyContent: "flex-end"}}>
-                        <PieChartOutlined
-                            style={{fontSize: 24, margin: 10, cursor: "pointer"}}
-                            onClick={handleClickTogglePie}
-                        />
-                    </div>
-                )}
-
-                {
-                    portfolio
-                        ? <Table
-                            dataSource={data}
-                            columns={columns}
-                            expandable={{
-                                expandedRowRender: record => {
-                                    return (
-                                        <Table dataSource={portfolio.trades[record.name]} columns={columnsTrade} pagination={false}/>
-                                    )
-                                },
-                            }}
-                        />
-                        : <Title level={5}>Please, select portfolios</Title>
+                    ))
                 }
-                {pieChartShow && <PieChart data={getDataForPie}/>}
+                <div
+                    aria-hidden='true'
+                    className={styles.createPortfolio}
+                    onClick={()=> setShowNewPortfolioModal(true)}>
+                    <PlusCircleFilled /> Create portfolio</div>
             </div>
-            {idChart && (
-                <>
-                    <Title level={4}>{idChart.toUpperCase()} chart</Title>
-                    <Chart id={idChart} averagePrice={averagePriceByCoin}/>
+            <div className={styles.rightSide}>
+                <div className={styles.RightBlock}>
+                    {selectedPortfolio && (
+                        <div className={styles.summaryButtonBlock}>
+                            <div>
+                                <div>Current Balance</div>
+                                <div className={styles.summary}>{formatUSDforTableMoney(currentBalance)}</div>
+                            </div>
+                            <div>
+                                <div>Invest money</div>
+                                <div className={styles.summary}>
+                                    {portfolio && formatUSDforTableMoney(portfolio.totalSum)}</div>
+                            </div>
+                            <div>
+                                <div>Profit/Loss</div>
+                                <div className={styles.summary}>
+                                    {portfolio && formatUSDforTableMoney(currentBalance - portfolio.totalSum)}
+                                </div>
+                            </div>
 
-                </>)}
-        </div>
+                            {portfolios.length > 0 &&
+                            selectedPortfolio &&
+                            <div>
+                                <Button
+                                    type="primary"
+                                    shape="round"
+                                    icon={<PlusCircleFilled />}
+                                    onClick={() => setShowNewTradeModal(true)}>
+                                    Add new
+                                </Button>
+                            </div>}
+                        </div>
+                    )}
+
+                    <Margin vertical={MARGIN.xxl}>
+                        <Title level={4}>Your assets</Title>
+                    </Margin>
+                    {selectedPortfolio && (
+                        <div style={{display: "flex", justifyContent: "flex-end"}}>
+                            <PieChartOutlined
+                                style={{fontSize: 24, margin: 10, cursor: "pointer"}}
+                                onClick={handleClickTogglePie}
+                            />
+                        </div>
+                    )}
+
+                    {
+                        portfolio
+                            ? <Table
+                                dataSource={data}
+                                columns={columns}
+                                    expandable={{
+                                        // eslint-disable-next-line react/no-unstable-nested-components
+                                    expandedRowRender: (record) => (
+                                        <Table
+                                            dataSource={portfolio.trades[record.name]}
+                                            columns={columnsTrade} pagination={false}/>
+                                    ),
+                                }}
+                            />
+                            : <Title level={5}>Please, select portfolios</Title>
+                    }
+                    {pieChartShow && <PieChart data={getDataForPie}/>}
+                </div>
+                {idChart && (
+                    <>
+                        <Title level={4}>{idChart.toUpperCase()} chart</Title>
+                        <Chart id={idChart} averagePrice={averagePriceByCoin}/>
+
+                    </>)}
+            </div>
             <Modal
                 centered
                 visible={showNewPortfolioModal}
@@ -546,30 +571,30 @@ const Portfolio:FC = () => {
                 {errorExsitName && <Text style={{color: 'red', margin: 5}}>Name already used</Text>}
                 {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
             </Modal>
-        <Modal
-            centered
-            visible={showEditPortfolioModal}
-            onOk={handleNewNamePortfolio}
-            onCancel={handleClickCancelEditPortfolio}
-            width={500}
-        >
-            <Title level={4}>Change portfolio name</Title>
-            <Text strong style={{fontSize: 14}}>Portfolio name</Text>
-            <Input
-                style={{borderRadius: '10px', height: 40}}
-                placeholder="Enter new portfolio name..."
-                onChange={handleChangePortfolioName}
-                value={newPortfolioName}
-            />
-            {errorExsitName && <Text style={{color: 'red', margin: 5}}>Name already used</Text>}
-            {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
-        </Modal>
             <Modal
-            centered
-            visible={showNewTradeModal}
-            onOk={handleClickAddNew}
-            onCancel={handleClickCancelAddNew}
-            width={500}
+                centered
+                visible={showEditPortfolioModal}
+                onOk={handleNewNamePortfolio}
+                onCancel={handleClickCancelEditPortfolio}
+                width={500}
+            >
+                <Title level={4}>Change portfolio name</Title>
+                <Text strong style={{fontSize: 14}}>Portfolio name</Text>
+                <Input
+                    style={{borderRadius: '10px', height: 40}}
+                    placeholder="Enter new portfolio name..."
+                    onChange={handleChangePortfolioName}
+                    value={newPortfolioName}
+                />
+                {errorExsitName && <Text style={{color: 'red', margin: 5}}>Name already used</Text>}
+                {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
+            </Modal>
+            <Modal
+                centered
+                visible={showNewTradeModal}
+                onOk={handleClickAddNew}
+                onCancel={handleClickCancelAddNew}
+                width={500}
             >
                 <Title level={3}>Add Transaction</Title>
                 <div className={styles.direction}>
@@ -615,7 +640,7 @@ const Portfolio:FC = () => {
                             value={moment(date, dateFormat)}
                             format={dateFormat}
                             style={{borderRadius: 10}}
-                            onChange={(date, dateString) => handleChangeDate(date, dateString)}
+                            onChange={handleChangeDate}
                         />
                     </div>
                 </div>
@@ -624,11 +649,8 @@ const Portfolio:FC = () => {
                     <Text strong style={{fontSize: 30}}>${totalSpent}</Text>
                 </div>
             </Modal>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default Portfolio
-
-
-type DirectionType = 'buy' | 'sell'
