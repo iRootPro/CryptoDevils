@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {
     DeleteFilled,
-    DollarCircleOutlined,
+    DollarCircleOutlined, EditOutlined,
     PieChartOutlined,
     PlusCircleFilled,
     StockOutlined,
@@ -14,7 +14,13 @@ import {MARGIN} from "../../constants/margins";
 import Title from "antd/es/typography/Title";
 import moment from "moment";
 import {v4 as uuid} from 'uuid'
-import {addPortfolio, addTrade, PortfolioType, removePortfolio} from "../../redux/reducers/portfolioSlice";
+import {
+    addPortfolio,
+    addTrade,
+    changePortfolioName,
+    PortfolioType,
+    removePortfolio
+} from "../../redux/reducers/portfolioSlice";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {selectPortfolios, selectSelectedCoinForTrade} from "../../redux/selectors/portfolioSelectors";
 import {formatPercent, formatUSDforTable, formatUSDforTableMoney} from "../../utils/formatters";
@@ -69,6 +75,7 @@ const Portfolio:FC = () => {
     const [marketData,setMarketData] = useState<ICoinRaw[]>([])
     const [idChart, setIdChart] = useState<string | null>(null)
     const [pieChartShow, setPieChartShow] = useState<boolean>(false)
+    const [showEditPortfolioModal, setShowEditPortfolioModal] = useState<boolean>(false)
 
     const dispatch = useAppDispatch();
 
@@ -348,7 +355,6 @@ const Portfolio:FC = () => {
             setShowNewPortfolioModal(false)
             setNewPortfolioName('')
         }
-
     }
 
     const handleClickCancelPortfolio = () => {
@@ -365,6 +371,29 @@ const Portfolio:FC = () => {
 
     const handleClickRemovePortfolio = (id: string) => {
         dispatch(removePortfolio(id))
+    }
+
+    const handleEditPortfolioName = () => {
+        setShowEditPortfolioModal(true)
+    }
+
+
+    const handleClickCancelEditPortfolio = () => {
+        setShowEditPortfolioModal(false)
+    }
+
+    const handleNewNamePortfolio = () => {
+        if(!selectedPortfolio) return
+        if(!newPortfolioName) {
+            setErrorPortfolioName(true)
+            return
+        }
+        dispatch(changePortfolioName({
+            id: selectedPortfolio,
+            name: newPortfolioName
+        }))
+        setShowEditPortfolioModal(false)
+        setNewPortfolioName('')
     }
 
     const averagePriceByCoin = useMemo(() => {
@@ -429,9 +458,12 @@ const Portfolio:FC = () => {
                             </div>
                                 <div className={styles.actionButton}>
                                     { p.id === selectedPortfolio &&
-                                    <DeleteFilled onClick={() => handleClickRemovePortfolio(p.id)} /> }
+                                        <>
+                                            <EditOutlined style={{marginRight: 8}} onClick={handleEditPortfolioName} />
+                                            <DeleteFilled onClick={() => handleClickRemovePortfolio(p.id)} />
+                                        </>
+                                   }
                                 </div>
-
                         </div>
                     )
                 })
@@ -514,6 +546,24 @@ const Portfolio:FC = () => {
                 {errorExsitName && <Text style={{color: 'red', margin: 5}}>Name already used</Text>}
                 {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
             </Modal>
+        <Modal
+            centered
+            visible={showEditPortfolioModal}
+            onOk={handleNewNamePortfolio}
+            onCancel={handleClickCancelEditPortfolio}
+            width={500}
+        >
+            <Title level={4}>Change portfolio name</Title>
+            <Text strong style={{fontSize: 14}}>Portfolio name</Text>
+            <Input
+                style={{borderRadius: '10px', height: 40}}
+                placeholder="Enter new portfolio name..."
+                onChange={handleChangePortfolioName}
+                value={newPortfolioName}
+            />
+            {errorExsitName && <Text style={{color: 'red', margin: 5}}>Name already used</Text>}
+            {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
+        </Modal>
             <Modal
             centered
             visible={showNewTradeModal}

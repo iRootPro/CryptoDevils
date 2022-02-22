@@ -37,12 +37,10 @@ export type AddTradeType = {
     portfolioId: string
 }
 
-type RemoveTradeType = {
+type ChangeNamePortfolioType = {
     id: string,
-    coin: string,
-    portfolioId: string
+    name: string
 }
-
 
 const initialState: PortfoliosType = {
     portfolios: [],
@@ -55,6 +53,13 @@ const portfolioSlice = createSlice({
     reducers: {
         addPortfolio(state, action) {
             state.portfolios.push(action.payload)
+        },
+        changePortfolioName(state, action:PayloadAction<ChangeNamePortfolioType>) {
+            const {id, name} = action.payload
+            const foundPortfolio = state.portfolios.find(p => p.id === id)
+            if(foundPortfolio) {
+                foundPortfolio.name = name
+            }
         },
         removePortfolio(state, action: PayloadAction<string>) {
             state.portfolios = state.portfolios.filter(p => p.id !== action.payload)
@@ -82,4 +87,4 @@ const portfolioSlice = createSlice({
 });
 
 export default portfolioSlice.reducer;
-export const { addPortfolio, removePortfolio, addTrade, setSelectCoinForTrade } = portfolioSlice.actions;
+export const { addPortfolio, removePortfolio, addTrade, setSelectCoinForTrade, changePortfolioName } = portfolioSlice.actions;
