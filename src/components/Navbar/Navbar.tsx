@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Menu } from 'antd';
 import {
+    GlobalOutlined,
     MoneyCollectOutlined,
     PieChartOutlined,
     UnorderedListOutlined,
@@ -33,7 +34,13 @@ const Navbar: FC = () => {
                         Cryptocurrencies
                     </Menu.Item>
                     <Menu.Item
-                        key="portfolio"
+                        key='exchanges'
+                        icon={<GlobalOutlined />}
+                        onClick={() => history.push(ROUTES.exchanges)}>
+                        Exchanges
+                    </Menu.Item>
+                    <Menu.Item
+                        key='portfolio'
                         icon={<PieChartOutlined />}
                         onClick={() => history.push(ROUTES.portfolio)}
                     >

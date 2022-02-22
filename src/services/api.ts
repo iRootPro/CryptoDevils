@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { TCoinByIdOHLC, TQueryOHLC } from '../types/ICoinByIdOHLC';
 import { ICoinIdData, ICoinRaw, IGlobalStats } from '../types/ICoin';
-import { ICoinListItem } from '../types/ICoinList';
 import { ICoinMarketChartById } from '../types/ICoinMarketChartById';
+import { IExchanges, IExchangesListRequest } from '../types/IExchangesList';
+import { ICoinListItem } from '../types/ICoinList';
 
 const cryptoApiHeaders = {
     accept: 'application/json',
@@ -63,6 +64,9 @@ export const cryptoApi = createApi({
         getGlobalStats: builder.query<IGlobalStats, string>({
             query: () => createRequest(`/global`),
         }),
+        getExchangesList: builder.query<IExchanges[], IExchangesListRequest>({
+            query: ({ per_page, page }) => createRequest(`exchanges?per_page=${per_page}&page=${page}`),
+        }),
     }),
 });
 
@@ -74,4 +78,5 @@ export const {
     useGetCoinByIdQuery,
     useGetCoinMarketChartByIdQuery,
     useGetGlobalStatsQuery,
+    useGetExchangesListQuery,
 } = cryptoApi;
