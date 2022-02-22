@@ -26,7 +26,10 @@ import {
 import { clearWatchList } from '../../redux/reducers/watchListSlice';
 import WatchListCardView from '../WatchListCardView/WatchListCardView';
 import selectView from '../../redux/selectors/watchListViewSelectors';
-import { changeView } from '../../redux/reducers/watchListViewSlice';
+import {
+    changeView,
+    setDefault,
+} from '../../redux/reducers/watchListViewSlice';
 
 const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
     const watchList = useAppSelector(selectWatchList);
@@ -62,7 +65,6 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
 
     const renderView = () => {
         if (view === 'table') return <Cryptocurrencies dataCoins={dataCoins} />;
-        if (dataCoins?.length === 0) return <EmptyWatchList />;
         return <WatchListCardView dataCoins={dataCoins} />;
     };
 
@@ -81,7 +83,10 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
                         icon={<DeleteOutlined />}
                         type="primary"
                         className={`${styles.button} ${styles.clear}`}
-                        onClick={() => dispatch(clearWatchList())}
+                        onClick={() => {
+                            dispatch(clearWatchList());
+                            dispatch(setDefault());
+                        }}
                     >
                         Clear watch list
                     </Button>
