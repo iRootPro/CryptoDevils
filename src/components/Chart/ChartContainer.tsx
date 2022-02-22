@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/require-default-props */
 import React, { FC, useEffect, useState } from 'react';
 import { SeriesOptionsType } from 'highcharts';
 import { useGetCoinByIdOHLCQuery } from '../../services/api';
@@ -5,33 +7,48 @@ import { configureOptions } from './ChartOptions';
 import Chart from './Chart';
 import Loader from '../Loader/Loader';
 
-const ChartContainer: FC<TPropsChartContainer> = React.memo(function({ id, averagePrice }) {
-    const [days, setDays] = useState<number | 'max'>(30);
-    const [selected, setSelected] = useState(1);
+type TPropsChartContainer = { id: string; averagePrice?: number };
 
-    const { data, isLoading } = useGetCoinByIdOHLCQuery({ id, days });
+const ChartContainer: FC<TPropsChartContainer> = React.memo(
+    ({ id, averagePrice }) => {
+        const [days, setDays] = useState<number | 'max'>(30);
+        const [selected, setSelected] = useState(1);
 
-    const [options, setOptions] = useState(
-        configureOptions({ setDays, data, name: id, averagePrice, selected, setSelected })
-    );
-    const series: SeriesOptionsType[] = [{
-        type: 'candlestick',
-        id: 'main',
-        name: id,
-        data,
-    }];
+        const { data, isLoading } = useGetCoinByIdOHLCQuery({ id, days });
 
-    useEffect(() => {
-        const rangeSelector = options.rangeSelector;
-        setOptions({...options, series, rangeSelector: {...rangeSelector, selected} })
-    }, [data]);
+        const [options, setOptions] = useState(
+            configureOptions({
+                setDays,
+                data,
+                name: id,
+                averagePrice,
+                selected,
+                setSelected,
+            }),
+        );
+        const series: SeriesOptionsType[] = [
+            {
+                type: 'candlestick',
+                id: 'main',
+                name: id,
+                data,
+            },
+        ];
 
-    if (isLoading) return <Loader />
-    if (!data) return null;
+        useEffect(() => {
+            const { rangeSelector } = options;
+            setOptions({
+                ...options,
+                series,
+                rangeSelector: { ...rangeSelector, selected },
+            });
+        }, [data]);
 
-    return <Chart options={options} />
-});
+        if (isLoading) return <Loader />;
+        if (!data) return null;
 
-type TPropsChartContainer = { id: string, averagePrice?: number };
+        return <Chart options={options} />;
+    },
+);
 
 export default ChartContainer;

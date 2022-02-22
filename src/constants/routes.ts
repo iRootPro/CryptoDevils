@@ -1,15 +1,15 @@
-export const ROUTES: typeRoutes = {
+type typeRoutes = {
+    main: string;
+    portfolio: string;
+    watchlist: string;
+    coin: string;
+};
+
+const ROUTES: typeRoutes = {
     main: '/',
     portfolio: '/portfolio',
     watchlist: '/watchlist',
-    coin: '/coin'
+    coin: '/coin',
+};
 
-}
-
-
-type typeRoutes = {
-    main: string,
-    portfolio: string,
-    watchlist: string
-    coin: string,
-}
+export default ROUTES;

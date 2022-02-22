@@ -1,16 +1,22 @@
-import {useMemo, useState} from 'react';
-import {selectWatchList} from '../redux/selectors/watchListSelectors';
-import {ICoin, ICoinCard, ICoinWL} from '../types/ICoin';
-import {useAppSelector} from './redux';
+import { useMemo, useState } from 'react';
+import { selectWatchList } from '../redux/selectors/watchListSelectors';
+import { ICoin, ICoinCard, ICoinWL } from '../types/ICoin';
+import { useAppSelector } from './redux';
 
-type useSelectCoin = {
+type IuseSelectCoin = {
     selectedCoinsIds: string[];
     selectedCoins: ICoinCard[];
     addCoin: (coin: ICoinCard) => void;
     removeCoin: (coin: ICoinCard) => void;
+    prepareCoin: (coin: ICoin | ICoinCard) => {
+        name: string;
+        id: string;
+        image: string;
+        symbol: string;
+    };
 };
 
-export const useSelectCoin = () => {
+const useSelectCoin = (): IuseSelectCoin => {
     const watchList: ICoinWL[] = useAppSelector(selectWatchList);
 
     const watchListTagCard: ICoinCard[] = useMemo(
@@ -45,14 +51,12 @@ export const useSelectCoin = () => {
         setSelectedCoinsIds(arrayWithoutCoinIds);
     };
 
-    const prepareCoin = (coin: ICoin | ICoinCard) => {
-        return {
-            name: coin.name,
-            id: coin.id,
-            image: coin.image,
-            symbol: coin.symbol,
-        };
-    };
+    const prepareCoin = (coin: ICoin | ICoinCard) => ({
+        name: coin.name,
+        id: coin.id,
+        image: coin.image,
+        symbol: coin.symbol,
+    });
 
     return {
         selectedCoinsIds,
@@ -62,3 +66,5 @@ export const useSelectCoin = () => {
         prepareCoin,
     };
 };
+
+export default useSelectCoin;

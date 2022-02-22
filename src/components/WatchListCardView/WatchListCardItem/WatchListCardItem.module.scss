@@ -1,0 +1,49 @@
+.close.btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 15px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.fake.price {
+  margin-top: 10px;
+}
+
+.fake.marketcap,
+.fake.price,
+.fake.dailychange {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.fake.marketcap {
+  margin-bottom: 0;
+}
+
+.hover {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

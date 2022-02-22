@@ -1,24 +1,23 @@
-import { Typography } from 'antd'
-import { FC } from 'react'
-import { useGetGlobalStatsQuery } from '../../../services/api'
-import styles from './ApiStatus.module.scss'
+import { Typography } from 'antd';
+import { FC } from 'react';
+import { useGetGlobalStatsQuery } from '../../../services/api';
+import styles from './ApiStatus.module.scss';
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const ApiStatus: FC = () => {
-    const { data } = useGetGlobalStatsQuery('')
-    
+    const { data } = useGetGlobalStatsQuery('');
+
     return (
-        <>
-            <Text className={`${styles.apiStatus} ${styles.status}`}>API Status:
-                {data
-                    ? <div className={styles.green}></div>
-                    : <div className={styles.red}></div>
-                }
-            </Text>
+        <Text className={`${styles.apiStatus} ${styles.status}`}>
+            API Status:
+            {data ? (
+                <div className={styles.green} />
+            ) : (
+                <div className={styles.red} />
+            )}
+        </Text>
+    );
+};
 
-        </>
-    )
-}
-
-export default ApiStatus
+export default ApiStatus;
