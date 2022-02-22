@@ -80,8 +80,8 @@ const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
                     : <Text className={`${styles.dailyChangePrice} ${styles.gray}`}>0%</Text>
                 }
             </div>
-            <CoinPrice currentCoinPrice={currentPriceBTC} coinName={'BTC'} priceChange={priceChange24hBTC} />
-            <CoinPrice currentCoinPrice={currentPriceETH} coinName={'ETH'} priceChange={priceChange24hETH} />
+            <CoinPrice currentCoinPrice={currentPriceBTC} coinName='BTC' priceChange={priceChange24hBTC} />
+            <CoinPrice currentCoinPrice={currentPriceETH} coinName='ETH' priceChange={priceChange24hETH} />
         </>
     );
 };
