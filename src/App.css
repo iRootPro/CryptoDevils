@@ -43,6 +43,9 @@
     }
 }
 
+.ant-layout {
+    background-color: #fff !important;
+}
 
 .slick-arrow.slick-prev {
   margin-top: -25px !important;
