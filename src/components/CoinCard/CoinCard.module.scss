@@ -105,11 +105,9 @@
 }
 
 .runningStringAnim.runningStringWrapper {
+    display: inline-block;
     &:hover {
-        animation: marquee 5s linear infinite;
-        animation-play-state: paused;
-        animation-delay: 300ms;
-        animation-play-state: running;
+        animation: marquee 5s linear 300ms infinite alternate running;
     }
 }
 
@@ -118,7 +116,7 @@
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-250%);
+        transform: translateX(-130%);
     }
 }
 

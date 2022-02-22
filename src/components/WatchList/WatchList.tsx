@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button, ConfigProvider } from 'antd';
 import {
     AppstoreOutlined,
@@ -62,6 +62,7 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
 
     const renderView = () => {
         if (view === 'table') return <Cryptocurrencies dataCoins={dataCoins} />;
+        if (dataCoins?.length === 0) return <EmptyWatchList />;
         return <WatchListCardView dataCoins={dataCoins} />;
     };
 
