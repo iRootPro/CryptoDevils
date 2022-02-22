@@ -15,7 +15,7 @@ const CoinGlobalSummary: FC<TcoinGlobalSummary> = ({value, tooltip, formater}) =
             <Space>
                 {tooltip}
                 <div className={`${styles.priceDifference} ${styles.price}`}>
-                    {formater(value)}
+                    {isFinite(value) ? formater(value) : 0}
                 </div>
             </Space>
         </Title>

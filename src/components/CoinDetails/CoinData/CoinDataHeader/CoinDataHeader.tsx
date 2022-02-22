@@ -1,18 +1,18 @@
-import {CaretDownOutlined, CaretUpOutlined} from '@ant-design/icons';
-import {Card, Typography} from 'antd'
-import {FC} from 'react'
-import {ICoinIdData} from '../../../../types/ICoin';
-import {formatDate, formatName, formatPercent, formatSymbol, formatUSD} from '../../../../utils/formatters'
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
+import { Card, Typography } from 'antd'
+import { FC } from 'react'
+import { ICoinIdData } from '../../../../types/ICoin';
+import { formatDate, formatName, formatPercent, formatSymbol, formatUSD } from '../../../../utils/formatters'
 import styles from './CoinDataHeader.module.scss';
 import CoinPrice from './CoinPrice/CoinPrice';
 
-const {Text, Title} = Typography
+const { Text, Title } = Typography
 
 type TCoinDataHeaderProps = {
     data: ICoinIdData;
 }
 
-const CoinDataHeader: FC<TCoinDataHeaderProps> = ({data}) => {
+const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
     const coinName = data.name
     const coinSymbol = data.symbol
     const currentPrice = data.market_data.current_price.usd;
@@ -48,13 +48,16 @@ const CoinDataHeader: FC<TCoinDataHeaderProps> = ({data}) => {
                 <Title className={`${styles.currentPrice} ${styles.price}`} level={2}>
                     {formatUSD(currentPrice)}
                 </Title>
-                <Text className={`${styles.dailyChangePrice} ${priceChange24h > 0 ? styles.green : styles.red}`}>
-                    {priceChange24h > 0 ? <CaretUpOutlined/> : <CaretDownOutlined/>}
-                    {formatPercent(priceChange24h / 100)}
-                </Text>
+                {priceChange24h ?
+                    <Text className={`${styles.dailyChangePrice} ${priceChange24h > 0 ? styles.green : styles.red}`}>
+                        {priceChange24h > 0 ? <CaretUpOutlined /> : <CaretDownOutlined />}
+                        {formatPercent(priceChange24h / 100)}
+                    </Text>
+                    : <Text className={`${styles.dailyChangePrice} ${styles.gray}`}>0%</Text>
+                }
             </div>
-            <CoinPrice currentCoinPrice={currentPriceBTC} coinName={'BTC'} priceChange={priceChange24hBTC}/>
-            <CoinPrice currentCoinPrice={currentPriceETH} coinName={'ETH'} priceChange={priceChange24hETH}/>
+            <CoinPrice currentCoinPrice={currentPriceBTC} coinName={'BTC'} priceChange={priceChange24hBTC} />
+            <CoinPrice currentCoinPrice={currentPriceETH} coinName={'ETH'} priceChange={priceChange24hETH} />
         </>
     )
 }

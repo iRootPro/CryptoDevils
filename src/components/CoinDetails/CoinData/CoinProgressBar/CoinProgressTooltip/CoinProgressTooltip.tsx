@@ -14,7 +14,7 @@ const CoinProgressTooltip: FC<TcoinProgressToolTip> = ({value24h, text}) => {
     return (
         <Text className={`${styles.priceDifference} ${styles.price}`}>
             <span className={`${styles.coinName} ${styles.name}`}>{text}</span>
-            {formatUSD(value24h)}
+            {value24h ? formatUSD(value24h) : '0%'}
         </Text>
     )
 }
