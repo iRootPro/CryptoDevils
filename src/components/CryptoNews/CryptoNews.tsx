@@ -2,7 +2,7 @@ import { Card, Carousel, Image, Typography } from 'antd';
 import moment from 'moment';
 import React, { FC } from 'react';
 import {
-    img11,
+    img1,
     img2,
     img3,
     img4,
@@ -12,6 +12,7 @@ import {
     img8,
     img9,
     img10,
+    img11,
     img12,
     img13,
     img14,
@@ -20,12 +21,13 @@ import {
 import { useGetNewsQuery } from '../../services/newsApi';
 import styles from './CryptoNews.module.scss';
 
+
 const { Text } = Typography;
 
 const CryptoNews: FC = () => {
     const { data } = useGetNewsQuery('');
     const imageTemplates = [
-        img11,
+        img1,
         img2,
         img3,
         img4,
@@ -40,6 +42,7 @@ const CryptoNews: FC = () => {
         img14,
         img15,
     ];
+        shuffle(imageTemplates)
     return (
         <Carousel slidesToShow={5} arrows autoplay dots={false}>
             {data?.results.map((news, index) => (
@@ -56,16 +59,7 @@ const CryptoNews: FC = () => {
                             <Image
                                 preview={false}
                                 className={`${styles.newsImage} ${styles.image}`}
-                                src={
-                                    news.image_url ||
-                                    imageTemplates[
-                                        Math.floor(
-                                            Math.random() *
-                                                imageTemplates.length,
-                                        )
-                                    ]
-                                }
-                            />
+                                src={news.image_url || imageTemplates[index]} />
                         </div>
                         <div
                             className={`${styles.nameWrapper} ${styles.wrapper}`}
