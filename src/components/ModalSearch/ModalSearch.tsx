@@ -1,11 +1,8 @@
-import { FC, useRef, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { Input, Select, Button } from 'antd';
+import {FC, useState} from 'react';
+import {Input} from 'antd';
 import Icon from '@ant-design/icons/lib/components/Icon';
 import styles from './ModalSearch.module.scss';
-import { SizeType } from 'antd/lib/config-provider/SizeContext';
-import { GroupProps } from 'antd/lib/input';
-import { SearchOutlined } from '@ant-design/icons';
+import {SearchOutlined} from '@ant-design/icons';
 
 type searchprops = {
     select: boolean;
@@ -18,12 +15,12 @@ type searchprops = {
 };
 
 const ModalSearch: FC<searchprops> = ({
-    select,
-    selectProps,
-    onSearch,
-    selectOptions,
-    placeholder,
-}) => {
+                                          select,
+                                          selectProps,
+                                          onSearch,
+                                          selectOptions,
+                                          placeholder,
+                                      }) => {
     const size = 'default';
     const initialSelectValue =
         select && selectProps ? selectProps.defaultValue : '';
@@ -57,12 +54,12 @@ const ModalSearch: FC<searchprops> = ({
     return (
         <Input.Group compact size={size} className={styles.search}>
             <Input
-                prefix={<SearchOutlined style={{ marginRight: '5px' }} />}
+                prefix={<SearchOutlined style={{marginRight: '5px'}}/>}
                 onChange={handleInputChange}
                 onPressEnter={handleSearch}
                 placeholder={placeholder}
             />
-            {clearVisible && <Icon type='cross' onClick={handleClearInput} />}
+            {clearVisible && <Icon type='cross' onClick={handleClearInput}/>}
         </Input.Group>
     );
 };

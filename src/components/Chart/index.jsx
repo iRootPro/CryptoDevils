@@ -1,3 +1,3 @@
 import ChartContainer from "./ChartContainer";
 
-export { ChartContainer as Chart };
+export {ChartContainer as Chart};

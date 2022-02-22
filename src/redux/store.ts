@@ -1,27 +1,22 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { cryptoApi } from '../services/api';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {cryptoApi} from '../services/api';
 import watchListReducer from './reducers/watchListSlice';
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from 'redux-persist';
+import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE,} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import portfoliosReducer from "./reducers/portfolioSlice";
+import { ethereumApi } from '../services/ethereumApi';
+import { newsApi } from '../services/newsApi';
 
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['cryptoApi'],
+    blacklist: ['cryptoApi', 'ethereumApi', 'newsApi'],
 };
 
 const rootReducer = combineReducers({
     [cryptoApi.reducerPath]: cryptoApi.reducer,
+    [ethereumApi.reducerPath]: ethereumApi.reducer,
+    [newsApi.reducerPath]: newsApi.reducer,
     watchListReducer: watchListReducer,
     portfolios: portfoliosReducer,
 });
@@ -43,7 +38,7 @@ const setupStore = () => {
                         REGISTER,
                     ],
                 },
-            }).concat(cryptoApi.middleware),
+            }).concat(cryptoApi.middleware, ethereumApi.middleware, newsApi.middleware),
     });
 };
 

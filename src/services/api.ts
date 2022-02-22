@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { TCoinByIdOHLC, TQueryOHLC } from "../types/ICoinByIdOHLC";
-import { ICoinIdData, ICoinRaw } from '../types/ICoin';
+import { ICoinIdData, ICoinRaw, IGlobalStats } from '../types/ICoin';
 import { ICoinListItem } from '../types/ICoinList';
+import { ICoinMarketChartById } from "../types/ICoinMarketChartById";
 
 const cryptoApiHeaders = {
     accept: 'application/json',
@@ -25,20 +26,16 @@ export const cryptoApi = createApi({
         },
     }),
     endpoints: (builder) => ({
-        getCoins: builder.query<
-            ICoinRaw[],
-            { currency: string; perPage: number }
-        >({
-            query: ({ currency, perPage }) =>
+        getCoins: builder.query<ICoinRaw[],
+            { currency: string; perPage: number }>({
+            query: ({currency, perPage}) =>
                 createRequest(
                     `/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${perPage}`,
                 ),
         }),
-        getCoinsByIds: builder.query<
-            ICoinRaw[],
-            { currency: string; ids: string }
-        >({
-            query: ({ currency, ids }) =>
+        getCoinsByIds: builder.query<ICoinRaw[],
+            { currency: string; ids: string }>({
+            query: ({currency, ids}) =>
                 createRequest(
                     `/coins/markets?vs_currency=${currency}&ids=${ids}&order=market_cap_desc&per_page=250`,
                 ),
@@ -47,12 +44,26 @@ export const cryptoApi = createApi({
             query: () => createRequest(`/coins/list`),
         }),
         getCoinByIdOHLC: builder.query<TCoinByIdOHLC[], TQueryOHLC>({
-            query: ({ id, days }) => createRequest(`/coins/${id}/ohlc?vs_currency=usd&days=${days}`),
+            query: ({id, days}) => createRequest(`/coins/${id}/ohlc?vs_currency=usd&days=${days}`),
         }),
         getCoinById: builder.query<ICoinIdData, string>({
             query: (coinId) => createRequest(`/coins/${coinId}`),
-          }),
+        }),
+        getCoinMarketChartById: builder.query<ICoinMarketChartById, string>({
+            query: (coinId) => createRequest(`/coins/${coinId}/market_chart?vs_currency=usd&days=30&interval=daily`),
+        }),
+        getGlobalStats: builder.query<IGlobalStats, string>({
+            query:() => createRequest(`/global`)
+        }),
     }),
 });
 
-export const { useGetCoinsQuery, useGetCoinsListQuery, useGetCoinByIdOHLCQuery, useGetCoinsByIdsQuery, useGetCoinByIdQuery } = cryptoApi;
+export const {
+    useGetCoinsQuery,
+    useGetCoinsListQuery,
+    useGetCoinByIdOHLCQuery,
+    useGetCoinsByIdsQuery,
+    useGetCoinByIdQuery,
+    useGetCoinMarketChartByIdQuery,
+    useGetGlobalStatsQuery,
+} = cryptoApi;
