@@ -1,12 +1,9 @@
-import {ICoinRaw, ICoinsResponse} from '../types/ICoin';
-import {ICoinListWL} from '../types/ICoinList';
+import { ICoinRaw, ICoinsResponse } from '../types/ICoin';
+import { ICoinListWL } from '../types/ICoinList';
 
-type IUseDataCoins = (
-    data: ICoinsResponse,
-    refetch?: () => void,
-) => ICoinListWL;
+type IUseDataCoins = (data: ICoinsResponse) => ICoinListWL;
 
-export const useListDataCoins: IUseDataCoins = (data) => {
+const useListDataCoins: IUseDataCoins = (data) => {
     const dataCoins: ICoinListWL = data?.map((coin: ICoinRaw) => ({
         id: coin.id,
         name: coin.name,
@@ -16,3 +13,5 @@ export const useListDataCoins: IUseDataCoins = (data) => {
 
     return dataCoins;
 };
+
+export default useListDataCoins;

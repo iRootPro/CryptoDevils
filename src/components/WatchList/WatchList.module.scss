@@ -1,5 +1,54 @@
+.button.add {
+    margin-right: 5px;
+    border-radius: 50px;
+}
+
+.button.clear {
+    width: 150px;
+    margin-left: 5px;
+    border-radius: 50px;
+    @media screen and (max-width: 350px) {
+        width: 70%;
+    }
+}
+
+.button.tile {
+    margin-right: 10px;
+    border: 0;
+    margin-left: auto;
+    border-radius: 50px;
+    width: inherit;
+    @media screen and (max-width: 350px) {
+        margin-left: 0;
+        position: absolute;
+        top: 15px;
+        left: 10px;
+    }
+}
+
+.icon.wl {
+    font-size: 30px;
+    @media screen and (max-width: 350px) {
+        font-size: 40px;
+    }
+}
+
 .button {
-  width: 130px;
-  margin: 5px;
-  margin-left: auto;
+    width: 130px;
+    margin: 5px;
+    @media screen and (max-width: 350px) {
+        width: 70%;
+    }
+}
+
+.wrapper {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    margin-bottom: 25px;
+    @media screen and (max-width: 350px) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+    }
 }
