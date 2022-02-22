@@ -48,8 +48,7 @@ export type ICoinsNormalized = ICoin[] | undefined;
 export type ICoinsData = {
     dataCoins: ICoinsNormalized;
 };
-
-export type ICoinIdData = {
+export interface ICoinIdData {
     id: string;
     symbol: string;
     name: string;
@@ -114,4 +113,37 @@ export type ICoinIdData = {
     };
     sentiment_votes_down_percentage: number;
     sentiment_votes_up_percentage: number;
-};
+}
+
+export interface IGlobalStats {
+    data: {
+        active_cryptocurrencies: number;
+        markets: number;
+        total_market_cap: {
+            usd: number;
+        };
+        total_volume: {
+            usd: number;
+        };
+        market_cap_percentage: {
+            btc: number;
+            eth: number;
+        };
+        market_cap_change_percentage_24h_usd: number;
+        updated_at: number;
+    };
+}
+export interface IGetEthereumData {
+    currentBaseFee: number;
+}
+export interface IGetNewsResult {
+    creator: string[] | null;
+    image_url: null | string;
+    link: string;
+    pubDate: string;
+    title: string;
+}
+
+export interface IGetNews {
+    results: IGetNewsResult[];
+}

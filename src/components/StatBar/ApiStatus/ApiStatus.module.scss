@@ -1,0 +1,29 @@
+$dangerRed: #ff0000;
+$neonGreen: #4dff14;
+$symbolColor: #58667e;
+$black: rgba(41, 41, 41, 0.295);
+
+.green,
+.red {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: $neonGreen;
+    margin-left: 5px;
+    border: 1px solid $black;
+}
+
+.red {
+    background: $dangerRed;
+}
+
+
+.apiStatus.status {
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    padding-right: 10px;
+    font-weight: 600;
+    color: $symbolColor;
+}
+

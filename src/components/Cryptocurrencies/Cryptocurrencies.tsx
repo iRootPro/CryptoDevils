@@ -1,11 +1,11 @@
-import { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { Table, TablePaginationConfig } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Icon from '@ant-design/icons';
 
 import CoinCard from '../CoinCard/CoinCard';
 
-import { COLORS } from '../../constants/colors';
+import COLORS from '../../constants/colors';
 import { ICoin, ICoinsData } from '../../types/ICoin';
 
 import { ReactComponent as CommonStar } from '../../assets/svg/commonStar.svg';
@@ -16,16 +16,19 @@ import {
     formatUSD,
     formatUSDforTable,
 } from '../../utils/formatters';
-import { useAddCoinToWL } from '../../hooks/useAddCoinToWL';
+import useAddCoinToWL from '../../hooks/useAddCoinToWL';
+import MiniChartContainer from '../MiniChart/MiniChartContainer';
 
 const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
-    const [pageSize, setPageSize] = useState(50);
+    const [pageSize, setPageSize] = useState(10);
 
     const { watchListIds, handleOnStar } = useAddCoinToWL();
 
     const onChangeTable = useCallback(
         (pagination: TablePaginationConfig) => {
-            pagination.pageSize && setPageSize(pagination.pageSize);
+            if (pagination.pageSize) {
+                setPageSize(pagination.pageSize);
+            }
         },
         [pageSize],
     );
@@ -67,7 +70,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                         image={image}
                         name={name}
                         symbol={symbol}
-                        type='cryptocurrencies'
+                        type="cryptocurrencies"
                     />
                 );
             },
@@ -113,6 +116,10 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             },
             render: (marketCap: number) => formatUSD(marketCap),
         },
+        {
+            title: 'Last 30 days',
+            render: (id) => <MiniChartContainer id={id.id} />,
+        },
     ];
 
     return (
@@ -121,7 +128,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             dataSource={dataCoins}
             onChange={onChangeTable}
             pagination={{
-                pageSize: pageSize,
+                pageSize,
                 position: ['bottomCenter'],
                 hideOnSinglePage: true,
             }}

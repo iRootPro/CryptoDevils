@@ -29,7 +29,7 @@ const useAddCoinToWL = () => {
         }
 
         const findedElem = watchList.find(
-            (coin) => coin.id === preparedCoin.id,
+            (findedCoin) => findedCoin.id === preparedCoin.id,
         );
 
         if (findedElem) {
@@ -45,4 +45,4 @@ const useAddCoinToWL = () => {
     };
 };
 
-export { useAddCoinToWL };
+export default useAddCoinToWL;

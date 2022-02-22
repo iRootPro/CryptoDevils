@@ -1,4 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
 type IWLView = {
     view: 'cards' | 'table';
@@ -19,4 +20,4 @@ const watchListView = createSlice({
 });
 
 export default watchListView.reducer;
-export const {changeView} = watchListView.actions;
+export const { changeView } = watchListView.actions;

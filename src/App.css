@@ -41,3 +41,16 @@
         transform: rotate(360deg);
     }
 }
+
+.ant-layout {
+    background-color: #fff !important;
+}
+
+.slick-arrow.slick-prev {
+  margin-top: -25px !important;
+  background-image: url(./assets/svg/leftArrow.svg) !important;
+}
+.slick-arrow.slick-next {
+  margin-top: -25px !important;
+  background-image: url(./assets/svg/righArrow.svg) !important;
+}

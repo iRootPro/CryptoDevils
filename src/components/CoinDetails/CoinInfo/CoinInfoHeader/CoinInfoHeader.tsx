@@ -1,12 +1,12 @@
 import { Avatar, Spin, Typography } from 'antd';
 import { FC } from 'react';
+import Icon from '@ant-design/icons';
 import { formatName, formatSymbol } from '../../../../utils/formatters';
 import { ReactComponent as CommonStar } from '../../../../assets/svg/commonStar.svg';
 import { ReactComponent as YellowStar } from '../../../../assets/svg/yellowStar.svg';
 import styles from './CoinInfoHeader.module.scss';
-import Icon from '@ant-design/icons';
 import { ICoinWL } from '../../../../types/ICoin';
-import { useAddCoinToWL } from '../../../../hooks/useAddCoinToWL';
+import useAddCoinToWL from '../../../../hooks/useAddCoinToWL';
 
 const { Title, Text } = Typography;
 
@@ -28,8 +28,8 @@ const CoinInfoHeader: FC<TcoinInfoHeader> = ({
     const { watchListIds, handleOnStar } = useAddCoinToWL();
     const coin: ICoinWL = {
         name: coinName,
-        id: id,
-        image: image,
+        id,
+        image,
         symbol: coinSymbol,
     };
 
@@ -38,17 +38,18 @@ const CoinInfoHeader: FC<TcoinInfoHeader> = ({
             <div className={styles.header}>
                 {isFetching ? (
                     <Avatar
-                        shape='square'
+                        shape="square"
                         className={styles.avatarLoader}
                         size={64}
-                        src={<Spin size='large' />}
+                        src={<Spin size="large" />}
                     />
                 ) : (
-                    <Avatar shape='square' size={64} src={image} />
+                    <Avatar shape="square" size={64} src={image} />
                 )}
                 <Title
                     level={3}
-                    className={`${styles.headerTitle} ${styles.title}`}>
+                    className={`${styles.headerTitle} ${styles.title}`}
+                >
                     {formatName(coinName)}
                 </Title>
                 <Text className={`${styles.headerText} ${styles.text}`}>

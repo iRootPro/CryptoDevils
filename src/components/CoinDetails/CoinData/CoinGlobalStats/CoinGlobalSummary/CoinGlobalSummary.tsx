@@ -1,15 +1,20 @@
-import {Space, Typography} from 'antd';
-import {FC} from 'react';
+import { Space, Typography } from 'antd';
+import { FC } from 'react';
 import styles from './CoinGlobalSummary.module.scss';
 
-const {Title} = Typography;
+const { Title } = Typography;
+
 type TcoinGlobalSummary = {
     value: number;
     tooltip: string;
-    formater: (number: number) => string
-}
+    formater: (number: number) => string;
+};
 
-const CoinGlobalSummary: FC<TcoinGlobalSummary> = ({value, tooltip, formater}) => (
+const CoinGlobalSummary: FC<TcoinGlobalSummary> = ({
+    value,
+    tooltip,
+    formater,
+}) => (
     <Title level={5} className={`${styles.statTitle} ${styles.stat}`}>
         <Space>
             {tooltip}

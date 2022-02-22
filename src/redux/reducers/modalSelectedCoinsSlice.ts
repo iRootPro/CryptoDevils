@@ -1,5 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {ICoinWL} from '../../types/ICoin';
+/* eslint-disable no-param-reassign */
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ICoinWL } from '../../types/ICoin';
 
 type IModalSelectedCoins = {
     data: ICoinWL[];

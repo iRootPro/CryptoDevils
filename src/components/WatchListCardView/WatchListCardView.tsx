@@ -1,9 +1,9 @@
-import {Col, Row} from 'antd';
-import {FC} from 'react';
-import {ICoinsData} from '../../types/ICoin';
-import {WatchListCardItem} from './WatchListCardItem/WatchListCardItem';
+import { Col, Row } from 'antd';
+import { FC } from 'react';
+import { ICoinsData } from '../../types/ICoin';
+import WatchListCardItem from './WatchListCardItem/WatchListCardItem';
 
-const WatchListCardView: FC<ICoinsData> = ({dataCoins}) => {
+const WatchListCardView: FC<ICoinsData> = ({ dataCoins }) => {
     const cols = dataCoins?.map((item) => (
         <Col
             key={`WL_card_item_col_${item.id}`}
@@ -31,4 +31,4 @@ const WatchListCardView: FC<ICoinsData> = ({dataCoins}) => {
     return <Row gutter={[16, 16]}>{cols}</Row>;
 };
 
-export {WatchListCardView};
+export default WatchListCardView;

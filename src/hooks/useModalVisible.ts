@@ -1,6 +1,6 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
-export const useModalVisible = (init: boolean) => {
+const useModalVisible = (init: boolean) => {
     const [modalVisible, setModalVisible] = useState(init);
 
     const toogleModal = () => {
@@ -13,3 +13,5 @@ export const useModalVisible = (init: boolean) => {
         toogleModal,
     };
 };
+
+export default useModalVisible;

@@ -1,4 +1,13 @@
-export const MARGIN: typeMargin = {
+type typeMargin = {
+    xs: string;
+    s: string;
+    m: string;
+    l: string;
+    xl: string;
+    xxl: string;
+};
+
+const MARGIN: typeMargin = {
     xs: '5px',
     s: '10px',
     m: '15px',
@@ -7,11 +16,4 @@ export const MARGIN: typeMargin = {
     xxl: '30px',
 };
 
-type typeMargin = {
-    xs: string,
-    s: string,
-    m: string,
-    l: string,
-    xl: string,
-    xxl: string,
-}
+export default MARGIN;

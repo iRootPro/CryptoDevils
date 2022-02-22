@@ -1,3 +1,5 @@
-import {RootState} from '../store';
+import { RootState } from '../store';
 
-export const selectView = (state: RootState) => state.watchListViewReducer.view;
+const selectView = (state: RootState) => state.watchListViewReducer.view;
+
+export default selectView;

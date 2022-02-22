@@ -1,7 +1,6 @@
-type element = (element: HTMLDivElement) => boolean;
+type element = (el: HTMLDivElement) => boolean;
 
-const isOverflownWidth: element = ({ clientWidth, scrollWidth }) => {
-    return scrollWidth > clientWidth;
-};
+const isOverflownWidth: element = ({ clientWidth, scrollWidth }) =>
+    scrollWidth > clientWidth;
 
-export { isOverflownWidth };
+export default isOverflownWidth;
