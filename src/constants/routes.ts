@@ -12,6 +12,6 @@ const ROUTES: typeRoutes = {
     watchlist: '/watchlist',
     coin: '/coin',
     exchanges: '/exchanges',
-}
+};
 
 export default ROUTES;

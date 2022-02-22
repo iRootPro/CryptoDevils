@@ -65,7 +65,7 @@ export const cryptoApi = createApi({
             query: () => createRequest(`/global`),
         }),
         getExchangesList: builder.query<IExchanges[], IExchangesListRequest>({
-            query: ({ per_page, page }) => createRequest(`exchanges?per_page=${per_page}&page=${page}`),
+            query: ({ perPage, page }) => createRequest(`exchanges?per_page=${perPage}&page=${page}`),
         }),
     }),
 });

@@ -1,19 +1,22 @@
 
-import { Avatar, BackTop, Button, Table, TablePaginationConfig } from 'antd';
+import { Avatar, BackTop, Table, TablePaginationConfig } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import Link from 'antd/lib/typography/Link';
 import Text from 'antd/lib/typography/Text';
 import { FC, useCallback, useState } from 'react';
-
 import { IExchanges } from '../../types/IExchangesList';
 import style from './Exchanges.module.scss';
+
+type IExchangesProps = {
+    data: IExchanges[],
+};
 
 const Exchanges: FC<IExchangesProps> = ({ data }) => {
     const [pageSize, setPageSize] = useState(50);
 
     const onChangeTable = useCallback(
         (pagination: TablePaginationConfig) => {
-            pagination.pageSize && setPageSize(pagination.pageSize);
+            if (pagination.pageSize) setPageSize(pagination.pageSize);
         },
         [pageSize],
     );
@@ -23,9 +26,8 @@ const Exchanges: FC<IExchangesProps> = ({ data }) => {
             title: 'Exchange',
             dataIndex: ['name', 'image'],
             sorter: {
-                compare: (a, b) => {
-                    return (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0
-                },
+                // eslint-disable-next-line no-nested-ternary
+                compare: (a, b) => (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0,
                 multiple: 3,
             },
             render: (value, record) => {
@@ -71,14 +73,10 @@ const Exchanges: FC<IExchangesProps> = ({ data }) => {
                 dataSource={data}
                 rowKey='id'
                 onChange={onChangeTable}
-                pagination={{ pageSize: pageSize, position: ['bottomCenter'] }}
+                pagination={{ pageSize, position: ['bottomCenter'] }}
             />
         </div>
     );
-}
-
-type IExchangesProps = {
-    data: IExchanges[],
 }
 
 export default Exchanges;

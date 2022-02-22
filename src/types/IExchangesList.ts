@@ -14,6 +14,6 @@ export interface IExchanges {
 };
 
 export interface IExchangesListRequest {
-    per_page: number,
+    perPage: number,
     page: number,
 }
