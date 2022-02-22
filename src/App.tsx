@@ -7,6 +7,7 @@ import {
     Footer,
     Navbar,
     Portfolio,
+    StatBar,
 } from './components/components';
 import { CryptocurrenciesContainer, WatchListContainer } from './containers';
 import ROUTES from './constants/routes';
@@ -14,6 +15,7 @@ import Wrapper from './components/Wrapper/Wrapper';
 
 const App = () => (
     <Wrapper>
+        <StatBar />
         <Navbar />
         <Layout style={{ backgroundColor: '#fff' }}>
             <Switch>
