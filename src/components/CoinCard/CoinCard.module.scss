@@ -118,7 +118,10 @@
 .runningStringAnim.runningStringWrapper {
     display: inline-block;
     &:hover {
-        animation: marquee 5s linear 300ms infinite alternate running;
+        transition-delay: 0s;
+        visibility: visible;
+        animation: marquee 5s linear 300ms infinite running;
+        animation-fill-mode: forwards;
     }
 }
 
@@ -126,8 +129,29 @@
     0% {
         transform: translateX(0);
     }
+    35% {
+        transform: translateX(-100%);
+    }
+    48% {
+        transform: translateX(-148%);
+    }
+    49% {
+        transform: translate(-148%, 150%);
+    }
+    50% {
+        transform: translate(105%, 150%);
+    }
+    51% {
+        transform: translate(105%);
+    }
+    52% {
+        transform: translateX(100%);
+    }
+    80% {
+        transform: translateX(40%);
+    }
     100% {
-        transform: translateX(-130%);
+        transform: translateX(0);
     }
 }
 
