@@ -227,18 +227,21 @@ const AddCoinToWatchListModal: FC = () => {
                 dataSource={dataCoins}
                 className={styles.list}
                 renderItem={(item) => (
-                    <List.Item key={`listitem_${item.id}`}>
-                        <List.Item.Meta
-                            title={
-                                <CoinCard
-                                    key={`modal_card_${item.id}`}
-                                    id={item.id}
-                                    image={item.image}
-                                    name={item.name}
-                                    symbol={item.symbol}
-                                    type="watchlist-modal-list"
-                                />
-                            }
+                    <List.Item
+                        style={{
+                            padding: 0,
+                            height: '50px',
+                            display: 'list-item',
+                        }}
+                        key={`listitem_${item.id}`}
+                    >
+                        <CoinCard
+                            key={`modal_card_${item.id}`}
+                            id={item.id}
+                            image={item.image}
+                            name={item.name}
+                            symbol={item.symbol}
+                            type="watchlist-modal-list"
                         />
                     </List.Item>
                 )}

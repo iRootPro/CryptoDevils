@@ -10,9 +10,16 @@
 
 .modalList.wrapper {
     justify-content: space-between;
-
+    height: 100%;
+    padding: 0 5px;
     &:hover {
         background-color: #eff2f5;
+        cursor: pointer;
+    }
+    @media (hover: none) {
+        &:hover {
+            background-color: inherit;
+        }
     }
 }
 
@@ -27,6 +34,10 @@
 .symbol {
     text-transform: uppercase;
     color: rgb(165, 165, 165) !important;
+}
+
+.name.modalList {
+    font-weight: 500;
 }
 
 .checkWrapper {

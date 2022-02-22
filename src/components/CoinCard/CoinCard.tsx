@@ -79,7 +79,9 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                         src={image}
                         className={`${styles.image} ${styles.fix}`}
                     />
-                    <Text className={styles.name}>{name}</Text>
+                    <Text className={`${styles.name} ${styles.modalList}`}>
+                        {name}
+                    </Text>
                     <Text className={styles.symbol}>{symbol}</Text>
                 </div>
                 {showSelect ? <Check /> : null}
@@ -111,7 +113,7 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
         <Link to={`${ROUTES.coin}/${id}`} className={styles.link}>
             <div className={`${styles.wrapper} ${styles.WLCardView}`}>
                 <Text className={`${styles.rank} ${styles.WLCardView}`}>
-                    #{rank || 'N'}
+                    #{rank || '―'}
                 </Text>
                 <Avatar
                     src={`${image}`}

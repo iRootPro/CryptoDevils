@@ -59,8 +59,10 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
 
     const renderViewIcon = () => {
         if (view === 'table')
-            return <AppstoreOutlined style={{ fontSize: '27px' }} />;
-        return <TableOutlined style={{ fontSize: '27px' }} />;
+            return (
+                <AppstoreOutlined className={`${styles.icon} ${styles.wl}`} />
+            );
+        return <TableOutlined className={`${styles.icon} ${styles.wl}`} />;
     };
 
     const renderView = () => {
