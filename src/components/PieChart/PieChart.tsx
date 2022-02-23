@@ -10,6 +10,11 @@ export type ItemDataTypePie = {
 export const PieChart = ({data}: {data: ItemDataTypePie[]}) => {
 
     const options = {
+        stockTools: {
+            gui: {
+                enabled: false
+            }
+        },
         plotOptions: {
             pie: {
                 allowPointSelect: true,

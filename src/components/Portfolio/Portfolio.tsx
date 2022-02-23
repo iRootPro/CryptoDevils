@@ -31,9 +31,10 @@ import {useGetCoinsByIdsQuery} from "../../services/api";
 import CoinCard from "../CoinCard/CoinCard";
 import {ICoinRaw} from "../../types/ICoin";
 import {Chart} from "../Chart";
-import {getAveragePrice} from "../../utils/getAveragePrice";
+import getAveragePrice from "../../utils/getAveragePrice";
 import {ItemDataTypePie, PieChart} from "../PieChart/PieChart";
-import {getAllInvestMoney} from "../../utils/getAllInvestMoney";
+import getAllInvestMoney from "../../utils/getAllInvestMoney";
+import InfoError from "./InfoError";
 
 const { Text } = Typography;
 
@@ -176,11 +177,6 @@ const Portfolio:FC = () => {
             dataIndex: 'date',
             key: 'date',
         },
-        {
-            title: 'Action',
-            dataIndex: 'action',
-            key: 'action',
-        },
     ]
 
     useEffect(() => {
@@ -209,9 +205,18 @@ const Portfolio:FC = () => {
     const portfolio = useMemo(() =>
         portfolios.find(p => p.id === selectedPortfolio), [selectedPortfolio, portfolios, marketData])
 
+
+    const needFetchCoins = useMemo(() => {
+        let actualListCoins = String(Object.keys(portfolio ? portfolio.trades : {})).toLocaleLowerCase() || ''
+        if(!actualListCoins.includes(selectCoinForTrade)) {
+            actualListCoins = `${actualListCoins},${selectCoinForTrade}`
+        }
+        return actualListCoins
+    }, [portfolio, selectCoinForTrade])
+
     const { data: fetchedData } = useGetCoinsByIdsQuery({
         currency: 'usd',
-        ids: String(Object.keys(portfolio ? portfolio.trades : {})).toLocaleLowerCase() || ''
+        ids: needFetchCoins
     })
 
     const getPriceCurrent = (coin: string) => {
@@ -242,6 +247,7 @@ const Portfolio:FC = () => {
         }
     }, [portfolio])
 
+
     useEffect(() => {
         const rawData: Array<DataType> = []
         if(!portfolio) return
@@ -263,7 +269,7 @@ const Portfolio:FC = () => {
                     : 0
                 )}`,
                 profitLossUSD: `${formatUSDforTableMoney(foundedCoin?.current_price 
-                    ? foundedCoin.current_price - getAveragePrice(portfolio.trades[coin]) 
+                    ? (foundedCoin.current_price - getAveragePrice(portfolio.trades[coin])) * portfolio.summaryCoinsInfo[coin].quantity
                     : 0
                 )}`
             })
@@ -534,12 +540,13 @@ const Portfolio:FC = () => {
                                 dataSource={data}
                                 columns={columns}
                                     expandable={{
-                                        // eslint-disable-next-line react/no-unstable-nested-components
-                                    expandedRowRender: (record) => (
+                                    // eslint-disable-next-line react/no-unstable-nested-components
+                                    expandedRowRender: (record, index) => (
                                         <Table
+                                            rowKey={`${record.name}_${index}`}
                                             dataSource={portfolio.trades[record.name]}
                                             columns={columnsTrade} pagination={false}/>
-                                    ),
+                                    )
                                 }}
                             />
                             : <Title level={5}>Please, select portfolios</Title>
@@ -568,8 +575,8 @@ const Portfolio:FC = () => {
                     onChange={handleChangePortfolioName}
                     value={newPortfolioName}
                 />
-                {errorExsitName && <Text style={{color: 'red', margin: 5}}>Name already used</Text>}
-                {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
+                {errorExsitName && <InfoError text='Name already used'/>}
+                {errorPortfolioName && <InfoError text='Filed is required'/>}
             </Modal>
             <Modal
                 centered
@@ -586,8 +593,8 @@ const Portfolio:FC = () => {
                     onChange={handleChangePortfolioName}
                     value={newPortfolioName}
                 />
-                {errorExsitName && <Text style={{color: 'red', margin: 5}}>Name already used</Text>}
-                {errorPortfolioName && <Text style={{color: 'red', margin: 5}}>Filed is required</Text>}
+                {errorExsitName && <InfoError text='Name already used'/>}
+                {errorPortfolioName && <InfoError text='Filed is required'/>}
             </Modal>
             <Modal
                 centered
@@ -621,7 +628,7 @@ const Portfolio:FC = () => {
                             style={{borderRadius: 10}}
                             onChange={handleChangeQuantity}
                         />
-                        { errorQuantity && <Text style={{color: "red", margin: 5}}>Field is requires</Text>}
+                        { errorQuantity && <InfoError text='Field is requires'/>}
                     </div>
                     <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
                         <Title level={5}>Price Per Coin</Title>
@@ -631,7 +638,7 @@ const Portfolio:FC = () => {
                             type="number"
                             onChange={handleChangePricePerCoin}
                         />
-                        {errorPriceCoin && <Text style={{color: "red", margin: 5}}>Field is requires</Text>}
+                        {errorPriceCoin && <InfoError text='Field is requires'/>}
                     </div>
                     <div style={{display: "flex", flexDirection: "column", flex: 1, padding: 5}}>
                         <Title level={5}>Date</Title>

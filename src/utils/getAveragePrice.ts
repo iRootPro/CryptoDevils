@@ -1,6 +1,6 @@
 import {TradeType} from "../redux/reducers/portfolioSlice";
 
-export const getAveragePrice = (trades: Array<TradeType>) => {
+const getAveragePrice = (trades: Array<TradeType>) => {
     let sum: number = 0
     let quantity: number = 0
     trades.forEach(trade => {
@@ -9,3 +9,5 @@ export const getAveragePrice = (trades: Array<TradeType>) => {
     })
     return sum/quantity
 }
+
+export default getAveragePrice

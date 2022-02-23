@@ -17,7 +17,7 @@ type typeProps = {
     getId?: boolean
 }
 
-const SearchEngine: FC<typeProps> = ({getId = false}) => {
+const SearchEngine: FC<typeProps> = ({getId }) => {
     const { data } = useGetCoinsListQuery('');
     const dispatch = useAppDispatch()
     const history = useHistory();

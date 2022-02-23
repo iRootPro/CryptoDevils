@@ -3,6 +3,11 @@ import {selectPortfolios} from "../redux/selectors/portfolioSelectors";
 import {PortfolioType} from "../redux/reducers/portfolioSlice";
 import {useGetCoinsByIdsQuery} from "../services/api";
 
+type AllInvestMoneyType = {
+    summaryInvest: number,
+    summaryDataMarket: number
+}
+
 const getAllPortfoliosTrades = (portfolios: Array<PortfolioType>) => portfolios.map(p => Object.values(p.trades)).flat(2)
 
 const getAllCoins = (portfolios: Array<PortfolioType>) => {
@@ -11,7 +16,7 @@ const getAllCoins = (portfolios: Array<PortfolioType>) => {
     return  Array.from(new Set(allCoins))
 }
 
-export const getAllInvestMoney = (): AllInvestMoneyType => {
+const getAllInvestMoney = (): AllInvestMoneyType => {
     const portfolios = useSelector(selectPortfolios)
     const allCoins = getAllCoins(portfolios)
     const {data} = useGetCoinsByIdsQuery({
@@ -38,7 +43,4 @@ export const getAllInvestMoney = (): AllInvestMoneyType => {
     }
 }
 
-type AllInvestMoneyType = {
-    summaryInvest: number,
-    summaryDataMarket: number
-}
+export default getAllInvestMoney

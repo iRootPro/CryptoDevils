@@ -1,4 +1,24 @@
+/* eslint-disable no-param-reassign */
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+
+export type TradeType = {
+    id: string,
+    coin: string,
+    date: string,
+    quantity: number,
+    price: number,
+    totalSpent: number,
+}
+
+export type TradesType = {
+    [coin: string]: Array<TradeType>
+}
+
+type SummaryType = {
+    [coin: string]: {
+        quantity: number
+    }
+}
 
 export type PortfolioType = {
     id: string,
@@ -8,29 +28,13 @@ export type PortfolioType = {
     summaryCoinsInfo: SummaryType,
 }
 
-type SummaryType = {
-    [coin: string]: {
-        quantity: number
-    }
-}
+
 
 export type PortfoliosType = {
     portfolios: Array<PortfolioType>
     selectCoin: string,
 }
 
-export type TradesType = {
-    [coin: string]: Array<TradeType>
-}
-
-export type TradeType = {
-        id: string,
-        coin: string,
-        date: string,
-        quantity: number,
-        price: number,
-        totalSpent: number,
-}
 
 export type AddTradeType = {
     trade: TradeType,
@@ -69,10 +73,12 @@ const portfolioSlice = createSlice({
             const portfolio = state.portfolios.find(p => p.id === action.payload.portfolioId)
             if(portfolio) {
                 state.selectCoin = 'bitcoin'
+                // eslint-disable-next-line no-unused-expressions
                 portfolio.trades[coin]
                     ? portfolio.trades[coin].push(action.payload.trade)
                     : portfolio.trades[coin] = [action.payload.trade]
                 portfolio.totalSum += action.payload.trade.totalSpent
+                // eslint-disable-next-line no-unused-expressions
                 portfolio.summaryCoinsInfo[coin]
                     ? portfolio.summaryCoinsInfo[coin] = {
                         quantity: portfolio.summaryCoinsInfo[coin].quantity += action.payload.trade.quantity,
