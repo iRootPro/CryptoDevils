@@ -68,7 +68,7 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
                 ? formatDescription(descriptionEN, width)
                 : descriptionEN,
         );
-        if (width <= 991) {
+        if (width <= 992) {
             SetCardHeight('auto')
             setHideButton(true)
         } else {
