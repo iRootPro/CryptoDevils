@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { CheckOutlined } from '@ant-design/icons';
 import { Avatar, Typography } from 'antd';
+import styled, { keyframes, css } from 'styled-components';
 import { FC, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ROUTES from '../../constants/routes';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
@@ -13,17 +14,73 @@ import {
 } from '../../redux/reducers/modalSelectedCoinsSlice';
 import { selectModalSelectedCoinsIds } from '../../redux/selectors/modalSelectedCoinsSelectors';
 import { ICoinCard, ICoinWL } from '../../types/ICoin';
-import isOverflownWidth from '../../utils/isOverflownWidth';
+import {
+    isOverflownWidth,
+    clientScrollRatioPercentage,
+} from '../../utils/overflown';
 
 import styles from './CoinCard.module.scss';
 
+import ROUTES from '../../constants/routes';
+
 const { Text } = Typography;
+
+let clientScrollRatio: number = 100;
 
 const Check: FC = () => (
     <div className={styles.checkWrapper}>
         <CheckOutlined style={{ color: 'white' }} />
     </div>
 );
+
+type IMarqueeProps = {
+    clientScrollRatio: number;
+};
+
+const marquee = (props: IMarqueeProps) => keyframes`
+    0% {
+        transform: translateX(0);
+    }
+    48% {
+        transform: translateX(${-props.clientScrollRatio}%);
+    }
+    49% {
+        transform: translate(${-props.clientScrollRatio}%, 150%);
+    }
+    50% {
+        transform: translate(105%, 150%);
+    }
+    51% {
+        transform: translate(105%);
+    }
+    52% {
+        transform: translateX(100%);
+    }
+    80% {
+        transform: translateX(40%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+`;
+
+const MarqueeDiv = styled.div<IMarqueeProps>`
+    width: 100%;
+    display: inline-block;
+    
+    &:hover {
+        animation: ${(props) => css`
+            ${marquee(props)} 5s linear 300ms infinite running;
+        `};
+        animation-fill-mode: forwards;
+    },
+`;
+
+const CommonDiv = styled.div<IMarqueeProps>`
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+`;
 
 const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
     const [showSelect, setShowSelect] = useState(false);
@@ -100,12 +157,14 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
         );
     }
 
-    let isAnimateString = `${styles.runningStringWrapper}`;
+    let MyDiv = CommonDiv;
 
     if (divRef.current !== null) {
         const div = divRef.current;
         if (isOverflownWidth(div)) {
-            isAnimateString = `${styles.runningStringAnim} ${styles.runningStringWrapper}`;
+            MyDiv = MarqueeDiv;
+            clientScrollRatio = clientScrollRatioPercentage(div);
+            console.log(clientScrollRatio);
         }
     }
 
@@ -119,18 +178,14 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
                     src={`${image}`}
                     className={`${styles.image} ${styles.fix} ${styles.WLCardView}`}
                 />
-                <div
-                    ref={divRef}
-                    className={isAnimateString}
-                    data-string-width="250%"
-                >
+                <MyDiv ref={divRef} clientScrollRatio={clientScrollRatio}>
                     <Text className={`${styles.name} ${styles.WLCardView}`}>
                         {name}
                     </Text>
                     <Text className={`${styles.symbol} ${styles.WLCardView}`}>
                         {symbol}
                     </Text>
-                </div>
+                </MyDiv>
             </div>
         </Link>
     );
