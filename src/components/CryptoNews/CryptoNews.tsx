@@ -38,12 +38,13 @@ const CryptoNews: FC = () => {
         img8,
         img9,
         img10,
+        img11,
         img12,
         img13,
         img14,
         img15,
     ];
-    shuffle(imageTemplates)
+    const randomImage = shuffle(imageTemplates)
     return (
         <Carousel slidesToShow={5} arrows autoplay dots={false}>
             {data?.results.map((news, index) => (
@@ -60,7 +61,7 @@ const CryptoNews: FC = () => {
                             <Image
                                 preview={false}
                                 className={`${styles.newsImage} ${styles.image}`}
-                                src={news.image_url || imageTemplates[index]} />
+                                src={news.image_url || randomImage[index]} />
                         </div>
                         <div
                             className={`${styles.nameWrapper} ${styles.wrapper}`}
