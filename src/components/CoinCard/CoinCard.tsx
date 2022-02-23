@@ -164,7 +164,6 @@ const CoinCard: FC<ICoinCard> = ({ id, image, name, symbol, type, rank }) => {
         if (isOverflownWidth(div)) {
             MyDiv = MarqueeDiv;
             clientScrollRatio = clientScrollRatioPercentage(div);
-            console.log(clientScrollRatio);
         }
     }
 
