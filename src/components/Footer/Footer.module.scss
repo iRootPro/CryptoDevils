@@ -4,8 +4,46 @@
   justify-content: space-between;
   align-items: center;
 
-  > .text {
+  img {
+    height: 50px;
+  }
+
+  >.text, .textBottom {
     font-size: 18px;
     font-weight: 500;
+  }
+}
+
+@media (max-width: 630px) {
+  .wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    img {
+      height: 40px;
+    }
+    >.text {
+      margin-right: 20px;
+      margin-left: 20px;
+    }
+  }
+}
+
+@media (max-width: 570px) {
+  .wrapper {
+    >.textBottom {
+      margin-top: 10px;
+    }
+  }
+}
+
+
+@media (max-width: 426px) {
+  .wrapper {
+    >.text {
+      margin-top: 10px;
+    }
   }
 }

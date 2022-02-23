@@ -13,11 +13,11 @@ const Footer: FC = () => (
         <Divider />
         <Margin vertical={MARGIN.xl}>
             <div className={styles.wrapper}>
-                <img src={logo} alt="logo" height="50px" />
+                <img src={logo} alt="logo" />
                 <span className={styles.text}>
                     Made with <HeartFilled /> by CryptoDevils
                 </span>
-                <span className={styles.text}>copyright © 2022</span>
+                <span className={styles.textBottom}>copyright © 2022</span>
             </div>
         </Margin>
     </>
