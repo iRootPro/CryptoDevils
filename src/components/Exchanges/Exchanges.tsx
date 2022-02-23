@@ -38,7 +38,7 @@ const Exchanges: FC<IExchangesProps> = ({ data }) => {
                         <Text className={`${style.name}`}>{name}</Text>
                     </div>;
                 return (url.length > 0
-                    ? <Link href={url}>{card}</Link>
+                    ? <Link href={url} target="_blank">{card}</Link>
                     : card
                 );
             },
