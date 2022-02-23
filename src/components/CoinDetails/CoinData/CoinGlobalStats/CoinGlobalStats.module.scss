@@ -2,4 +2,21 @@
   display: flex;
 }
 
+@media (max-width: 1430px) {
+  .globalStatsContainer {
+    flex-direction: column;
+  }
+}
 
+
+@media (max-width: 990px) {
+  .globalStatsContainer {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 630px) {
+  .globalStatsContainer {
+    flex-direction: column;
+  }
+}

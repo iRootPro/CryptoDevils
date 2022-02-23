@@ -8,17 +8,19 @@ import styles from './CoinDescription.module.scss';
 const { Title, Text } = Typography;
 
 type TcoinDescription = {
-    showButton: boolean;
+    switchButton: boolean;
     handleToggleReading: () => void;
     description: string;
     coinName: string;
+    hideButton: boolean;
 };
 
 const CoinDescription: FC<TcoinDescription> = ({
-    showButton,
+    switchButton,
     handleToggleReading,
     description,
     coinName,
+    hideButton,
 }) => (
     <>
         {description && (
@@ -30,18 +32,22 @@ const CoinDescription: FC<TcoinDescription> = ({
                     <Text className={styles.descriptionText}>
                         {HTMLReactParser(description)}
                     </Text>
-                    {description.length > 1250 && showButton && (
-                        <VerticalAlignBottomOutlined
-                            className={`${styles.readMore} ${styles.read}`}
-                            onClick={handleToggleReading}
-                        />
-                    )}
-                    {description.length > 1250 && !showButton && (
-                        <ToTopOutlined
-                            className={`${styles.readMore} ${styles.read}`}
-                            onClick={handleToggleReading}
-                        />
-                    )}
+                    {!hideButton &&
+                        switchButton && (
+                            <VerticalAlignBottomOutlined
+                                className={`${styles.readMore} ${styles.read}`}
+                                onClick={handleToggleReading}
+                            />
+                        )
+                    }
+                    {!hideButton &&
+                        !switchButton && (
+                            <ToTopOutlined
+                                className={`${styles.readMore} ${styles.read}`}
+                                onClick={handleToggleReading}
+                            />
+                        )
+                    }
                 </div>
             </>
         )}

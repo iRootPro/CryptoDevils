@@ -89,3 +89,58 @@ $green: #16c784;
 .dailyChangePrice.gray {
   background-color: $symbolColor;
 }
+
+@media (max-width: 1448px) {
+  .historyCard.card {
+    margin: -20px;
+  }
+
+  .coinName.title,
+  .highestPercentage.percentage,
+  .historyDate.date {
+    font-size: 12px;
+  }
+
+  .historyTitle.title {
+    font-size: 15px;
+  }
+
+  .priceDynamic {
+    margin-top: -30px;
+  }
+}
+
+@media (max-width: 430px) {
+  .infoBlock {
+    width: 200px;
+  }
+
+  .priceDynamic {
+    margin-top: -10px;
+  }
+  .currentPrice.price {
+    font-size: 24px;
+  }
+  
+  .dailyChangePrice.red,
+  .dailyChangePrice.green,
+  .dailyChangePrice.gray {
+    border-radius: 10px;
+    margin: 10px 15px;
+    height: 30px;
+    padding: 5px;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $symbolBackgroundColor;
+    background-color: $red;
+  }
+
+  .dailyChangePrice.green {
+    background-color: $green;
+  }
+  
+  .dailyChangePrice.gray {
+    background-color: $symbolColor;
+  }
+}
