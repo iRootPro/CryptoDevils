@@ -19,7 +19,7 @@ const CoinPrice: FC<Tcoinprice> = ({ currentCoinPrice, coinName, priceChange }) 
         {currentCoinPrice !== 1 &&
             <div className={styles.topCurrenciesContainer}>
                 <Title className={`${styles.cryptoPrice} ${styles.price}`} level={5}>
-                    {formatCrypto(currentCoinPrice)} {coinName}
+                    {currentCoinPrice ? formatCrypto(currentCoinPrice) : '0'} {coinName}
                 </Title>
                 {priceChange ?
                     <Text

@@ -59,7 +59,7 @@ const CoinStatCard: FC<TcoinStatCard> = ({
                 </Title>
                 <Title level={5}>
                     <div className={`${styles.priceDifference} ${styles.price}`}>
-                        {formaterCurrency(value)}
+                        {value ? formaterCurrency(value) : '0'}
                         {symbol &&
                             <Text className={`${styles.coinSymbol} ${styles.symbol}`}>{formatSupplySymbol(symbol)}</Text>
                         }
