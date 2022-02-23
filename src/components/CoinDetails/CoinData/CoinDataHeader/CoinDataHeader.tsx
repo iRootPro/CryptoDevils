@@ -57,18 +57,18 @@ const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
                         All time high:
                     </Text>
                     <Text className={`${styles.historyTitle} ${styles.title}`}>
-                        {formatUSD(ath)}
+                        {ath ? formatUSD(ath) : '0'}
                     </Text>
                     <div className={styles.athStat}>
                         <Text
                             className={`${styles.highestPercentage} ${styles.percentage}`}
                         >
-                            {formatPercent(athChangePercent / 100)}
+                            {athChangePercent ? formatPercent(athChangePercent / 100) : '0'}
                         </Text>
                         <Text
                             className={`${styles.historyDate} ${styles.date}`}
                         >
-                            {formatDate(athDate)}
+                            {athDate ? formatDate(athDate) : 'unknown date'}
                         </Text>
                     </div>
                 </Card>
@@ -78,7 +78,7 @@ const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
                     className={`${styles.currentPrice} ${styles.price}`}
                     level={2}
                 >
-                    {formatUSD(currentPrice)}
+                    {currentPrice ? formatUSD(currentPrice) : '0'}
                 </Title>
                 {priceChange24h ?
                     <Text className={`${styles.dailyChangePrice} ${priceChange24h > 0 ? styles.green : styles.red}`}>
