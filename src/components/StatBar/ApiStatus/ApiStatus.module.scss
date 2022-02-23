@@ -5,8 +5,8 @@ $black: rgba(41, 41, 41, 0.295);
 
 .green,
 .red {
-    width: 10px;
-    height: 10px;
+    min-width: 10px;
+    min-height: 10px;
     border-radius: 50%;
     background: $neonGreen;
     margin-left: 5px;
@@ -17,7 +17,6 @@ $black: rgba(41, 41, 41, 0.295);
     background: $dangerRed;
 }
 
-
 .apiStatus.status {
     display: inline-flex;
     align-items: center;
@@ -25,5 +24,8 @@ $black: rgba(41, 41, 41, 0.295);
     padding-right: 10px;
     font-weight: 600;
     color: $symbolColor;
+    padding-right: 30px;
+    @media screen and (min-width: 992px) {
+        padding-right: 10px;
+    }
 }
-

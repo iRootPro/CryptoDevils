@@ -2,12 +2,60 @@ $symbolColor: #58667e;
 $valueColor: rgb(56, 97, 251);
 $borderColor: rgb(239, 242, 245);
 
-.statBar {
-    padding: 5px 0;
-    border-bottom: 1px solid $borderColor;
+.wrapper {
     align-items: center;
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    white-space: nowrap;
+    overflow: auto hidden;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.fadeRight {
+    background-image: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0),
+        rgb(255, 255, 255) 100%
+    );
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 50px;
+    z-index: 1;
+    display: block;
+    @media screen and (min-width: 992px) {
+        display: none;
+    }
+}
+
+.statBar {
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+    border-bottom: 1px solid $borderColor;
+
+    position: relative;
+    margin-top: -10px;
+    width: 100%;
+
+    @media screen and (min-width: 768px) {
+        position: absolute;
+        margin-top: 5px;
+        top: -30px;
+    }
+    @media screen and (min-width: 992px) {
+        top: -40px;
+    }
+    @media screen and (min-width: 1200px) {
+        top: -55px;
+    }
+    @media screen and (min-width: 1400px) {
+    }
 }
 
 .statType.type {
@@ -15,6 +63,8 @@ $borderColor: rgb(239, 242, 245);
     padding-right: 10px;
     font-weight: 600;
     color: $symbolColor;
+
+    display: inline-block;
 
     span {
         color: $valueColor;
