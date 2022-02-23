@@ -7,7 +7,7 @@ git clone git@github.com:iRootPro/CryptoDevils.git
 yarn
 ```
 
-For start project
+Для запуска
 
 ```shell
 yarn start
