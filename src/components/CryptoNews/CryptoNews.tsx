@@ -18,6 +18,7 @@ import {
     img14,
     img15,
 } from '../../assets/images/newsTemplates';
+import useWindowDimensions from '../../hooks/useWindowDimension';
 import { useGetNewsQuery } from '../../services/newsApi';
 import shuffle from '../../utils/shuffleArray';
 import styles from './CryptoNews.module.scss';
@@ -27,6 +28,7 @@ const { Text } = Typography;
 
 const CryptoNews: FC = () => {
     const { data, isLoading } = useGetNewsQuery('');
+    const { width } = useWindowDimensions()
     const imageTemplates = [
         img1,
         img2,
@@ -45,8 +47,18 @@ const CryptoNews: FC = () => {
         img15,
     ];
     const randomImage = shuffle(imageTemplates)
+    let slidesToShow;
+    if (width < 568) {
+        slidesToShow = 2
+    } else if (width < 1000) {
+        slidesToShow = 3
+    } else if (width < 1820) {
+        slidesToShow = 4;
+    } else {
+        slidesToShow = 5;
+    }
     if (isLoading) return (
-        <Carousel slidesToShow={5} dots={false}>
+        <Carousel slidesToShow={slidesToShow} dots={false}>
             {randomImage.map(item => (
                 <Card key={`skeleton ${item}`} loading bordered={false} bodyStyle={{ height: 204 }}>
                     {item}
@@ -55,7 +67,7 @@ const CryptoNews: FC = () => {
         </Carousel>
     )
     return (
-        <Carousel slidesToShow={5} arrows autoplay dots={false}>
+        <Carousel slidesToShow={slidesToShow} arrows autoplay dots={false}>
             {data?.results.map((news, index) => (
                 <a
                     key={`news_${index + 1}`}

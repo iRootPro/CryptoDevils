@@ -19,6 +19,7 @@
 
 
 .newsName.name {
+    width: 260px;
     font-size: 14px;
     font-weight: 700;
     white-space: nowrap;
@@ -30,4 +31,41 @@
     font-size: 12px;
     font-weight: 600;
     color: #58667e;
+}
+
+.imageWrapper.wrapper,
+.newsImage.image,
+.newsName.name {
+    @media (max-width: 1820px) {
+        width: 300px;
+    }
+
+    @media (max-width: 1698px) {
+        width: 250px;
+    }
+
+    @media (max-width: 1485px) {
+        width: 220px;
+    }
+
+    @media (max-width: 1000px) {
+
+        width: 250px;
+    }
+
+    @media (max-width: 850px) {
+        width: 200px;
+    }
+
+    @media (max-width: 675px) {
+        width: 160px;
+    }
+
+    @media (max-width: 568px) {
+        width: 230px;
+    }
+
+    @media (max-width: 460px) {
+        width: 200px;
+    }
 }
