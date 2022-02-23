@@ -1,6 +1,7 @@
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { Card, Typography } from 'antd';
 import { FC } from 'react';
+import useWindowDimensions from '../../../../hooks/useWindowDimension';
 import { ICoinIdData } from '../../../../types/ICoin';
 import {
     formatDate,
@@ -33,10 +34,17 @@ const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
     const currentPriceETH = data.market_data.current_price.eth;
     const priceChange24hETH =
         data.market_data.price_change_percentage_24h_in_currency.eth;
+    const { width } = useWindowDimensions();
+    let padding;
+    if (width < 1448) {
+        padding = 5
+    } else {
+        padding = 25
+    }
     return (
         <>
             <div className={styles.header}>
-                <div>
+                <div className={styles.infoBlock}>
                     <Text className={`${styles.coinName} ${styles.name}`}>
                         {formatName(coinName)} price
                     </Text>
@@ -44,7 +52,7 @@ const CoinDataHeader: FC<TCoinDataHeaderProps> = ({ data }) => {
                         ({formatSymbol(coinSymbol)})
                     </Text>
                 </div>
-                <Card className={`${styles.historyCard} ${styles.card}`}>
+                <Card className={`${styles.historyCard} ${styles.card}`} bodyStyle={{ padding }}>
                     <Text className={`${styles.coinName} ${styles.title}`}>
                         All time high:
                     </Text>

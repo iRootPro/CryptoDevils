@@ -90,15 +90,36 @@ export const formatUrl: TformatUrl = (url) => {
 type TformatName = (name: string) => string;
 
 export const formatName: TformatName = (name) =>
-    name.length > 20 ? `${name.substring(0, 20)}...` : name;
+    name.length > 15 ? `${name.substring(0, 15)}...` : name;
 
 export const formatSymbol: TformatName = (symbol) =>
-    symbol.length > 15 ? `${symbol.substring(0, 15)}...` : symbol;
+    symbol.length > 7 ? `${symbol.substring(0, 7)}...` : symbol;
 
 export const formatSupplySymbol: TformatName = (symbol) =>
     symbol.length > 5 ? `${symbol.substring(0, 5)}...` : symbol;
 
-export const formatDescription: TformatName = (description) =>
-    description.length > 1250
-        ? `${description.substring(0, 1250)}...`
-        : description;
+type TformatDescription = (description: string, width: number) => string
+
+export const formatDescription: TformatDescription = (description, width) => {
+    let formattedText = description
+    if (description.length > 1250) {
+        if (width <= 991) {
+            formattedText = description;
+        } else if (width <= 1280) {
+            formattedText = `${formattedText.substring(0, 1550)}...`
+        } else if (width <= 1430) {
+            formattedText = description;
+        } else if (width <= 1462) {
+            formattedText = `${formattedText.substring(0, 850)}...`
+        } else if (width <= 1600) {
+            formattedText = `${formattedText.substring(0, 950)}...`
+        } else if (width <= 1732) {
+            formattedText = `${formattedText.substring(0, 1050)}...`
+        } else if (width > 1732) {
+            formattedText = `${formattedText.substring(0, 1250)}...`
+        }
+    } else {
+        formattedText = description;
+    }
+    return formattedText
+}
