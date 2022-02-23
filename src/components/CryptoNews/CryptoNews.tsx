@@ -26,7 +26,7 @@ import styles from './CryptoNews.module.scss';
 const { Text } = Typography;
 
 const CryptoNews: FC = () => {
-    const { data } = useGetNewsQuery('');
+    const { data, isLoading } = useGetNewsQuery('');
     const imageTemplates = [
         img1,
         img2,
@@ -45,6 +45,15 @@ const CryptoNews: FC = () => {
         img15,
     ];
     const randomImage = shuffle(imageTemplates)
+    if (isLoading) return (
+        <Carousel slidesToShow={5} dots={false}>
+            {randomImage.map(item => (
+                <Card key={`skeleton ${item}`} loading bordered={false} bodyStyle={{ height: 204 }}>
+                    {item}
+                </Card>
+            ))}
+        </Carousel>
+    )
     return (
         <Carousel slidesToShow={5} arrows autoplay dots={false}>
             {data?.results.map((news, index) => (
