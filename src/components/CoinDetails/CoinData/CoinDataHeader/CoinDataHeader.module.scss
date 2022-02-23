@@ -69,7 +69,8 @@ $green: #16c784;
 }
 
 .dailyChangePrice.red,
-.dailyChangePrice.green {
+.dailyChangePrice.green,
+.dailyChangePrice.gray {
   border-radius: 10px;
   margin: 10px 15px;
   height: 45px;
@@ -85,3 +86,6 @@ $green: #16c784;
   background-color: $green;
 }
 
+.dailyChangePrice.gray {
+  background-color: $symbolColor;
+}

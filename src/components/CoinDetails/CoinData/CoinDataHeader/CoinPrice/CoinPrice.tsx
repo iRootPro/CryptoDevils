@@ -13,35 +13,27 @@ type Tcoinprice = {
     priceChange: number;
 };
 
-const CoinPrice: FC<Tcoinprice> = ({
-    currentCoinPrice,
-    coinName,
-    priceChange,
-}) => (
+
+const CoinPrice: FC<Tcoinprice> = ({ currentCoinPrice, coinName, priceChange }) =>
     <>
-        {currentCoinPrice !== 1 && (
+        {currentCoinPrice !== 1 &&
             <div className={styles.topCurrenciesContainer}>
-                <Title
-                    className={`${styles.cryptoPrice} ${styles.price}`}
-                    level={5}
-                >
+                <Title className={`${styles.cryptoPrice} ${styles.price}`} level={5}>
                     {formatCrypto(currentCoinPrice)} {coinName}
                 </Title>
-                <Text
-                    className={`${styles.highestPercentage} ${
-                        styles.percentageCrypto
-                    } ${priceChange > 0 && styles.green}`}
-                >
-                    {priceChange > 0 ? (
-                        <CaretUpOutlined />
-                    ) : (
-                        <CaretDownOutlined />
-                    )}
-                    {formatPercent(priceChange / 100)}
-                </Text>
-            </div>
-        )}
+                {priceChange ?
+                    <Text
+                        className={`${styles.highestPercentage} ${styles.percentageCrypto} ${priceChange > 0 && styles.green}`}>
+                        {priceChange > 0 ? <CaretUpOutlined /> : <CaretDownOutlined />}
+                        {formatPercent(priceChange / 100)}
+                    </Text>
+                    : <Text
+                        className={`${styles.highestPercentage} ${styles.percentageCrypto} ${styles.gray}`}>
+                        0%
+                    </Text>
+                }
+            </div>}
     </>
-);
+
 
 export default CoinPrice;

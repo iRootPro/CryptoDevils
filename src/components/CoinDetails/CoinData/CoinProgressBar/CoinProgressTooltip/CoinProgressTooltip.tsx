@@ -11,11 +11,14 @@ type TcoinProgressToolTip = {
 
 const { Text } = Typography;
 
-const CoinProgressTooltip: FC<TcoinProgressToolTip> = ({ value24h, text }) => (
+
+const CoinProgressTooltip: FC<TcoinProgressToolTip> = ({ value24h, text }) =>
     <Text className={`${styles.priceDifference} ${styles.price}`}>
         <span className={`${styles.coinName} ${styles.name}`}>{text}</span>
-        {formatUSD(value24h)}
+        {value24h ? formatUSD(value24h) : '0%'}
     </Text>
-);
+
+
+
 
 export default CoinProgressTooltip;

@@ -1,7 +1,6 @@
 import Layout from 'antd/lib/layout/layout';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-
 import {
     CoinDetails,
     Footer,
@@ -9,7 +8,11 @@ import {
     Portfolio,
     StatBar,
 } from './components/components';
-import { CryptocurrenciesContainer, WatchListContainer } from './containers';
+import {
+    CryptocurrenciesContainer,
+    ExchangesContainer,
+    WatchListContainer
+} from './containers';
 import ROUTES from './constants/routes';
 import Wrapper from './components/Wrapper/Wrapper';
 
@@ -38,6 +41,10 @@ const App = () => (
                     exact
                     path={ROUTES.watchlist}
                     render={() => <WatchListContainer />}
+                />
+                <Route
+                    exact path={ROUTES.exchanges}
+                    render={() => <ExchangesContainer />}
                 />
             </Switch>
         </Layout>
