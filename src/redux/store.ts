@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import { cryptoApi } from '../services/api';
 import watchListReducer from './reducers/watchListSlice';
+import portfoliosReducer from "./reducers/portfolioSlice";
 import { ethereumApi } from '../services/ethereumApi';
 import { newsApi } from '../services/newsApi';
 import modalSelectedCoinsReducer from './reducers/modalSelectedCoinsSlice';
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
     watchListViewReducer,
     [ethereumApi.reducerPath]: ethereumApi.reducer,
     [newsApi.reducerPath]: newsApi.reducer,
+    portfolios: portfoliosReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,0 +1,70 @@
+.wrapper {
+  background: white;
+  display: flex;
+}
+
+.leftSide {
+  width: 300px;
+  flex: 1;
+}
+
+.rightSide {
+  flex: 3;
+}
+
+.RightBlock {
+  padding: 10px;
+}
+
+.summaryButtonBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.allPortfolio {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  width: 300px;
+  padding: 10px;
+  div:last-child {
+    margin-left: auto;
+  }
+}
+
+.selectedPortfolio {
+  background: #FAFAFA;
+}
+
+.actionButton {
+  position: relative;
+  right: 5px;
+}
+
+.createPortfolio {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.direction {
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.radio {
+  display: flex;
+  width: 100%;
+}
