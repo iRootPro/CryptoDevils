@@ -132,6 +132,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                 position: ['bottomCenter'],
                 hideOnSinglePage: true,
             }}
+            scroll={{ x: 1000 }}
         />
     );
 };
