@@ -1,70 +1,124 @@
 .wrapper {
-  background: white;
-  display: flex;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    @media screen and (min-width: 1200px) {
+        flex-direction: row;
+    }
 }
 
 .leftSide {
-  width: 300px;
-  flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    flex: 1;
 }
 
 .rightSide {
-  flex: 3;
+    flex: 3;
 }
 
 .RightBlock {
-  padding: 10px;
+    padding: 10px;
 }
 
 .summaryButtonBlock {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+
+    > :last-child {
+        margin-top: 20px;
+    }
+
+    @media screen and (min-width: 992px) {
+        flex-direction: row;
+        > :last-child {
+            margin-top: 0;
+        }
+    }
+}
+
+.userWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .summary {
-  font-size: 32px;
-  font-weight: 600;
+    font-size: 21px;
+    font-weight: 600;
+    @media screen and (min-width: 768px) {
+        font-size: 32px;
+    }
 }
 
 .allPortfolio {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  width: 300px;
-  padding: 10px;
-  div:last-child {
-    margin-left: auto;
-  }
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px;
+
+    .infoBlock {
+        margin-left: 0;
+    }
+
+    @media screen and (min-width: 768px) {
+        .infoBlock {
+            margin-left: auto;
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+}
+@media screen and (max-width: 1200px) {
+}
+@media screen and (max-width: 1400px) {
 }
 
 .selectedPortfolio {
-  background: #FAFAFA;
+    background: #fafafa;
+}
+
+.assets {
+    text-align: center;
+    margin: 15px 0 5px 0;
 }
 
 .actionButton {
-  position: relative;
-  right: 5px;
+    position: relative;
+    right: 5px;
+    margin-left: auto;
 }
 
 .createPortfolio {
-  cursor: pointer;
-  padding: 10px;
+    cursor: pointer;
+    padding: 10px;
 }
 
 .infoBlock {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .direction {
-  background: #f8f8f8;
-  padding: 10px;
-  border-radius: 10px;
+    background: #f8f8f8;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .radio {
-  display: flex;
-  width: 100%;
+    display: flex;
+    width: 100%;
+}
+
+.tableWrapper {
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
