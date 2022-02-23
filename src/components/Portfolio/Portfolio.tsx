@@ -23,6 +23,7 @@ import Title from 'antd/es/typography/Title';
 import moment from 'moment';
 import { v4 as uuid } from 'uuid';
 import { useSelector } from 'react-redux';
+import { Breakpoint } from 'antd/lib/_util/responsiveObserve';
 import styles from './Portfolio.module.scss';
 import Margin from '../common/Margin';
 import MARGIN from '../../constants/margins';

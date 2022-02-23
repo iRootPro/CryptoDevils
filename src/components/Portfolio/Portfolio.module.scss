@@ -2,14 +2,14 @@
     background: white;
     display: flex;
     flex-direction: column;
-    @media screen and (min-width: 1200px) {
+    @media screen and (min-width: 1345px) {
         flex-direction: row;
     }
 }
 
 .leftSide {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1345px;
     flex: 1;
 }
 
