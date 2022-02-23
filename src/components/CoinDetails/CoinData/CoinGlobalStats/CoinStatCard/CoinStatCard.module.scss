@@ -39,3 +39,15 @@ $green: #16c784;
   color: $symbolColor;
   font-weight: 500;
 }
+
+@media (max-width: 1620px) {
+  .priceDifference.price {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1430px) {
+  .priceDifference.price {
+    font-size: 16px;
+  }
+}

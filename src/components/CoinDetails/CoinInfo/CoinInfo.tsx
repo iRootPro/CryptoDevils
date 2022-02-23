@@ -13,6 +13,7 @@ import { formatDescription, formatUrl } from '../../../utils/formatters';
 import CoinDescription from './CoinDescription/CoinDescription';
 import CoinInfoHeader from './CoinInfoHeader/CoinInfoHeader';
 import CoinRanking from './CoinRanking/CoinRanking';
+import useWindowDimensions from '../../../hooks/useWindowDimension';
 
 type TcoinInfoProps = {
     data: ICoinIdData;
@@ -20,8 +21,9 @@ type TcoinInfoProps = {
 };
 type TcardHeight = string | number;
 type Tdescription = string;
-type TshowButton = boolean;
+type TswitchButton = boolean;
 type TtoggleReading = () => void;
+type ThideButton = boolean;
 
 const { Text } = Typography;
 
@@ -57,27 +59,39 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
 
     const [cardHeight, SetCardHeight] = useState<TcardHeight>(670);
     const [description, setDescription] = useState<Tdescription>(descriptionEN);
-    const [showButton, setShowButton] = useState<TshowButton>(true);
-
+    const [switchButton, setSwitchButton] = useState<TswitchButton>(true);
+    const [hideButton, setHideButton] = useState<ThideButton>(false);
+    const { width } = useWindowDimensions()
     useEffect(() => {
         setDescription(
             descriptionEN.length > 1250
-                ? formatDescription(descriptionEN)
+                ? formatDescription(descriptionEN, width)
                 : descriptionEN,
         );
-    }, [descriptionEN]);
+        if (width <= 991) {
+            SetCardHeight('auto')
+            setHideButton(true)
+        } else {
+            setHideButton(false)
+        }
+        if (description.length === descriptionEN.length) {
+            setHideButton(true)
+        } else {
+            setHideButton(false)
+        }
+    }, [descriptionEN, width, hideButton]);
 
     const handleToggleReading: TtoggleReading = useCallback(() => {
-        if (showButton) {
+        if (switchButton) {
             SetCardHeight('auto');
             setDescription(descriptionEN);
-            setShowButton(false);
+            setSwitchButton(false);
         } else {
             SetCardHeight(670);
-            setDescription(formatDescription(descriptionEN));
-            setShowButton(true);
+            setDescription(formatDescription(descriptionEN, width));
+            setSwitchButton(true);
         }
-    }, [description, showButton]);
+    }, [description, switchButton]);
 
     const menuExplorers = menuTemplate(data.links.blockchain_site);
     const menuChat = menuTemplate(data.links.chat_url);
@@ -85,7 +99,7 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
 
     return (
         <Col xs={24} lg={12}>
-            <Card style={{ height: cardHeight }}>
+            <Card style={{ height: cardHeight, borderColor: 'transparent' }}>
                 <CoinInfoHeader
                     isFetching={isFetching}
                     coinName={coinName}
@@ -133,7 +147,8 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
                     </DropdownMenu>
                 </div>
                 <CoinDescription
-                    showButton={showButton}
+                    hideButton={hideButton}
+                    switchButton={switchButton}
                     handleToggleReading={handleToggleReading}
                     description={description}
                     coinName={coinName}

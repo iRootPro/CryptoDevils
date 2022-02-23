@@ -25,7 +25,7 @@ const CoinDetails: FC = () => {
                 <>
                     <CoinInfo data={data} isFetching={isFetching} />
                     <CoinData data={data} refetch={refetch} />
-                    <Col span={24}>
+                    <Col span={24} style={{marginTop: 10}}>
                         <Card>
                             <Chart id={coinId} />
                         </Card>

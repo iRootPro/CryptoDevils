@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Card, Col, Tooltip, Typography } from 'antd';
 import { FC } from 'react';
+import useWindowDimensions from '../../../../../hooks/useWindowDimension';
 import { formatSupplySymbol } from '../../../../../utils/formatters';
 import styles from './CoinStatCard.module.scss';
 
@@ -31,31 +32,48 @@ const CoinStatCard: FC<TcoinStatCard> = ({
     valueChange24h,
     tooltip,
     symbol
-}) =>
-    <Col span={8}>
-        <Card className={`${styles.infoCard} ${styles.info}`}>
-            <Title level={5} className={`${styles.statTitle} ${styles.title}`}>
-                {name}
-                <Tooltip placement="bottom" title={tooltip} className={styles.tooltip}>
-                    <InfoCircleOutlined />
-                </Tooltip>
-            </Title>
-            <Title level={5}>
-                <div className={`${styles.priceDifference} ${styles.price}`}>
-                    {formaterCurrency(value)}
-                    {symbol &&
-                        <Text className={`${styles.coinSymbol} ${styles.symbol}`}>{formatSupplySymbol(symbol)}</Text>
-                    }
-                </div>
-            </Title>
-            {valueChange24h !==0 && formaterPercent && valueChange24h &&
-                <Text
-                    className={`${styles.highestPercentage} ${styles.percentageMarket} ${valueChange24h > 0 ? styles.green : styles.red}`}>
-                    {valueChange24h > 0 ? <CaretUpOutlined /> : <CaretDownOutlined />}
-                    {formaterPercent(valueChange24h / 100)}
-                </Text>
+}) => {
+    const { width } = useWindowDimensions();
+    let columnWidth
+    if (width < 1431) {
+        if (width < 991) {
+            if (width < 631) {
+                columnWidth = 24
+            } else {
+                columnWidth = 8
             }
-        </Card>
-    </Col>
-
+        } else {
+            columnWidth = 24
+        }
+    } else {
+        columnWidth = 8
+    }
+    return (
+        <Col span={columnWidth}>
+            <Card className={`${styles.infoCard} ${styles.info}`}>
+                <Title level={5} className={`${styles.statTitle} ${styles.title}`}>
+                    {name}
+                    <Tooltip placement="bottom" title={tooltip} className={styles.tooltip}>
+                        <InfoCircleOutlined />
+                    </Tooltip>
+                </Title>
+                <Title level={5}>
+                    <div className={`${styles.priceDifference} ${styles.price}`}>
+                        {formaterCurrency(value)}
+                        {symbol &&
+                            <Text className={`${styles.coinSymbol} ${styles.symbol}`}>{formatSupplySymbol(symbol)}</Text>
+                        }
+                    </div>
+                </Title>
+                {valueChange24h !== 0 && formaterPercent && valueChange24h &&
+                    <Text
+                        className={`${styles.highestPercentage} ${styles.percentageMarket} ${valueChange24h > 0 ? styles.green : styles.red}`}>
+                        {valueChange24h > 0 ? <CaretUpOutlined /> : <CaretDownOutlined />}
+                        {formaterPercent(valueChange24h / 100)}
+                    </Text>
+                }
+            </Card>
+        </Col>
+    )
+}
 export default CoinStatCard;
