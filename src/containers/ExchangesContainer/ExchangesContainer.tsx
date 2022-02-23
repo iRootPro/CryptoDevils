@@ -2,6 +2,7 @@ import Exchanges from '../../components/Exchanges/Exchanges';
 import Loader from '../../components/Loader/Loader';
 import { useGetExchangesListQuery } from '../../services/api';
 import { IExchanges } from '../../types/IExchangesList';
+import krakenExchangeURL from '../../utils/krakenExchangeURL';
 
 const ExchangesContainer = () => {
     let fullData: IExchanges[] = [];
@@ -13,7 +14,12 @@ const ExchangesContainer = () => {
     if (responseTwo.isFetching || responseOne.isFetching) return <Loader />
     if (!fullData) return null;
 
-    return <Exchanges data={fullData}/>
+    const data = fullData.map((exch) => exch.id === 'kraken' 
+        ? {...exch, url: krakenExchangeURL}
+        : exch
+    );
+
+    return <Exchanges data={data}/>;
 }
 
 export default ExchangesContainer;
