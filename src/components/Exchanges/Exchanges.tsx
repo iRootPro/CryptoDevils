@@ -74,6 +74,7 @@ const Exchanges: FC<IExchangesProps> = ({ data }) => {
                 rowKey='id'
                 onChange={onChangeTable}
                 pagination={{ pageSize, position: ['bottomCenter'] }}
+                scroll={{ x: 600 }}
             />
         </div>
     );
