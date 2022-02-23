@@ -14,6 +14,7 @@ const {Option} = Select;
 type OptionT = DefaultOptionType | BaseOptionType | undefined;
 
 type typeProps = {
+    // eslint-disable-next-line react/require-default-props
     getId?: boolean
 }
 
