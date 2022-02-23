@@ -32,7 +32,7 @@
         margin-top: 20px;
     }
 
-    @media screen and (min-width: 992px) {
+    @media screen and (min-width: 660px) {
         flex-direction: row;
         > :last-child {
             margin-top: 0;
@@ -49,7 +49,7 @@
 .summary {
     font-size: 21px;
     font-weight: 600;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 950px) {
         font-size: 32px;
     }
 }
@@ -67,18 +67,11 @@
         margin-left: 0;
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 1345px) {
         .infoBlock {
-            margin-left: auto;
+            margin-left: 10px;
         }
     }
-}
-
-@media screen and (max-width: 992px) {
-}
-@media screen and (max-width: 1200px) {
-}
-@media screen and (max-width: 1400px) {
 }
 
 .selectedPortfolio {
