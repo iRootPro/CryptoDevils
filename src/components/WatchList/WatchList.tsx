@@ -30,6 +30,7 @@ import {
     changeView,
     setDefault,
 } from '../../redux/reducers/watchListViewSlice';
+import EmptyWatchListCardView from '../EmptyWatchListCardView/EmptyWatchListCardView';
 
 const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
     const watchList = useAppSelector(selectWatchList);
@@ -66,6 +67,7 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
     };
 
     const renderView = () => {
+        if (dataCoins?.length === 0) return <EmptyWatchListCardView />;
         if (view === 'table') return <Cryptocurrencies dataCoins={dataCoins} />;
         return <WatchListCardView dataCoins={dataCoins} />;
     };
