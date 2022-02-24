@@ -26,7 +26,7 @@ const Navbar: FC = () => {
                     <Menu
                         mode="horizontal"
                         className={styles.menu}
-                        style={{ width: '100%', borderBottomStyle: 'none' }}
+                        style={{ width: '90%', borderBottomStyle: 'none' }}
                     >
                         <Menu.Item
                             key="cryptocurrencies"
@@ -38,7 +38,8 @@ const Navbar: FC = () => {
                         <Menu.Item
                             key="exchanges"
                             icon={<GlobalOutlined />}
-                            onClick={() => history.push(ROUTES.exchanges)}>
+                            onClick={() => history.push(ROUTES.exchanges)}
+                        >
                             Exchanges
                         </Menu.Item>
                         <Menu.Item
