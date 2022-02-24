@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useLayoutEffect, useState } from 'react';
 import { Button, ConfigProvider, Modal } from 'antd';
+
 import {
     AppstoreOutlined,
     DeleteOutlined,
@@ -29,12 +30,16 @@ import WatchListCardView from '../WatchListCardView/WatchListCardView';
 import selectView from '../../redux/selectors/watchListViewSelectors';
 import {
     changeView,
-    setDefault,
+    setCards,
+    setTable,
 } from '../../redux/reducers/watchListViewSlice';
+import EmptyWatchListCardView from '../EmptyWatchListCardView/EmptyWatchListCardView';
+import useWindowDimensions from '../../hooks/useWindowDimension';
 
 const { confirm } = Modal;
 
 const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
+    const { width } = useWindowDimensions();
     const watchList = useAppSelector(selectWatchList);
     const { modalVisible, toogleModal } = useModalVisible(false);
 
@@ -72,6 +77,11 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
         if (view === 'table') return <Cryptocurrencies dataCoins={dataCoins} />;
         return <WatchListCardView dataCoins={dataCoins} />;
     };
+
+    useLayoutEffect(() => {
+        if (width < 830 && dataCoins?.length === 0) dispatch(setCards());
+        if (width >= 830 && dataCoins?.length === 0) dispatch(setTable());
+    }, [width]);
 
     const showConfirm = () => {
         confirm({
@@ -118,6 +128,9 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
 
             <ConfigProvider renderEmpty={() => <EmptyWatchList />}>
                 {renderView()}
+                {view === 'cards' && dataCoins?.length === 0 && (
+                    <EmptyWatchListCardView />
+                )}
             </ConfigProvider>
             <AddCoinToWatchListModal />
         </ModalVisibleContext.Provider>
