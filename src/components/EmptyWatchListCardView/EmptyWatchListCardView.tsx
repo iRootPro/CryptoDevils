@@ -66,12 +66,6 @@ const EmptyWatchListCardView: FC = () => {
         );
     }, [dataCoins]);
 
-    console.log(width);
-
-    console.log(dataCoins);
-
-    console.log(cols);
-
     return (
         <div className={styles.wrapper}>
             <Row gutter={[16, 16]}>{cols}</Row>

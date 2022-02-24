@@ -16,11 +16,14 @@ const watchListView = createSlice({
             if (state.view === 'table') state.view = 'cards';
             else state.view = 'table';
         },
-        setDefault(state) {
+        setTable(state) {
             state.view = 'table';
+        },
+        setCards(state) {
+            state.view = 'cards';
         },
     },
 });
 
 export default watchListView.reducer;
-export const { changeView, setDefault } = watchListView.actions;
+export const { changeView, setTable, setCards } = watchListView.actions;
