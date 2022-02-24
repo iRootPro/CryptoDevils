@@ -6,7 +6,7 @@ import {
     PieChartOutlined,
     UnorderedListOutlined,
 } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import ROUTES from '../../constants/routes';
 import Margin from '../common/Margin';
 import MARGIN from '../../constants/margins';
@@ -22,7 +22,9 @@ const Navbar: FC = () => {
         <Margin vertical={MARGIN.xl}>
             <div className={styles.wrapper}>
                 <div className={styles.wrapperLogoAndMenu}>
-                    <img src={logo} alt="logo" height="30px" />
+                    <Link to={`${ROUTES.main}`}>
+                        <img src={logo} alt="logo" height="30px" />
+                    </Link>
                     <Menu
                         mode="horizontal"
                         className={styles.menu}
