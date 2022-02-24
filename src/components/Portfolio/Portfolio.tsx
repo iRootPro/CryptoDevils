@@ -588,10 +588,13 @@ const Portfolio: FC = () => {
                             <div>
                                 <div>Profit/Loss</div>
                                 <div className={styles.summary}>
-                                    {portfolio &&
-                                        formatUSDforTableMoney(
-                                            currentBalance - portfolio.totalSum,
-                                        )}
+                                    <span style={{color: portfolio && currentBalance - portfolio.totalSum > 0 ? 'green' : "red"}}>
+                                         {portfolio &&
+                                         formatUSDforTableMoney(
+                                             currentBalance - portfolio.totalSum,
+                                         )}
+                                    </span>
+
                                 </div>
                             </div>
 
