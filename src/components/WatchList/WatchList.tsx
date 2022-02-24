@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import { FC, useEffect, useLayoutEffect, useState } from 'react';
-import { Button, ConfigProvider } from 'antd';
+import { Button, ConfigProvider, Modal } from 'antd';
+
 import {
     AppstoreOutlined,
     DeleteOutlined,
+    ExclamationCircleOutlined,
     PlusCircleOutlined,
     TableOutlined,
 } from '@ant-design/icons';
@@ -33,6 +35,8 @@ import {
 } from '../../redux/reducers/watchListViewSlice';
 import EmptyWatchListCardView from '../EmptyWatchListCardView/EmptyWatchListCardView';
 import useWindowDimensions from '../../hooks/useWindowDimension';
+
+const { confirm } = Modal;
 
 const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
     const { width } = useWindowDimensions();
@@ -79,6 +83,19 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
         if (width >= 830 && dataCoins?.length === 0) dispatch(setTable());
     }, [width]);
 
+    const showConfirm = () => {
+        confirm({
+            title: 'Do you Want to delete watch list items?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'This action is irreversible',
+            onOk() {
+                dispatch(clearWatchList());
+                dispatch(setDefault());
+            },
+            onCancel() {},
+        });
+    };
+
     return (
         <ModalVisibleContext.Provider value={{ modalVisible, toogleModal }}>
             {watchList.length ? (
@@ -94,9 +111,7 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
                         icon={<DeleteOutlined />}
                         type="primary"
                         className={`${styles.button} ${styles.clear}`}
-                        onClick={() => {
-                            dispatch(clearWatchList());
-                        }}
+                        onClick={showConfirm}
                     >
                         Clear watch list
                     </Button>

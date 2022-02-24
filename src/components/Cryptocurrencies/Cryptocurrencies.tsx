@@ -82,7 +82,6 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             sorter: {
                 compare: (a: { price: number }, b: { price: number }) =>
                     a.price - b.price,
-                multiple: 3,
             },
             render: (price: number) => formatUSDforTable(price),
         },
@@ -95,7 +94,6 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                     a: { dailychange: number },
                     b: { dailychange: number },
                 ) => a.dailychange - b.dailychange,
-                multiple: 2,
             },
             onCell: (dailychange: { dailychange: number }) => ({
                 style: {
@@ -112,7 +110,6 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
             sorter: {
                 compare: (a: { marketcap: number }, b: { marketcap: number }) =>
                     a.marketcap - b.marketcap,
-                multiple: 1,
             },
             render: (marketCap: number) => formatUSD(marketCap),
         },
@@ -132,6 +129,7 @@ const Cryptocurrencies: FC<ICoinsData> = ({ dataCoins }) => {
                 position: ['bottomCenter'],
                 hideOnSinglePage: true,
             }}
+            scroll={{ x: 1000 }}
         />
     );
 };

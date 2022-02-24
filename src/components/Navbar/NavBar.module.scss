@@ -1,4 +1,16 @@
 .wrapper {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    @media screen and (max-width: 810px) {
+        flex-direction: column;
+    }
+}
+
+.wrapperLogoAndMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
 }

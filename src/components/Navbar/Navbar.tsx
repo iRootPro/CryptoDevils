@@ -21,39 +21,43 @@ const Navbar: FC = () => {
     return (
         <Margin vertical={MARGIN.xl}>
             <div className={styles.wrapper}>
-                <img src={logo} alt="logo" height="30px" />
-                <Menu
-                    mode="horizontal"
-                    style={{ width: '100%', borderBottomStyle: 'none' }}
-                >
-                    <Menu.Item
-                        key="cryptocurrencies"
-                        icon={<MoneyCollectOutlined />}
-                        onClick={() => history.push(ROUTES.main)}
+                <div className={styles.wrapperLogoAndMenu}>
+                    <img src={logo} alt="logo" height="30px" />
+                    <Menu
+                        mode="horizontal"
+                        className={styles.menu}
+                        style={{ width: '90%', borderBottomStyle: 'none' }}
                     >
-                        Cryptocurrencies
-                    </Menu.Item>
-                    <Menu.Item
-                        key='exchanges'
-                        icon={<GlobalOutlined />}
-                        onClick={() => history.push(ROUTES.exchanges)}>
-                        Exchanges
-                    </Menu.Item>
-                    <Menu.Item
-                        key='portfolio'
-                        icon={<PieChartOutlined />}
-                        onClick={() => history.push(ROUTES.portfolio)}
-                    >
-                        Portfolio
-                    </Menu.Item>
-                    <Menu.Item
-                        key="watchlist"
-                        icon={<UnorderedListOutlined />}
-                        onClick={() => history.push(ROUTES.watchlist)}
-                    >
-                        Watchlist
-                    </Menu.Item>
-                </Menu>
+                        <Menu.Item
+                            key="cryptocurrencies"
+                            icon={<MoneyCollectOutlined />}
+                            onClick={() => history.push(ROUTES.main)}
+                        >
+                            Cryptocurrencies
+                        </Menu.Item>
+                        <Menu.Item
+                            key="exchanges"
+                            icon={<GlobalOutlined />}
+                            onClick={() => history.push(ROUTES.exchanges)}
+                        >
+                            Exchanges
+                        </Menu.Item>
+                        <Menu.Item
+                            key="portfolio"
+                            icon={<PieChartOutlined />}
+                            onClick={() => history.push(ROUTES.portfolio)}
+                        >
+                            Portfolio
+                        </Menu.Item>
+                        <Menu.Item
+                            key="watchlist"
+                            icon={<UnorderedListOutlined />}
+                            onClick={() => history.push(ROUTES.watchlist)}
+                        >
+                            Watchlist
+                        </Menu.Item>
+                    </Menu>
+                </div>
                 <SearchEngine />
             </div>
         </Margin>
