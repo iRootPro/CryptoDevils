@@ -78,10 +78,14 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
         return <WatchListCardView dataCoins={dataCoins} />;
     };
 
-    useLayoutEffect(() => {
+    const changeViewOnWidth = () => {
         if (width < 830 && dataCoins?.length === 0) dispatch(setCards());
         if (width >= 830 && dataCoins?.length === 0) dispatch(setTable());
-    }, [width]);
+    };
+
+    useLayoutEffect(() => {
+        changeViewOnWidth();
+    }, [width, view]);
 
     const showConfirm = () => {
         confirm({
@@ -90,7 +94,7 @@ const WatchList: FC<ICoinsData> = ({ dataCoins }) => {
             content: 'This action is irreversible',
             onOk() {
                 dispatch(clearWatchList());
-                dispatch(setDefault());
+                changeViewOnWidth();
             },
             onCancel() {},
         });
