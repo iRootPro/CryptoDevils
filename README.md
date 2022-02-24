@@ -40,6 +40,9 @@ yarn start
 - React/RTK Query
 - Ant.D
 - Highcharts
+- Typescript
+- Eslint / Airbnb
+- LocalStorage + redux persist
 
 ## API
 - CoinGecko
