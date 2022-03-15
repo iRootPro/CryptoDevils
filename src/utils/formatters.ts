@@ -98,28 +98,3 @@ export const formatSymbol: TformatName = (symbol) =>
 export const formatSupplySymbol: TformatName = (symbol) =>
     symbol.length > 5 ? `${symbol.substring(0, 5)}...` : symbol;
 
-type TformatDescription = (description: string, width: number) => string
-
-export const formatDescription: TformatDescription = (description, width) => {
-    let formattedText = description
-    if (description.length > 1250) {
-        if (width <= 991) {
-            formattedText = description;
-        } else if (width <= 1280) {
-            formattedText = `${formattedText.substring(0, 1550)}...`
-        } else if (width <= 1430) {
-            formattedText = description;
-        } else if (width <= 1462) {
-            formattedText = `${formattedText.substring(0, 850)}...`
-        } else if (width <= 1600) {
-            formattedText = `${formattedText.substring(0, 950)}...`
-        } else if (width <= 1732) {
-            formattedText = `${formattedText.substring(0, 1050)}...`
-        } else if (width > 1732) {
-            formattedText = `${formattedText.substring(0, 1250)}...`
-        }
-    } else {
-        formattedText = description;
-    }
-    return formattedText
-}

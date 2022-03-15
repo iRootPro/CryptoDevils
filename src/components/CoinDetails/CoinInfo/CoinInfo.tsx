@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Card, Col, Menu, Typography } from 'antd';
 import {
     GithubOutlined,
@@ -9,7 +9,7 @@ import {
 import styles from './CoinInfo.module.scss';
 import { ICoinIdData } from '../../../types/ICoin';
 import DropdownMenu from './DropdownMenu/DropdownMenu';
-import { formatDescription, formatUrl } from '../../../utils/formatters';
+import { formatUrl } from '../../../utils/formatters';
 import CoinDescription from './CoinDescription/CoinDescription';
 import CoinInfoHeader from './CoinInfoHeader/CoinInfoHeader';
 import CoinRanking from './CoinRanking/CoinRanking';
@@ -20,10 +20,8 @@ type TcoinInfoProps = {
     isFetching: boolean;
 };
 type TcardHeight = string | number;
-type Tdescription = string;
 type TswitchButton = boolean;
 type TtoggleReading = () => void;
-type ThideButton = boolean;
 
 const { Text } = Typography;
 
@@ -46,6 +44,8 @@ const menuTemplate = (datapath: string[]) => (
     </Menu>
 );
 
+
+
 const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
     const coinName = data.name;
     const coinSymbol = data.symbol;
@@ -53,45 +53,24 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
     const image = data.image.large;
     const rank = data.market_cap_rank;
     const genesisDate = data.genesis_date;
-    const { categories } = data;
     const url = data.links.homepage[0];
-    const { id } = data;
+    const { categories, id } = data;
 
-    const [cardHeight, SetCardHeight] = useState<TcardHeight>(670);
-    const [description, setDescription] = useState<Tdescription>(descriptionEN);
-    const [switchButton, setSwitchButton] = useState<TswitchButton>(true);
-    const [hideButton, setHideButton] = useState<ThideButton>(false);
     const { width } = useWindowDimensions()
-    useEffect(() => {
-        setDescription(
-            descriptionEN.length > 1250
-                ? formatDescription(descriptionEN, width)
-                : descriptionEN,
-        );
-        if (width <= 992) {
-            SetCardHeight('auto')
-            setHideButton(true)
-        } else {
-            setHideButton(false)
-        }
-        if (description.length === descriptionEN.length) {
-            setHideButton(true)
-        } else {
-            setHideButton(false)
-        }
-    }, [descriptionEN, width, hideButton]);
+    const initialHeight = width < 1431 ? 960 : 670
 
-    const handleToggleReading: TtoggleReading = useCallback(() => {
+    const [cardHeight, SetCardHeight] = useState<TcardHeight>(initialHeight);
+    const [switchButton, setSwitchButton] = useState<TswitchButton>(true);
+
+    const handleToggleReading: TtoggleReading = () => {
         if (switchButton) {
-            SetCardHeight('auto');
-            setDescription(descriptionEN);
+            SetCardHeight(4500);
             setSwitchButton(false);
         } else {
-            SetCardHeight(670);
-            setDescription(formatDescription(descriptionEN, width));
+            SetCardHeight(initialHeight);
             setSwitchButton(true);
         }
-    }, [description, switchButton]);
+    };
 
     const menuExplorers = menuTemplate(data.links.blockchain_site);
     const menuChat = menuTemplate(data.links.chat_url);
@@ -99,7 +78,9 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
 
     return (
         <Col xs={24} lg={12}>
-            <Card style={{ height: cardHeight, borderColor: 'transparent' }}>
+            <Card id='card' style={{
+                maxHeight: cardHeight, borderColor: 'transparent', overflowY: 'hidden'
+            }}>
                 <CoinInfoHeader
                     isFetching={isFetching}
                     coinName={coinName}
@@ -147,10 +128,9 @@ const CoinInfo: FC<TcoinInfoProps> = ({ isFetching, data }) => {
                     </DropdownMenu>
                 </div>
                 <CoinDescription
-                    hideButton={hideButton}
                     switchButton={switchButton}
                     handleToggleReading={handleToggleReading}
-                    description={description}
+                    description={descriptionEN}
                     coinName={coinName}
                 />
             </Card>
