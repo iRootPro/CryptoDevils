@@ -2,7 +2,8 @@
 import { ToTopOutlined, VerticalAlignBottomOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import HTMLReactParser from 'html-react-parser';
-import { FC } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
+import useWindowDimensions from '../../../../hooks/useWindowDimension';
 import styles from './CoinDescription.module.scss';
 
 const { Title, Text } = Typography;
@@ -12,30 +13,42 @@ type TcoinDescription = {
     handleToggleReading: () => void;
     description: string;
     coinName: string;
-    hideButton: boolean;
 };
 
 const CoinDescription: FC<TcoinDescription> = ({
     switchButton,
     handleToggleReading,
     description,
-    coinName,
-    hideButton,
-}) => (
-    <>
+    coinName
+}) => {
+    const { width } = useWindowDimensions()
+    const [hideButton, setHideButton] = useState<boolean>(false)
+    const descriptionBlock: any = useRef()
+
+    useEffect(() => {
+        if (width < 1431) {
+            descriptionBlock?.current?.clientHeight > 690 ? setHideButton(false) : setHideButton(true) //eslint-disable-line
+        } else {
+            descriptionBlock?.current?.clientHeight > 450 ? setHideButton(false) : setHideButton(true) //eslint-disable-line
+        }
+    }, [width, description])
+
+    return <>
         {description && (
             <>
                 <Title className={styles.descriptionTitle} level={3}>
                     What is {coinName}?
                 </Title>
-                <div className={styles.description}>
+                <div ref={descriptionBlock} className={styles.description}>
                     <Text className={styles.descriptionText}>
                         {HTMLReactParser(description)}
                     </Text>
+                </div>
+                <div className={styles.buttonContainer}>
                     {!hideButton &&
                         switchButton && (
                             <VerticalAlignBottomOutlined
-                                className={`${styles.readMore} ${styles.read}`}
+                                className={`${styles.readMore} ${styles.bottom}`}
                                 onClick={handleToggleReading}
                             />
                         )
@@ -43,7 +56,7 @@ const CoinDescription: FC<TcoinDescription> = ({
                     {!hideButton &&
                         !switchButton && (
                             <ToTopOutlined
-                                className={`${styles.readMore} ${styles.read}`}
+                                className={`${styles.readMore} ${styles.top}`}
                                 onClick={handleToggleReading}
                             />
                         )
@@ -52,6 +65,6 @@ const CoinDescription: FC<TcoinDescription> = ({
             </>
         )}
     </>
-);
+};
 
 export default CoinDescription;
